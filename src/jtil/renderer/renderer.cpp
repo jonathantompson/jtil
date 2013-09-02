@@ -32,7 +32,7 @@
 
 #define SAFE_DELETE(x) if (x != NULL) { delete x; x = NULL; }
 #define SM_SETTINGS_FILE "settings.csv"
-#define FLASHLIGHT_MODEL_PATH "jtil_resource_files/flashlight/"
+#define FLASHLIGHT_MODEL_PATH "resource_files/flashlight/"
 #define FLASHLIGHT_MODEL_JBIN "flashlight2.jbin"
 #define FLASHLIGHT_MODEL_OBJ "flashlight2.obj"
 #define LOAD_JBIN_FLASHLIGHT
@@ -347,8 +347,6 @@ namespace renderer {
     // Force a resize event TO set the correct viewport and proj matricies
     resize(wnd_->width(), wnd_->height());
 
-    std::string path = string_util::getJTilDirEnvVar();
-
     flashlight_ = new LightSpotCVSM(this);
     float flashlight_softness;
     GET_SETTING("flashlight_softness", float, flashlight_softness);
@@ -357,17 +355,17 @@ namespace renderer {
 
 #ifndef LOAD_JBIN_FLASHLIGHT
     // Load the obj version
-    flashlight_model_ = gm_->loadModelFromFile(path + FLASHLIGHT_MODEL_PATH, 
+    flashlight_model_ = gm_->loadModelFromFile(FLASHLIGHT_MODEL_PATH, 
       FLASHLIGHT_MODEL_OBJ, false, true, false);
 
     // Save the jbin version
-    gm_->saveModelToJBinFile(path + FLASHLIGHT_MODEL_PATH, 
+    gm_->saveModelToJBinFile(FLASHLIGHT_MODEL_PATH, 
       FLASHLIGHT_MODEL_JBIN, flashlight_model_);
 
 #else
     // Load the jbin version
-    flashlight_model_ = gm_->loadModelFromJBinFile(path + 
-      FLASHLIGHT_MODEL_PATH, FLASHLIGHT_MODEL_JBIN);
+    flashlight_model_ = gm_->loadModelFromJBinFile(FLASHLIGHT_MODEL_PATH, 
+      FLASHLIGHT_MODEL_JBIN);
 #endif
 
     ui_ = new ui::UI();

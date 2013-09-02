@@ -68,9 +68,8 @@ namespace ui {
       vshaders_[RS_T_NO_TEXTURE], fshaders_[RS_T_NO_TEXTURE]);
 
     // HUD texture
-    crosshairs_texture_ = new Texture(string_util::getJTilDirEnvVar() + 
-      UI_CROSSHAIRS_TEXTURE, TextureWrapMode::TEXTURE_CLAMP, 
-      TextureFilterMode::TEXTURE_LINEAR, true);
+    crosshairs_texture_ = new Texture(UI_CROSSHAIRS_TEXTURE,
+      TextureWrapMode::TEXTURE_CLAMP, TextureFilterMode::TEXTURE_LINEAR, true);
     vshader_textured_quad_ = new Shader(UI_SHADER_TEXTURED_VERT,
       ShaderType::VERTEX_SHADER);
     fshader_textured_quad_ = new Shader(UI_SHADER_TEXTURED_FRAG,
@@ -345,8 +344,7 @@ namespace ui {
   bool RocketRenderInterface::LoadTexture(TextureHandle& texture_handle, 
     Rocket::Core::Vector2i& texture_dimensions,
     const Rocket::Core::String& source) {
-    string filename = string_util::getJTilDirEnvVar() + 
-      string("jtil_resource_files/") + source.CString();
+    string filename = string("resource_files/") + source.CString();
     Texture* tex = new Texture(filename, 
       TextureWrapMode::TEXTURE_CLAMP, TextureFilterMode::TEXTURE_LINEAR, true);
     textures_.pushBack(tex);

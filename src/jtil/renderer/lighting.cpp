@@ -36,7 +36,7 @@
 #define LIGHT_VOLUME_POINT_ACCUM_F_SHADER "./shaders/lighting/lighting_light_volume_point_accum.frag"
 #define LIGHT_DIR_ACCUM_F_SHADER "./shaders/lighting/lighting_light_dir_accum.frag"
 #define LIGHT_FINAL_F_SHADER "./shaders/lighting/lighting_final.frag"
-#define LIGHTING_NOISE_TEXTURE "jtil_resource_files/vector_noise_128x128.png"
+#define LIGHTING_NOISE_TEXTURE "resource_files/vector_noise_128x128.png"
 
 // Ambient occlusion shaders and textures
 #define LIGHT_AMBIENT_OCCLUSION_F_SHADER "./shaders/lighting/lighting_ambient_occlusion.frag"
@@ -141,8 +141,7 @@ namespace renderer {
     }
 
     vector_noise_tex_ = renderer_->geometry_manager()->loadTexture(
-      string_util::getJTilDirEnvVar() + LIGHTING_NOISE_TEXTURE, TEXTURE_REPEAT,
-      TEXTURE_NEAREST, false);
+      LIGHTING_NOISE_TEXTURE, TEXTURE_REPEAT, TEXTURE_NEAREST, false);
     ambient_cleared_ = false;
 
     vsm_render_pass_ = new GeometryRenderPass(renderer);

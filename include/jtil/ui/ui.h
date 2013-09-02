@@ -13,7 +13,7 @@
 #define UI_SETTINGS_DOC "settings.rml"
 #define UI_FPS_DOC "fps_counter.rml"
 #define UI_TEXT_DOC "text.rml"
-#define UI_CROSSHAIRS_TEXTURE "jtil_resource_files/crosshairs.png"
+#define UI_CROSSHAIRS_TEXTURE "resource_files/crosshairs.png"
 #define UI_BUTTON_CALLBACK_START_HASH_SIZE 11
 #define UI_APP_WND_START_HASH_SIZE 11
 #define UI_FPS_POLLTIME 2  // seconds

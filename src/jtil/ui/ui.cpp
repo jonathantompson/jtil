@@ -22,7 +22,7 @@
 #include "jtil/data_str/hash_funcs.h"
 #include "jtil/string_util/string_util.h"
 
-#define ROCKET_RESOURCE_PATH "jtil_resource_files/"
+#define ROCKET_RESOURCE_PATH "resource_files/"
 #define SAFE_REMOVE_REFERENCE(x) if (x) { x->RemoveReference(); x = NULL; }
 #define SAFE_DELETE(x) if (x) { delete x; x = NULL; }
 
@@ -171,8 +171,7 @@ namespace ui {
       UI_APP_WND_START_HASH_SIZE, &data_str::HashString);
     render_interface_ = new RocketRenderInterface(Renderer::g_renderer());
     system_interface_ = new RocketSystemInterface();
-    file_interface_ = new RocketFileInterface(string_util::getJTilDirEnvVar() +
-      ROCKET_RESOURCE_PATH);
+    file_interface_ = new RocketFileInterface(ROCKET_RESOURCE_PATH);
     event_listener_ = new RocketEventListener(this);
 
     Rocket::Core::SetFileInterface(file_interface_);

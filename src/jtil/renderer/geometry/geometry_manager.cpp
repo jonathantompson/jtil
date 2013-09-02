@@ -29,7 +29,7 @@
 #include "jtil/settings/settings_manager.h"
 #include "jtil/renderer/renderer.h"
 
-#define WHITE_TEXTURE "jtil_resource_files/white.tga"
+#define WHITE_TEXTURE "resource_files/white.tga"
 
 using std::cout;
 using std::stringstream;
@@ -80,7 +80,7 @@ namespace renderer {
     
     addGeometry(makeCubeGeometry(AABBOX_CUBE_NAME));
 
-    white_tex_ = loadTexture(string_util::getJTilDirEnvVar() + WHITE_TEXTURE);
+    white_tex_ = loadTexture(WHITE_TEXTURE);
     data_lock_.unlock();
   }
 
