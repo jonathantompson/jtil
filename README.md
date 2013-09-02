@@ -8,6 +8,7 @@
 This library is a random collection of code snippets and useful algorithm implementations.  It is the base library for many of my projects and is a way for me to create reusable code.  It is supported on Windows 7 (64 bit) and Mac OS X (gcc 4.7 or greater).  Support for linux systems will come soon.  Features include:
 
 - A _reasonably_ full featured Matrix and Vector math library
+- An implementation of a few Optimization algorithms (PSO, Levenberg-Marquardt, BFGS)
 - Lots of string utilities
 - A collection of basic non-STL data structures (hash tables, vectors, heaps, etc)
 - Cross-platform utility objects (such as clocks/timers, thread-pools, callback binding, etc)
@@ -50,7 +51,7 @@ VS2012 and cmake expect a specific directory structure:
 - \\lib\\MAC\_OS\_X\\
 - \\jtil\\
 
-So the dependancy headers and static libraries (.lib on Windows and .a on Mac OS X) are separated by OS and exist in directories at the same level as jtil.  I have pre-compiled the dependency and put them in dropbox, let me know if you need the link.
+So the dependancy headers and static libraries (.lib on Windows and .a on Mac OS X) are separated by OS and exist in directories at the same level as jtil.  I have pre-compiled the dependencies and put them in dropbox, let me know if you need the link.
 
 **Style**
 ---------
