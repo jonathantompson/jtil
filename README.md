@@ -15,7 +15,7 @@ This library is a random collection of code snippets and useful algorithm implem
 - A simple csv parser
 - Image processing utilities (not very clean, but a number of filters are implemented)
 - A marching squares implementation
-- An openGL, fully-featured deferred renderer.  See the PRenderer project for details.
+- An openGL, fully-featured deferred renderer.  See the prenderer project for details.
 - A mesh decimation engine
 - A simple ICP implementation
 - A simple "Surface Simplification Using Quadric Error Metrics" implementation
