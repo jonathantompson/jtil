@@ -8,7 +8,7 @@
 This library is a random collection of code snippets and useful algorithm implementations.  It is the base library for many of my projects and is a way for me to create reusable code.  It is supported on Windows 7 (64 bit) and Mac OS X (gcc 4.7 or greater).  Support for linux systems will come soon.  Features include:
 
 - A _reasonably_ full featured Matrix and Vector math library
-- An implementation of a few Optimization algorithms (PSO, Levenberg-Marquardt, BFGS)
+- An implementation of a few optimization algorithms (PSO, Levenberg-Marquardt, BFGS)
 - Lots of string utilities
 - A collection of basic non-STL data structures (hash tables, vectors, heaps, etc)
 - Cross-platform utility objects (such as clocks/timers, thread-pools, callback binding, etc)
