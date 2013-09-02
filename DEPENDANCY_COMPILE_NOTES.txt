@@ -1,0 +1,187 @@
+Dependancies and notes:
+
+ - All dependancies should be statically linked.  This file is only helpful for debugging any unforseen issues in the future.
+
+1. GLFW Install
+1.1 Windows:
+ - Download from: http://www.glfw.org/download.html (I used 3.0.1)
+ - Open cmake gui and use /path/to/glfw-3.x.x/ for source dir and /path/to/glfw-3.x.x/build for destination directory
+ - Press configure -> Choose Visual Studio 11 Win 64 -> Configure again then generate.
+ - open /path/to/glfw-3.x.x/build/GLFW.sln
+ - Change build from Debug to release (and verify it is on x64)
+ - In order to get rid of annoying linker warnings, right click on the GLFW project -> Properties -> Configuration Properties -> C/C++ -> General Change: "Debug information format" to "None" for debug and release builds.
+ - For the debug build I appended "_d" to the TargetName in Config Prop -> General
+ - The results are in: glfw-3.x.x\build\src\Release and src\Debug
+ - Now we need to take out the GLFW definitions.  See jtil\windowing\glfw_keys.h for an example.
+1.2 Mac OS X:
+ - Download source archive from: http://www.glfw.org/download.html
+ - cd glfw-3.0.1
+ - mkdir build
+ - cd build
+ - export CC=clang
+ - export CXX=clang
+ - <make sure you update and install the latest Xcode command line tools (I had to restart after as well).
+ - cmake ..
+ - copy include/ to the correct prenderer include directory.  copy build/src/libglfw3.a to the correct prenderer lib directory.
+ - make cocoa
+ - copy glfw-2.x.x/lib/cocoa/libglfw.a to the local prenderer directories
+
+2. LibRocket
+2.1 Windows:
+ a) BUILD FREETYPE
+ - Download Freetype2 2.4.3: http://sourceforge.net/projects/freetype/files/freetype2/2.4.3/ft243.zip/download (or look in the utilities folder)
+ - Open freetype-2.4.3\builds\win32\vc2008\freetype.sln in VS11 and upgrade the project as needed.
+ - Go to the configuration manager (currently set to Win32, so click it and choose configuation manager from the dropdown menu)
+ - Make a new x64 configuation and copy settings from Win32 when asked
+ - Right click on freetype in the Solution Explorer -> Properties Conf Prop -> C/C++ -> Code Generation -> Runtime Library (should be Multi-threaded DLL (/MD) for release and /MDd for debug
+ - Build the "Lib Release" and "Lib Debug" configurations.
+ b) BUILD LIBROCKET
+ - https://github.com/lloydw/libRocket -> Go to Downloads -> Download as zip
+ - Copy the directory freetype-2.4.3\include\freetype to lloydw-libRocket-xxxxxxx\Include\freetype
+ - Copy freetype-2.4.3\include\ft2build.h to lloydw-libRocket-xxxxxxx\Include\
+ - Copy freetype-2.4.3\objs\win32\vc2008\freetype243.lib and _D.lib to lloydw-libRocket-xxxxxxx\Dependencies\
+ - Open CMake and for the source code directory put in: lloydw-libRocket-xxxxxxx\Build
+ - For the build directory put in: lloydw-libRocket-xxxxxxx\Build\BuildLR
+ - Press configure and choose Visual Studio 11 Win64 for the generator.
+ - Make sure BUILD_SHARED_LIBS is not selected
+ - An error will come up about freetype, put the path to the lloydw-libRocket-xxxxxxx\Include\freetype directory in FREETYPE_INCLUDE_DIR_freetype2.
+ - Put the DIRECTORY to ft2build.h (lloydw-libRocket-xxxxxxx\Include) in FREETYPE_INCLUDE_DIR_ft2build
+ - Put the directory and freetype243.lib (lloydw-libRocket-xxxxxxx\Dependencies) in FREETYPE_LIBRARY
+ - Press configure again and then Generate.
+ - Open in VS11: lloydw-libRocket-xxxxxxx\Build\BuildLR\libRocket.sln
+ - It's useful to turn of Debug info to keep the build size down. Config Prop -> C/C++ -> General -> "Debug Information Format" = None (do this for all 3 sub projects)
+ - Open Debug.h in RocketCore -> Headers
+ - Replace line 38:
+ 		 #define ROCKET_BREAK _asm { int 0x03 }
+   with
+ 		 #define ROCKET_BREAK
+ - Open "Header.h" in RocketCore -> Headers
+ - Replace line 36 AND 38
+         #define ROCKETCORE_API __declspec(dllexport)
+   with
+         #define ROCKETCORE_API
+ - Do the same for RocketControls -> "Header.h" and RocketDebugger -> "Header.h"
+ - Build Debug and Release builds
+ - Output is in libRocket-15e3bace1f\Build\BuildLR\Release
+
+2.2 Mac OS X:
+ a) BUILD FREETYPE:
+ - on the librocket webpage there is now a prebuilt support libraries page: however it uses 32bit binaries...  we need to recompile anyway.
+ - Download Freetype2 2.4.3: http://sourceforge.net/projects/freetype/files/freetype2/2.4.3/ft243.zip/download
+ - cd to freetype-2.4.3/ folder
+ - Type 'make' (then enter) then 'make' again to build once, unfortunately this will default to building 32bit binaries.
+ - vim configure
+ - Type in ':set ff=unix'   --> Changes line endings to unix
+ - Type ':w'
+ - Type ':q'
+ - Type 'sudo chgrp wheel configure'
+ - vim builds/unix/configure and repeate the steps above to change the line endings and group.
+ - Do the same for builds/unix/config.sub
+ - Do the same for builds/unix/config.guess
+ - Do the same for builds/unix/libtool 
+ - You guest it... do it for all other script files in the directory (most of them).
+ - Type './configure CC="gcc -arch i386" CXX="g++ -arch i386"' (in the freetype root directory)
+ - Edit (emacs or vim) builds/unix/ftsystem.c --> Add the line
+     #include <fcntl.h>
+   at the top, otherwise you will get a compiler warning.
+ - The dynamic library is freetype-2.4.3/objs/.libs/libfreetype.6.dylib
+ b) BUILD LIBROCKET using LLVM
+ - https://github.com/lloydw/libRocket -> Go to Downloads -> Download as zip
+ - Copy the directory freetype-2.4.3\include\freetype to lloydw-libRocket-xxxxxxx\Include\freetype
+ - Copy freetype-2.4.3\include\ft2build.h to  lloydw-libRocket-xxxxxxx\Include\
+ - Copy freetype-2.4.3/objs/.libs/libfreetype.a to lloydw-libRocket-xxxxxxx\Dependencies\
+ - Open CMake GUI and for the source code directory put in: lloydw-libRocket-xxxxxxx\Build
+ - For the build directory put in: lloydw-libRocket-xxxxxxx\Build\BuildLR_MacOSX
+ - Choose XCode for the generator.
+ - For me it grabbed the freetype lib in /usr/lib.  We don't want that.  Instead Click the advanced button to bring up the hidden CMake options.
+ - Put the path to the lloydw-libRocket-xxxxxxx\Include\freetype directory in FREETYPE_INCLUDE_DIR_freetype2.
+ - Put the DIRECTORY to ft2build.h (lloydw-libRocket-xxxxxxx\Include) in FREETYPE_INCLUDE_DIR_ft2build
+ - Put the directory and libfreetype.a (lloydw-libRocket-xxxxxxx\Dependencies) in FREETYPE_LIBRARY
+ - Make sure BUILD_SHARED_LIBS IS NOT selected (Formally it was selected)
+ - Then Configure and Generate
+ - Open lloydw-libRocket-xxxxxxx/Build/BuildLR_MacOSX/libRocket.xcodeproj
+ - Click on the LibRocket project in the left hand side plane.  Then RocketCore target to bring up the build settings.  Go to the Build Settings + All + Combined tab, then change Architectures from "i386 x86_64" to "64-bit intel"
+ - Do the same for the RocketControls and RocketDebugger targets.
+ - Also for the three targets, make sure Build Options -> Compiler is set to Apple LLVM compiler 4.2.  AND make sure that Apple LLVM compiler 4.2 - Language -> c++ standard library is set to libstdc++ (GNU C++ standard library), the C++11 llvm version doesn't work with gcc. and finally set the c++ language dialect to GNU++11
+ - (THIS MIGHT BE DEFUNCT)
+   Again for RocketCore -> Build Settings -> Linking -> Mach-O-Type to static. Linking -> other linker flags and remove -dynamiclib AND the line after it (-Wl,-headerpad_max_install_names). Also User-Defined -> LIBRARY_STYLE to STATIC.
+ - Packaging -> Executable extension change from "dylib" to "a".  Do this for Debugger and Controls as well.
+ - (THIS MIGHT BE DEFUNCT)
+   I had to manually delete the ZERO_CHECK target.
+ - (THIS MIGHT BE DEFUNCT)
+   I also had to delete the Build Phases -> CMAKE PostBuild Rules.
+ - (THIS MIGHT BE DEFUNCT)
+   Lastly, I also had to fix the Other Linker Flags in Debugger and Controls... and fix the RocketCore.dylib to .a
+ - Filemenu Product -> Edit Scheme.  Then change run, test, profile, analyze and archive tabs to "Build Configuration": "Release".
+ - Product -> Build.
+ - Change the Scheme from RocketCore to RocketControls, change to release and build that as well.  Then finally build RocketDebugger as well.
+
+3. ASSIMP (asset import library)
+3.1 Windows:
+Windows 7 - VS 2012 - 64bit
+
+- Clone the latest git repo - https://github.com/assimp/assimp
+- Open CMake GUI.
+- For "where is the source code?:" put c:/path/to/assimp
+- For build path put c:/path/to/assimp/build
+- Press configure --> Choose the latest VS with 64bits
+- Click "Advanced" button
+- click "BUILD_STATIC_LIB" (not optional)
+- click "ENABLE_BOOST_WORKAROUND" (not optional)
+- Note: We are NOT adding VC10_STDINT_FIX flag.  So don't do it!
+- disable BUILD_ASSIMP_SAMPLES
+- disable BUILD_ASSIMP_TOOLS
+- Press configure twice then generate.
+
+Open VS project c:/.../assimp/build/Assimp.sln:
+- Also for Release and Debug, right click assimp -> Config Prop. -> Librarian -> General: Link Library Dependancies = Yes
+- Build both release and debug
+- Note for Debug build, I also set Config Prop -> C/C++ -> Code Generation: Basic Runtime Checks to "Default" and -> Optimization: "Optimization" to "Minimize Size" and "Inline Function Expansion" to "Any Suitable". Also "Debug Information Format" to "None" (in C/C++ -> General)
+
+The all-important .lib file is in assimp/build/code/Release/ and /Debug/.  The assimp header files are in: assimp/include/assimp.  Add all these to your project.
+
+3.2 Mac OS X
+
+>> sudo port install assimp
+
+This will install a very old version of assimp but will install the dependancies we need.
+
+- git clone git@github.com:assimp/assimp.git
+- mkdir build
+- cd build
+- cmake .. -G 'Unix Makefiles' -DASSIMP_BUILD_STATIC_LIB=ON -DASSIMP_ENABLE_BOOST_WORKAROUND=ON
+- mkdir lib
+- make -j5
+- copy the assimp/include folder to the correct prenderer include folder.  Copy the assimp/build/code/libassimp.a to the correct prenderer lib folder.
+
+4. FreeImage
+4.1 Windows:
+
+Download the free image source distribution from: http://freeimage.sourceforge.net/download.html (I got 3154)
+
+- Extract it somewhere and open FreeImage/FreeImage.2008.sln in VS2012
+- Perform the upgrade when asked
+- Right click FreeImageLib -> Set as startup project
+- Right click FreeImageLib -> Config Properties -> C/C++ -> Code Generation Set Runtime Library to /MD (for release) and /MDd (for debug). Do this for the rest of the projects as well!
+- Change from Win32 to x64
+- Right click FreeImageLib -> Build (Build Release and Debug)
+- Right click on Solution->Build
+
+The output is in FreeImage\Dist\FreeImaged.lib (for debug) and FreeImage.lib (for release)
+
+4.2 Mac OS X:
+
+Open XCode -> File -> Open Developer Tool -> More Developer Tools... Install Command Line Developer Tools (for whatever mac version you have)
+
+>> sudo port install freeimage
+
+The dylib you need is in:
+/opt/local/lib/libfreeimage.3.15.0.dylib
+/opt/local/lib/libfreeimageplus.3.15.0.dylib
+/opt/local/lib/libfreeimage.a
+/opt/local/lib/libfreeimageplus.a
+
+and the headers are in:
+
+/opt/local/include/FreeImage.h
+/opt/local/include/FreeImagePlus.h

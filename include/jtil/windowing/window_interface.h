@@ -1,0 +1,43 @@
+//
+//  window_interface.h
+//
+//  Created by Jonathan Tompson on 2/25/12.
+//
+//  Pure virtual interface declaration.
+// 
+
+#pragma once
+
+#include "jtil/math/math_types.h"  // for Int2
+#include "jtil/windowing/keys_and_buttons.h"  // for NUM_KEYS
+#include "jtil/windowing/window_cb.h"
+
+namespace jtil {
+namespace windowing {
+
+  class WindowInterface {
+  public:
+    // Poll the mouse and keyboard state on demand
+    virtual const bool getKeyState(const int key) const = 0;
+    virtual const bool getMousePosition(math::Double2& pos) const = 0;
+    virtual const bool getMouseButtonStateRight() const = 0;
+    virtual const bool getMouseButtonStateLeft() const = 0;
+    virtual const bool getMouseButtonStateMiddle() const = 0;
+    
+    // Some getter methods
+    virtual const int width() const = 0;
+    virtual const int height() const = 0;
+    virtual const bool fullscreen() const = 0;
+    virtual const bool isOpen() const = 0;
+    virtual const bool getDoubleBuffering() const = 0;
+    virtual void setDoubleBuffering(const bool double_buffer) = 0;
+    
+    // Add callback functions to get imediate updates on a mouse or key event
+    virtual void registerKeyboardCB(KeyboardCBFuncPtr callback) = 0;
+    virtual void registerMousePosCB(MousePosCBFuncPtr callback) = 0;
+    virtual void registerMouseButCB(MouseButCBFuncPtr callback) = 0;
+    virtual void registerMouseWheelCB(MouseWheelCBFuncPtr callback) = 0;
+  };
+
+};  // namespace windowing
+};  // namespace jtil

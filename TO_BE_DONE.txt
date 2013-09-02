@@ -1,0 +1,236 @@
+List of stuff to be done (highest to lowest priority):
+
+Good tutorials:
+http://ogldev.atspace.co.uk
+
+Nice Meshes:
+Some nice ones here: http://graphics.cs.williams.edu/data/meshes.xml
+and here: http://www.models-resource.com/
+and definitely here: http://www.blendswap.com/
+
+HIGHEST PRIORITY
+
+******* = MUST FIX ASAP
+
+Making Prenderer Portable:
+- Fix multithreading:
+  - Fix the shutdown memory leak --> In thread.join? or when the thread shuts down!
+    // http://stackoverflow.com/questions/14238670/is-this-a-big-bug-of-microsofts-implementation-of-stdthread
+  - Come up with a good solution for making renderer multithreaded:
+    the problem is that the context may change (on a window resize), 
+	AND the global renderer may dissapear for a while (while it is being
+	rebuilt) so all data needs to have a dirty flag to indicate that it needs 
+	to be reloaded!  
+	This might be very complicated.
+  - Right now the background texture has a transfer ownership poilicty
+    --> This sucks and needs to be changed.  Once we have the dirty data model
+	then this should be OK.
+  - IDEA: Make GeometryManager into a resource manager that is allocated once
+    on startup.  Don't destroy it on shutdown but instead ask it to invalidate 
+	all OpenGL data (so it forces a texture reload, vbo reload, etc).  
+	Then on a context switch, just destroy renderer and not
+	the static resrouce manager.
+	Move background and lights into resource manager as well.
+- Move flashlight code into the app (it's silly to REQUIRE a model).
+- Find out how to staticly compile in the resource files: I hate the env
+  path solution.
+
+UI Tasks:
+ - Add Sliders
+ - Make the interface easy, i.e. implement the functions that anttweakbar has
+   to create new elements (maybe from file --> data driven?)
+ - Make a button that sits in the top when the settings window is not visible
+   (to open and close the settings window)
+ - Think through link between render class and UI --> i.e. when reloading
+   the renderer I have to also reload the render interface.
+
+Misc Tasks:
+- ******* CACHING check doesn't work for arrays of uniforms (since the array 
+  size of the data we want to set might be smaller than the array in the 
+  shader) *********
+- ******* AABBOX is incorrect for boned meshes! Fix the hack in the geometry 
+  render pass *******
+- Try reducing tessellation shimmering:
+  http://sebastiansylvan.wordpress.com/2010/04/18/the-problem-with-tessellation-in-directx-11/
+- Fix tessellation normals for low tessellation values.
+- Fix tessellation import for sponza map.  It just looks horrible.
+- Fitting near and far view planes no longer works.  FIX IT!
+- Add a better tangent / bitangent calculation (I just use the average method).
+- Add a normal mapped tessellation routine --> Avoids all the messy per vertex
+  normal calculation AND fix up or optimize the per-vertex normal calculation.
+- Add velocity blur for tessellated geometry.
+- Implement bump mapping.
+- Change all vertex colors from float to unsigned_int in vertex buffers
+- Put together a mesh picking and moving interface.
+- Get rid of methods to internal data in hash_map and hash_map_managed and 
+  create an iterator and then ShaderProgram::printAllUniforms should use it.
+  http://sourcemaking.com/design_patterns/iterator/cpp/1
+- Think of a better way to store to file (with comments and retaining 
+  formatting)
+- Work out how to redirect printf to the console window
+- Test MeshSimplification.cpp and MinHeapEdges.cpp after porting and make sure
+  that they still work.
+- Add sillouette detection stage, either here: 
+  http://ogldev.atspace.co.uk/www/tutorial39/tutorial39.html
+  or here:
+  http://graphics.cs.williams.edu/courses/SRG10/ (borderlands)
+
+DEFERRED RENDERING RELATED:
+- Add specular texture support.
+- Implement HDR rendering and add a luminence pass (which would be used by
+  FXAA pass as well --> So avoid doing the dot product twice).
+- Deferred rendering optimizations described here:
+  http://www.scribd.com/doc/109384407/33-Milliseconds-Public-With-Notes
+- Switch to 8bit GBuffer (need to carefully pack and use depth texture).
+- Implement SMAA
+- Make light intersection code more robust.
+- Batch render the lights!
+
+Renderer Geometry:
+- Associate bone transforms is O(n^2).  Doing a lazy O(n) search for each bone
+  Maybe add a hash table of render-stack names.
+- Make a diagram of class structure (renderer, geometry, geometrymanager, etc)
+- jbin load and store memory overhead is high and will need to be fixed later.
+
+Renderer Tasks:
+- Add uniform state checks.
+- Move WND into renderer and add a callback interface.  It should be one window
+  per render interface.
+- Not sure if you have to call bindVAO(0) or not...  It seems to happen anyway.
+- GeometryRenderPass is REALLY ugly.  Especially the enum list of types.  Clean
+  it up.
+- Get rid of floating point divides (ie screen_size) by sending 1/x
+- Finish cubemap texture.
+- Finish Skybox class.
+- Build an object manager to keep track of new objects (and load level files).
+- Add magnify tool like in: HDAO10.1 DirectX sample.
+
+SHADOW MAP RELATED:
+- FIX CASCADED SHADOW MAP
+- glFramebufferTextureLayer might be slow! (15ms).  Check it.
+- http://developer.download.nvidia.com/SDK/10/opengl/samples.html
+  --> They implement cascaded shadow maps in OpenGL using texture arrays!
+- Implement PSSM for directional light.
+- Implement EVSM (better at handling light bleeding)
+- Stable cascaded shadow maps:
+  http://c0de517e.blogspot.com/2011/03/stable-cascaded-shadow-maps-ideas.html
+  Fix SM swimming.  DirectX SDK example has code that fits SM to a single 
+  pixel but this is for directional lights (with orthographic projections).
+  Crysis say, "Remove sub-pixel movements. Project world origin into shadow
+  map. Use it to round light matrix to nearest shadow pixel corner."
+- Use a Summed area VSM as in GPU Gems 3: chapter 8.  Summed-Area Variance 
+  Shadow Maps
+- Use a better blur filter -> Box filter is low quality (but maybe not 
+  noticable)
+- Check that SMs are properly fit to geometry.  When no objects are in the 
+  view, SM does very weird things.  Also, only fit objects inside the 
+  frustum (important!).
+- When building cascaded shadow map, iterate through objects and only 
+  render those objects that are in light frustrum.
+- Try optimizing box filter.  I TRIED ONCE BUT IT STILL SEEMS SLOW!.
+- Change from variance to exponential shadow maps...  Variance needs big 
+  min variance and depth bias.  My values also seem to be bigger than most 
+  peoples.
+
+AA Related:
+- FXAA version here is probably correct:
+  http://www.geeks3d.com/20110405/fxaa-fast-approximate-anti-aliasing-demo-glsl-opengl-test-radeon-geforce/3/
+- Implement SMAA from here:
+- https://github.com/scrawl/smaa-opengl/blob/master/SMAA.h
+
+SSAO RELATED:
+- HBAO shader here:
+  https://github.com/PeterTh/dsfix/blob/master/DATA/dsfix/HBAO.fx
+- Add a better bilateral blur filter to AO buffer to hide sample artifacts
+  (must blurs I've seen use depth AND normal checks, I just use depth).
+- Check that the background (ie depth buffer where nothing is rendered) 
+  doesn't occlude objects in the forground. 
+- There is weird behaviour around the sides of the occlusion buffer --> Fix
+  it.
+
+DOF RELATED:
+- Add variations in the poisson filter size.
+
+MOTION BLUR RELATED:
+- Hack to stop forground blurring isn't quite right.  Need a better version.
+  Probably just need to do: 
+- Check that motion blur is correct.  It looks weird and I don't know why.
+- http://b-lee.net/deferred.pdf --> Nice idea.  Check velocity vector of 
+  surrounding pixels and only blur if vectors are similar.
+
+LOWEST PRIORITY
+
+********************************************
+CARRY-OVER FROM DX9 PRenderer
+
+- Convex hull generation for sponza doesn't work.
+  
+		FROM HERE ON IS STUFF TO DO LATER IF I HAVE TIME (NOT CRITICAL)
+		
+- Create an effects state manager to remove redundant render states:
+  http://aras-p.info/texts/d3dx_fx_states.html (good website in general)
+		
+- There are LOTS of conditionals in the shaders (eg. bilinear filtering ON/OFF,
+  etc) Optimize shader code (maybe increase the number of techniques) to get 
+  rid of this.
+		
+- When sponza is loaded, the memory consumption is large.  Reduce memory usage.
+  (probably storing the convex hull and obb is the culprit, but check it)
+
+- Make loading text render always (at the moment it'll be blocked by 
+  any loading text).  It'll probably require spawning a new thread (lots of 
+  work).
+
+POST PROCESSING AND HDR IMPROVEMENTS
+- HDR is constantly oversaturating.
+- HDR average luminance seems wrong.  If you look at floor when floor is 
+  on LHS of screen vs RHS the average luminace is different (very different).
+- Maybe consider doing localized luminace: 
+  http://mynameismjp.wordpress.com/2010/04/ 4x4 might be OK.
+  So don't downsample all the way to 1x1, but 4x4.  Then linearly 
+  interpolate between each.
+- Add hardware downsample and upsample.
+- Add fixed radius gaussian filter and see how much faster it is.
+- When calculating adapted luminance, emphasize brighter sections --> 
+  Floor is oversaturated.  Also, GIVE higher weight to the pixels in the center
+  of the screen!!!
+      
+- Add fur shading: http://www.xbdev.net/directx3dx/specialX/Fur/index.php	
+
+PHYSICS IMPROVEMENTS:
+- Write a SIMD version of physics functions -> Requires rbobject to be 
+  __declspec. Currently ODE solver is not a bottle neck, but might be if 
+  there are lots of objects.	
+- FindUniqueIndexSet_HashSet() is messy coding.  Make HashSet_int a 
+  template class.
+- Coarse collision is done with AABBs, since sweep-and-prune takes O(n) 
+  time (where n is the number of models).  But then I do a crappy lookup in
+  a boolian array of O(n^2) time.  Consider another implimentation. Make 
+  sure AABB realignment isn't dumb.  See pg 86 of collision detection book
+  for an update method.		
+- Impliment impulse based physics modeling when collision detection is 
+  implimented as in tutorial. 
+- Limit velocity -> OBBs have a chace of going through other objects.
+- Need to really think through OBBTree optimality.  Splitting geometrically
+  along longest axis - 931fps, split using centroid median - 514fps, split 
+  using centroid mean - 867fps.  These were only quickly tested using 
+  static simulations. Need to thoroughly check these results.  The book 
+  gets: Interactive Collision Detection on 2 complex Pipelines: 140K 
+  polygons each; 4.2ms (238Hz) on SGI RE/90M Hz
+- Remove std:: containers (http://www.cplusplus.com/reference/stl/) from 
+  obbtree building routines and instead use vec and vec_ptrs.
+- Scaling of box dimensions could be done with a vector for scaling 
+  unevenly accross world axes (ie <s1, s2, s3> instead of <s, s, s>).          
+- SIMD OBBOX collision function is only 1.5-2.0x faster than scalar 
+  version.  Try and get more performance.
+- Write my own triangle-triangle collision test.  Just using Tomas Moller's
+  implimentation for now.
+- OBB collision test with zero thickness in one or 2 dimensions can be 
+  implimented more efficiently -> at the moment I just send to generic OBB-
+  OBB test algorithm = slow.  Impliment OBB Vs. plane, OBB Vs. line 
+  segment, plane Vs. plane, etc.
+- When convex hull is a line segment --> Align OBB along this line.  Right 
+  now I drop out and use the origional model as CH.  It works, but it is 
+  dumb.    
+
+LOWEST PRIORITY

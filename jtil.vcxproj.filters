@@ -1,0 +1,1278 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\jtil">
+      <UniqueIdentifier>{6e5f287a-1954-4a86-bb13-aa43fdc86d09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\windowing">
+      <UniqueIdentifier>{03f98110-fb46-4e16-bba4-06ae324bcabe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\renderer">
+      <UniqueIdentifier>{f89b9fa8-6215-46d2-978a-b4b31cb7379d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\renderer\camera">
+      <UniqueIdentifier>{7a84e893-4adb-46dd-9a33-a2a80bfcea11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\renderer\colors">
+      <UniqueIdentifier>{47f8f20e-bc5d-4441-9045-3f982fb3770b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\renderer\geometry">
+      <UniqueIdentifier>{90459cf5-6f83-4acc-bfca-37e3c73cb978}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\renderer\geometry\mesh_simplification">
+      <UniqueIdentifier>{0cf53f01-df69-436f-b37b-539a59f8f21c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\renderer\lights">
+      <UniqueIdentifier>{f4b69b6f-9af1-4f3d-842f-ac1322ee5137}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\renderer\material">
+      <UniqueIdentifier>{200e0c02-1daf-4172-9be8-895f8ff75b34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\renderer\objects">
+      <UniqueIdentifier>{47e3a67c-d4b2-4ecb-9182-159918bb818a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\renderer\shader">
+      <UniqueIdentifier>{73b613b7-db60-4b56-be1a-947f9553538a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\renderer\texture">
+      <UniqueIdentifier>{390f6c64-858e-421f-8398-99ad2c6e0cff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\settings">
+      <UniqueIdentifier>{915b4a10-ea77-4fce-8241-924b5e607dbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\string_util">
+      <UniqueIdentifier>{6023a388-b081-4529-8d4d-64707ea0df1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\threading">
+      <UniqueIdentifier>{1c6bcab9-9945-43eb-a8ab-09b91aa8a611}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\ucl">
+      <UniqueIdentifier>{c3b81c8c-7629-4c93-aa79-0ad6783d0904}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\ucl\acc">
+      <UniqueIdentifier>{7bce2764-14ee-4289-bd80-5e43bc34f9fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\ui">
+      <UniqueIdentifier>{de2c22f4-2d3d-4774-82e5-cc43af894c6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\misc">
+      <UniqueIdentifier>{b10e4203-22e2-4f46-8d8a-1f72178be416}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\alignment">
+      <UniqueIdentifier>{345159e0-40c9-43ba-87ef-4616f08c6cba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\clk">
+      <UniqueIdentifier>{3cdaf1ac-72be-40f0-a6a4-7618cb4dd1f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\data_str">
+      <UniqueIdentifier>{ee82d90a-c161-4374-af52-32e5e7769b02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\debug_util">
+      <UniqueIdentifier>{a5915174-8b8c-47da-9488-f21b79363ebf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\exceptions">
+      <UniqueIdentifier>{a5c65246-073c-4efb-9d89-908618bd0221}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\fastlz">
+      <UniqueIdentifier>{26832b9b-79e5-441f-9037-614c07f161ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\file_io">
+      <UniqueIdentifier>{e9b89f56-2f91-4869-83cd-b20c4f78fae5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\math">
+      <UniqueIdentifier>{99bf5932-564a-4583-8516-0816befbccde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil">
+      <UniqueIdentifier>{693f1d01-679b-4f5b-9270-943fffb65f09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil\renderer">
+      <UniqueIdentifier>{b3dd777d-10a4-4bac-8774-364dd44c0e1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil\renderer\camera">
+      <UniqueIdentifier>{619e47a6-3075-4e12-9128-b226a0796c35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil\renderer\colors">
+      <UniqueIdentifier>{f56e4cd4-293c-40a2-9a2b-6ef6116a87b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil\renderer\geometry">
+      <UniqueIdentifier>{1299a742-57c2-40ed-a78c-d1e1755d64ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil\renderer\lights">
+      <UniqueIdentifier>{0e8d82e3-21bf-4d28-965f-43beda7ccdcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil\renderer\material">
+      <UniqueIdentifier>{ac693118-203d-45e0-98f7-5607977e2ba5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil\renderer\objects">
+      <UniqueIdentifier>{1efc02f5-789c-4bba-8a02-cdad2b2b3f60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil\renderer\shader">
+      <UniqueIdentifier>{5bac446c-4af5-4575-bdd3-91810889e2f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil\renderer\texture">
+      <UniqueIdentifier>{e7a88cca-e60a-4ce4-90ce-8e35cdaeadae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil\settings">
+      <UniqueIdentifier>{3e93732f-8ad4-4f7a-b540-75e8e1b0bf87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil\string_util">
+      <UniqueIdentifier>{a697ebd9-7716-4533-8323-88cb65c2e300}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil\threading">
+      <UniqueIdentifier>{df29375e-054b-415f-9a14-a1957fe0d07e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil\ucl">
+      <UniqueIdentifier>{2c7752f6-bf72-40c1-b538-f26dc8cff3fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil\ui">
+      <UniqueIdentifier>{85e9511a-0caf-45f4-bf29-33957bf7f815}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil\windowing">
+      <UniqueIdentifier>{d7abeb10-b1ec-4169-9147-532b99ad4793}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil\misc">
+      <UniqueIdentifier>{69a5e104-d07b-4ad8-acec-5cb033fca6d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil\data_str">
+      <UniqueIdentifier>{36b4206c-c467-4c79-9463-2447c05dc892}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil\debug_util">
+      <UniqueIdentifier>{9d860d74-44dd-4881-8e88-19bf330d626d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil\exceptions">
+      <UniqueIdentifier>{a31a93b0-d7b5-4b5b-a421-eee0e1a3718d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil\fastlz">
+      <UniqueIdentifier>{fe04221f-5ccd-478b-bb69-9f94dff236eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil\file_io">
+      <UniqueIdentifier>{1041db97-270b-45ae-8805-42ceb4d3178d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil\renderer\geometry\mesh_simplification">
+      <UniqueIdentifier>{40c5825b-fd8c-4767-8f0c-7225cbee3927}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\ucl\acc\acclib">
+      <UniqueIdentifier>{dd9ab114-2faa-46b9-ba56-bc0ad61a00af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\glew">
+      <UniqueIdentifier>{04fcb36c-5b36-48b0-bc40-6f62adc3e58a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil\glew">
+      <UniqueIdentifier>{cbb6ce46-a1aa-4f9c-8b8e-a9d8f3a6acd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{8d1dd358-251e-4641-a8c3-5ea9d32f26f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\lighting">
+      <UniqueIdentifier>{ab105836-f07c-4633-9bd9-c544846553ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\post_processing">
+      <UniqueIdentifier>{aad48cdc-5d80-4f2c-9a2b-7e5fcab59bc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\ui">
+      <UniqueIdentifier>{55d7f644-5181-43c1-868b-07419bf13347}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\g_buffer">
+      <UniqueIdentifier>{0048323a-6adc-4a86-bf13-6e49626b02a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\image_util">
+      <UniqueIdentifier>{b11d38e9-bdaa-42f8-9718-a324660a808b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil\math">
+      <UniqueIdentifier>{0759f2c4-0a8a-4a12-9d81-cefaa5b07c74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil\image_util">
+      <UniqueIdentifier>{ebd50b9b-3b75-4b66-9be1-0aeb9b731806}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\video">
+      <UniqueIdentifier>{353f19f2-b768-4ab0-a7f2-8cc5ba415d5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil\video">
+      <UniqueIdentifier>{7dead909-5939-4d9d-9cf3-f6d3bcd81166}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\test_unit">
+      <UniqueIdentifier>{dd1169d0-3f8b-4cf5-b8b3-516ffccc384c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\test_unit">
+      <UniqueIdentifier>{7a3b8362-f462-478f-97ff-1c2b90a522da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\image_util\marching_squares">
+      <UniqueIdentifier>{7f2b150a-d65e-482d-b49b-19b9cbccdafc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil\image_util\marching_squares">
+      <UniqueIdentifier>{8b528800-f5d5-443d-af35-2a4cafe86ac4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\jtil\alignment\data_align.h">
+      <Filter>Header Files\jtil\alignment</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\clk\clk.h">
+      <Filter>Header Files\jtil\clk</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\data_str\min_heap.h">
+      <Filter>Header Files\jtil\data_str</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\data_str\pair.h">
+      <Filter>Header Files\jtil\data_str</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\data_str\triple.h">
+      <Filter>Header Files\jtil\data_str</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\data_str\vector.h">
+      <Filter>Header Files\jtil\data_str</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\data_str\vector_managed.h">
+      <Filter>Header Files\jtil\data_str</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\data_str\circular_buffer.h">
+      <Filter>Header Files\jtil\data_str</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\data_str\hash_funcs.h">
+      <Filter>Header Files\jtil\data_str</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\data_str\hash_map.h">
+      <Filter>Header Files\jtil\data_str</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\data_str\hash_map_managed.h">
+      <Filter>Header Files\jtil\data_str</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\data_str\hash_set.h">
+      <Filter>Header Files\jtil\data_str</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\debug_util\debug_util.h">
+      <Filter>Header Files\jtil\debug_util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\exceptions\wruntime_error.h">
+      <Filter>Header Files\jtil\exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\fastlz\fastlz_helper.h">
+      <Filter>Header Files\jtil\fastlz</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\fastlz\fastlz.h">
+      <Filter>Header Files\jtil\fastlz</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\file_io\csv_handle_write.h">
+      <Filter>Header Files\jtil\file_io</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\file_io\csv_handle.h">
+      <Filter>Header Files\jtil\file_io</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\file_io\csv_handle_read.h">
+      <Filter>Header Files\jtil\file_io</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\math\vec2.h">
+      <Filter>Header Files\jtil\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\math\vec3.h">
+      <Filter>Header Files\jtil\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\math\vec4.h">
+      <Filter>Header Files\jtil\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\math\decompose.h">
+      <Filter>Header Files\jtil\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\math\mat2x2.h">
+      <Filter>Header Files\jtil\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\math\mat3x3.h">
+      <Filter>Header Files\jtil\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\math\mat4x4.h">
+      <Filter>Header Files\jtil\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\math\math_base.h">
+      <Filter>Header Files\jtil\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\math\math_types.h">
+      <Filter>Header Files\jtil\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\math\noise.h">
+      <Filter>Header Files\jtil\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\math\perlin_noise.h">
+      <Filter>Header Files\jtil\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\math\plane.h">
+      <Filter>Header Files\jtil\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\math\quat.h">
+      <Filter>Header Files\jtil\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\misc\class_template.h">
+      <Filter>Header Files\jtil\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\post_processing.h">
+      <Filter>Header Files\jtil\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\renderer.h">
+      <Filter>Header Files\jtil\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\g_buffer.h">
+      <Filter>Header Files\jtil\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\gl_include.h">
+      <Filter>Header Files\jtil\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\gl_state.h">
+      <Filter>Header Files\jtil\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\lighting.h">
+      <Filter>Header Files\jtil\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\camera\frustum.h">
+      <Filter>Header Files\jtil\renderer\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\camera\viewtest.h">
+      <Filter>Header Files\jtil\renderer\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\camera\camera.h">
+      <Filter>Header Files\jtil\renderer\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\colors\colors.h">
+      <Filter>Header Files\jtil\renderer\colors</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\geometry\geometry.h">
+      <Filter>Header Files\jtil\renderer\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\geometry\geometry_instance.h">
+      <Filter>Header Files\jtil\renderer\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\geometry\geometry_manager.h">
+      <Filter>Header Files\jtil\renderer\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\geometry\geometry_render_pass.h">
+      <Filter>Header Files\jtil\renderer\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\geometry\mesh_simplification\mesh_simplification.h">
+      <Filter>Header Files\jtil\renderer\geometry\mesh_simplification</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\geometry\mesh_simplification\min_heap_edges.h">
+      <Filter>Header Files\jtil\renderer\geometry\mesh_simplification</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\geometry\mesh_simplification\edge.h">
+      <Filter>Header Files\jtil\renderer\geometry\mesh_simplification</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\lights\light_spot.h">
+      <Filter>Header Files\jtil\renderer\lights</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\lights\light_spot_cvsm.h">
+      <Filter>Header Files\jtil\renderer\lights</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\lights\lights.h">
+      <Filter>Header Files\jtil\renderer\lights</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\lights\light.h">
+      <Filter>Header Files\jtil\renderer\lights</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\lights\light_dir.h">
+      <Filter>Header Files\jtil\renderer\lights</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\lights\light_point.h">
+      <Filter>Header Files\jtil\renderer\lights</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\material\material.h">
+      <Filter>Header Files\jtil\renderer\material</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\objects\aabbox.h">
+      <Filter>Header Files\jtil\renderer\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\shader\shader.h">
+      <Filter>Header Files\jtil\renderer\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\shader\shader_program.h">
+      <Filter>Header Files\jtil\renderer\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\texture\texture_renderable.h">
+      <Filter>Header Files\jtil\renderer\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\texture\texture_renderable_array.h">
+      <Filter>Header Files\jtil\renderer\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\texture\texture_utils.h">
+      <Filter>Header Files\jtil\renderer\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\texture\texture.h">
+      <Filter>Header Files\jtil\renderer\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\texture\texture_gbuffer.h">
+      <Filter>Header Files\jtil\renderer\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\settings\setting_base.h">
+      <Filter>Header Files\jtil\settings</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\settings\settings_manager.h">
+      <Filter>Header Files\jtil\settings</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\settings\setting.h">
+      <Filter>Header Files\jtil\settings</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\string_util\win32_debug_buffer.h">
+      <Filter>Header Files\jtil\string_util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\string_util\macros.h">
+      <Filter>Header Files\jtil\string_util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\string_util\md5.h">
+      <Filter>Header Files\jtil\string_util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\string_util\string_util.h">
+      <Filter>Header Files\jtil\string_util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\threading\callback_queue.h">
+      <Filter>Header Files\jtil\threading</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\threading\callback_queue_item.h">
+      <Filter>Header Files\jtil\threading</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\threading\thread.h">
+      <Filter>Header Files\jtil\threading</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\threading\thread_pool.h">
+      <Filter>Header Files\jtil\threading</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\threading\callback.h">
+      <Filter>Header Files\jtil\threading</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\threading\callback_instances.h">
+      <Filter>Header Files\jtil\threading</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\ucl\ucl.h">
+      <Filter>Header Files\jtil\ucl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\ucl\ucl_asm.h">
+      <Filter>Header Files\jtil\ucl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\ucl\ucl_conf.h">
+      <Filter>Header Files\jtil\ucl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\ucl\ucl_helper.h">
+      <Filter>Header Files\jtil\ucl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\ucl\ucl_ptr.h">
+      <Filter>Header Files\jtil\ucl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\ucl\uclconf.h">
+      <Filter>Header Files\jtil\ucl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\ucl\getbit.h">
+      <Filter>Header Files\jtil\ucl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\ucl\acc\acc_mm.h">
+      <Filter>Header Files\jtil\ucl\acc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\ucl\acc\acc_os.h">
+      <Filter>Header Files\jtil\ucl\acc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\ucl\acc\acc_type.h">
+      <Filter>Header Files\jtil\ucl\acc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\ucl\acc\acc.h">
+      <Filter>Header Files\jtil\ucl\acc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\ucl\acc\acc_arch.h">
+      <Filter>Header Files\jtil\ucl\acc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\ucl\acc\acc_auto.h">
+      <Filter>Header Files\jtil\ucl\acc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\ucl\acc\acc_cc.h">
+      <Filter>Header Files\jtil\ucl\acc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\ucl\acc\acc_cxx.h">
+      <Filter>Header Files\jtil\ucl\acc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\ucl\acc\acc_defs.h">
+      <Filter>Header Files\jtil\ucl\acc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\ucl\acc\acc_incd.h">
+      <Filter>Header Files\jtil\ucl\acc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\ucl\acc\acc_ince.h">
+      <Filter>Header Files\jtil\ucl\acc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\ucl\acc\acc_inci.h">
+      <Filter>Header Files\jtil\ucl\acc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\ucl\acc\acc_init.h">
+      <Filter>Header Files\jtil\ucl\acc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\ucl\acc\acc_lib.h">
+      <Filter>Header Files\jtil\ucl\acc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\ui\rocket_render_interface.h">
+      <Filter>Header Files\jtil\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\ui\rocket_system_interface.h">
+      <Filter>Header Files\jtil\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\ui\ui.h">
+      <Filter>Header Files\jtil\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\ui\rocket_event_listener.h">
+      <Filter>Header Files\jtil\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\ui\rocket_file_interface.h">
+      <Filter>Header Files\jtil\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\windowing\message_dialog_win32.h">
+      <Filter>Header Files\jtil\windowing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\windowing\window.h">
+      <Filter>Header Files\jtil\windowing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\windowing\window_settings.h">
+      <Filter>Header Files\jtil\windowing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\windowing\glfw.h">
+      <Filter>Header Files\jtil\windowing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\windowing\keys_and_buttons.h">
+      <Filter>Header Files\jtil\windowing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\jtil.h">
+      <Filter>Header Files\jtil</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\windowing\window_cb.h">
+      <Filter>Header Files\jtil\windowing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\windowing\window_interface.h">
+      <Filter>Header Files\jtil\windowing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\windowing\glfw_keys.h">
+      <Filter>Header Files\jtil\windowing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\glew\wglew.h">
+      <Filter>Header Files\jtil\glew</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\glew\glew.h">
+      <Filter>Header Files\jtil\glew</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\file_io\data_str_serialization.h">
+      <Filter>Header Files\jtil\file_io</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\image_util\image_util.h">
+      <Filter>Header Files\jtil\image_util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\file_io\file_io.h">
+      <Filter>Header Files\jtil\file_io</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\geometry\bone.h">
+      <Filter>Header Files\jtil\renderer\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\texture\texture_base.h">
+      <Filter>Header Files\jtil\renderer\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\math\pso.h">
+      <Filter>Header Files\jtil\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\math\bfgs.h">
+      <Filter>Header Files\jtil\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\math\common_optimization.h">
+      <Filter>Header Files\jtil\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\math\pso_parallel.h">
+      <Filter>Header Files\jtil\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\math\icp_eigen_data.h">
+      <Filter>Header Files\jtil\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\math\icp.h">
+      <Filter>Header Files\jtil\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\objects\bsphere.h">
+      <Filter>Header Files\jtil\renderer\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\math\lm_fit.h">
+      <Filter>Header Files\jtil\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\video\video_stream.h">
+      <Filter>Header Files\jtil\video</Filter>
+    </ClInclude>
+    <ClInclude Include="include\test_unit\test_unit.h">
+      <Filter>Header Files\test_unit</Filter>
+    </ClInclude>
+    <ClInclude Include="include\test_unit\test_util.h">
+      <Filter>Header Files\test_unit</Filter>
+    </ClInclude>
+    <ClInclude Include="include\test_unit\log_message.h">
+      <Filter>Header Files\test_unit</Filter>
+    </ClInclude>
+    <ClInclude Include="include\test_unit\log_writer.h">
+      <Filter>Header Files\test_unit</Filter>
+    </ClInclude>
+    <ClInclude Include="include\test_unit\param_map.h">
+      <Filter>Header Files\test_unit</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\image_util\marching_squares\marching_squares.h">
+      <Filter>Header Files\jtil\image_util\marching_squares</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\image_util\marching_squares\min_heap_contours.h">
+      <Filter>Header Files\jtil\image_util\marching_squares</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jtil\image_util\marching_squares\contour.h">
+      <Filter>Header Files\jtil\image_util\marching_squares</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\jtil\data_str\hash_funcs.cpp">
+      <Filter>Source Files\jtil\data_str</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\debug_util\debug_util_win32.cpp">
+      <Filter>Source Files\jtil\debug_util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\debug_util\debug_util_macosx.cpp">
+      <Filter>Source Files\jtil\debug_util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\exceptions\wruntime_error.cpp">
+      <Filter>Source Files\jtil\exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\fastlz\fastlz_helper.cpp">
+      <Filter>Source Files\jtil\fastlz</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\fastlz\fastlz.c">
+      <Filter>Source Files\jtil\fastlz</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\file_io\csv_handle_read.cpp">
+      <Filter>Source Files\jtil\file_io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\file_io\csv_handle_write.cpp">
+      <Filter>Source Files\jtil\file_io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\file_io\csv_handle.cpp">
+      <Filter>Source Files\jtil\file_io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\math\math_base.cpp">
+      <Filter>Source Files\jtil\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\math\decompose.c">
+      <Filter>Source Files\jtil\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\misc\class_template.cpp">
+      <Filter>Source Files\jtil\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\g_buffer.cpp">
+      <Filter>Source Files\jtil\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\gl_include.cpp">
+      <Filter>Source Files\jtil\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\gl_state.cpp">
+      <Filter>Source Files\jtil\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\lighting.cpp">
+      <Filter>Source Files\jtil\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\post_processing.cpp">
+      <Filter>Source Files\jtil\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\renderer.cpp">
+      <Filter>Source Files\jtil\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\camera\camera.cpp">
+      <Filter>Source Files\jtil\renderer\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\camera\frustum.cpp">
+      <Filter>Source Files\jtil\renderer\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\colors\colors.cpp">
+      <Filter>Source Files\jtil\renderer\colors</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\geometry\geometry.cpp">
+      <Filter>Source Files\jtil\renderer\geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\geometry\geometry_instance.cpp">
+      <Filter>Source Files\jtil\renderer\geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\geometry\geometry_manager.cpp">
+      <Filter>Source Files\jtil\renderer\geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\geometry\geometry_render_pass.cpp">
+      <Filter>Source Files\jtil\renderer\geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\geometry\mesh_simplification\mesh_simplification.cpp">
+      <Filter>Source Files\jtil\renderer\geometry\mesh_simplification</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\geometry\mesh_simplification\min_heap_edges.cpp">
+      <Filter>Source Files\jtil\renderer\geometry\mesh_simplification</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\geometry\mesh_simplification\edge.cpp">
+      <Filter>Source Files\jtil\renderer\geometry\mesh_simplification</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\lights\light_dir.cpp">
+      <Filter>Source Files\jtil\renderer\lights</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\lights\light_point.cpp">
+      <Filter>Source Files\jtil\renderer\lights</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\lights\light_spot.cpp">
+      <Filter>Source Files\jtil\renderer\lights</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\lights\light_spot_cvsm.cpp">
+      <Filter>Source Files\jtil\renderer\lights</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\lights\light.cpp">
+      <Filter>Source Files\jtil\renderer\lights</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\material\material.cpp">
+      <Filter>Source Files\jtil\renderer\material</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\objects\aabbox.cpp">
+      <Filter>Source Files\jtil\renderer\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\shader\shader_program.cpp">
+      <Filter>Source Files\jtil\renderer\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\shader\shader.cpp">
+      <Filter>Source Files\jtil\renderer\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\texture\texture_renderable.cpp">
+      <Filter>Source Files\jtil\renderer\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\texture\texture_renderable_array.cpp">
+      <Filter>Source Files\jtil\renderer\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\texture\texture_utils.cpp">
+      <Filter>Source Files\jtil\renderer\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\texture\texture.cpp">
+      <Filter>Source Files\jtil\renderer\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\texture\texture_gbuffer.cpp">
+      <Filter>Source Files\jtil\renderer\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\settings\settings_manager.cpp">
+      <Filter>Source Files\jtil\settings</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\settings\setting_base.cpp">
+      <Filter>Source Files\jtil\settings</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\string_util\string_util.cpp">
+      <Filter>Source Files\jtil\string_util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\string_util\md5c.c">
+      <Filter>Source Files\jtil\string_util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\threading\thread_pool.cpp">
+      <Filter>Source Files\jtil\threading</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\threading\thread.cpp">
+      <Filter>Source Files\jtil\threading</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\ucl\ucl_helper.cpp">
+      <Filter>Source Files\jtil\ucl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\ucl\ucl_init.c">
+      <Filter>Source Files\jtil\ucl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\ucl\ucl_ptr.c">
+      <Filter>Source Files\jtil\ucl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\ucl\ucl_str.c">
+      <Filter>Source Files\jtil\ucl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\ucl\ucl_util.c">
+      <Filter>Source Files\jtil\ucl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\ucl\alloc.c">
+      <Filter>Source Files\jtil\ucl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\ucl\n2b_99.c">
+      <Filter>Source Files\jtil\ucl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\ucl\n2b_d.c">
+      <Filter>Source Files\jtil\ucl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\ucl\n2b_ds.c">
+      <Filter>Source Files\jtil\ucl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\ucl\n2b_to.c">
+      <Filter>Source Files\jtil\ucl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\ucl\n2d_99.c">
+      <Filter>Source Files\jtil\ucl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\ucl\n2d_d.c">
+      <Filter>Source Files\jtil\ucl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\ucl\n2d_ds.c">
+      <Filter>Source Files\jtil\ucl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\ucl\n2d_to.c">
+      <Filter>Source Files\jtil\ucl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\ucl\n2e_99.c">
+      <Filter>Source Files\jtil\ucl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\ucl\n2e_d.c">
+      <Filter>Source Files\jtil\ucl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\ucl\n2e_ds.c">
+      <Filter>Source Files\jtil\ucl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\ucl\n2e_to.c">
+      <Filter>Source Files\jtil\ucl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\ucl\ucl_crc.c">
+      <Filter>Source Files\jtil\ucl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\ui\rocket_file_interface.cpp">
+      <Filter>Source Files\jtil\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\ui\rocket_render_interface.cpp">
+      <Filter>Source Files\jtil\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\ui\rocket_system_interface.cpp">
+      <Filter>Source Files\jtil\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\ui\ui.cpp">
+      <Filter>Source Files\jtil\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\ui\rocket_event_listener.cpp">
+      <Filter>Source Files\jtil\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\windowing\window_macosx.cpp">
+      <Filter>Source Files\jtil\windowing</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\windowing\window_settings.cpp">
+      <Filter>Source Files\jtil\windowing</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\windowing\window_win32.cpp">
+      <Filter>Source Files\jtil\windowing</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\windowing\message_dialog_win32.cpp">
+      <Filter>Source Files\jtil\windowing</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\windowing\window.cpp">
+      <Filter>Source Files\jtil\windowing</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\glew\glew.c">
+      <Filter>Source Files\jtil\glew</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\glew\glewinfo.c">
+      <Filter>Source Files\jtil\glew</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\glew\visualinfo.c">
+      <Filter>Source Files\jtil\glew</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\file_io\data_str_serialization.cpp">
+      <Filter>Source Files\jtil\file_io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\geometry\bone.cpp">
+      <Filter>Source Files\jtil\renderer\geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\math\pso.cpp">
+      <Filter>Source Files\jtil\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\math\common_optimization.cpp">
+      <Filter>Source Files\jtil\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\math\pso_parallel.cpp">
+      <Filter>Source Files\jtil\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\file_io\file_io.cpp">
+      <Filter>Source Files\jtil\file_io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\math\icp_eigen_data.cpp">
+      <Filter>Source Files\jtil\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\math\icp.cpp">
+      <Filter>Source Files\jtil\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\image_util\image_util.cpp">
+      <Filter>Source Files\jtil\image_util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\objects\bsphere.cpp">
+      <Filter>Source Files\jtil\renderer\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\video\video_stream.cpp">
+      <Filter>Source Files\jtil\video</Filter>
+    </ClCompile>
+    <ClCompile Include="src\test_unit\param_map.cpp">
+      <Filter>Source Files\test_unit</Filter>
+    </ClCompile>
+    <ClCompile Include="src\test_unit\log_message.cpp">
+      <Filter>Source Files\test_unit</Filter>
+    </ClCompile>
+    <ClCompile Include="src\test_unit\log_writer.cpp">
+      <Filter>Source Files\test_unit</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\image_util\marching_squares\min_heap_contours.cpp">
+      <Filter>Source Files\jtil\image_util\marching_squares</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\image_util\marching_squares\contour.cpp">
+      <Filter>Source Files\jtil\image_util\marching_squares</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jtil\image_util\marching_squares\marching_squares.cpp">
+      <Filter>Source Files\jtil\image_util\marching_squares</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\README.txt" />
+    <Text Include="..\TO_BE_DONE.txt" />
+    <Text Include="..\COMPILE_NOTES.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="include\jtil\ucl\ucl_swd.ch">
+      <Filter>Header Files\jtil\ucl</Filter>
+    </None>
+    <None Include="include\jtil\ucl\n2_99.ch">
+      <Filter>Header Files\jtil\ucl</Filter>
+    </None>
+    <None Include="include\jtil\ucl\ucl_dll.ch">
+      <Filter>Header Files\jtil\ucl</Filter>
+    </None>
+    <None Include="include\jtil\ucl\ucl_mchw.ch">
+      <Filter>Header Files\jtil\ucl</Filter>
+    </None>
+    <None Include="include\jtil\ucl\acc\acc_chkr.ch">
+      <Filter>Header Files\jtil\ucl\acc</Filter>
+    </None>
+    <None Include="include\jtil\ucl\acc\acc_lib.ch">
+      <Filter>Header Files\jtil\ucl\acc</Filter>
+    </None>
+    <None Include="include\jtil\ucl\acc\acc_chk.ch">
+      <Filter>Header Files\jtil\ucl\acc</Filter>
+    </None>
+    <None Include="include\jtil\ucl\acc\acclib\hread.ch">
+      <Filter>Header Files\jtil\ucl\acc\acclib</Filter>
+    </None>
+    <None Include="include\jtil\ucl\acc\acclib\hsread.ch">
+      <Filter>Header Files\jtil\ucl\acc\acclib</Filter>
+    </None>
+    <None Include="include\jtil\ucl\acc\acclib\hstring.ch">
+      <Filter>Header Files\jtil\ucl\acc\acclib</Filter>
+    </None>
+    <None Include="include\jtil\ucl\acc\acclib\misc.ch">
+      <Filter>Header Files\jtil\ucl\acc\acclib</Filter>
+    </None>
+    <None Include="include\jtil\ucl\acc\acclib\opendir.ch">
+      <Filter>Header Files\jtil\ucl\acc\acclib</Filter>
+    </None>
+    <None Include="include\jtil\ucl\acc\acclib\perfctr.ch">
+      <Filter>Header Files\jtil\ucl\acc\acclib</Filter>
+    </None>
+    <None Include="include\jtil\ucl\acc\acclib\rand.ch">
+      <Filter>Header Files\jtil\ucl\acc\acclib</Filter>
+    </None>
+    <None Include="include\jtil\ucl\acc\acclib\rdtsc.ch">
+      <Filter>Header Files\jtil\ucl\acc\acclib</Filter>
+    </None>
+    <None Include="include\jtil\ucl\acc\acclib\uclock.ch">
+      <Filter>Header Files\jtil\ucl\acc\acclib</Filter>
+    </None>
+    <None Include="include\jtil\ucl\acc\acclib\wildargv.ch">
+      <Filter>Header Files\jtil\ucl\acc\acclib</Filter>
+    </None>
+    <None Include="include\jtil\ucl\acc\acclib\bele.ch">
+      <Filter>Header Files\jtil\ucl\acc\acclib</Filter>
+    </None>
+    <None Include="include\jtil\ucl\acc\acclib\dosalloc.ch">
+      <Filter>Header Files\jtil\ucl\acc\acclib</Filter>
+    </None>
+    <None Include="include\jtil\ucl\acc\acclib\fnmatch.ch">
+      <Filter>Header Files\jtil\ucl\acc\acclib</Filter>
+    </None>
+    <None Include="include\jtil\ucl\acc\acclib\getopt.ch">
+      <Filter>Header Files\jtil\ucl\acc\acclib</Filter>
+    </None>
+    <None Include="include\jtil\ucl\acc\acclib\halloc.ch">
+      <Filter>Header Files\jtil\ucl\acc\acclib</Filter>
+    </None>
+    <None Include="include\jtil\ucl\acc\acclib\hfread.ch">
+      <Filter>Header Files\jtil\ucl\acc\acclib</Filter>
+    </None>
+    <None Include="include\jtil\ucl\acc\acclib\hmemcpy.ch">
+      <Filter>Header Files\jtil\ucl\acc\acclib</Filter>
+    </None>
+    <None Include="..\shaders\lighting\lighting_light_volume_spot_vsm_accum.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="..\shaders\lighting\lighting_light_volume_stencil.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="..\shaders\lighting\lighting_visualize_csm_split.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="..\shaders\lighting\lighting_vsm_colr_mesh.vert">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="..\shaders\lighting\lighting_vsm_const_colr_mesh.vert">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="..\shaders\lighting\lighting_vsm_mesh.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="..\shaders\lighting\lighting_vsm_text_disp_mesh.tessc.geom">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="..\shaders\lighting\lighting_vsm_text_disp_mesh.tesse.geom">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="..\shaders\lighting\lighting_vsm_text_disp_mesh.vert">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="..\shaders\lighting\lighting_vsm_text_mesh.vert">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="..\shaders\lighting\lighting_ambient_occlusion.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="..\shaders\lighting\lighting_ambient_occlusion_blur.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="..\shaders\lighting\lighting_calc_csm_split.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="..\shaders\lighting\lighting_final.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="..\shaders\lighting\lighting_include.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="..\shaders\lighting\lighting_light_dir_accum.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="..\shaders\lighting\lighting_light_volume.vert">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="..\shaders\lighting\lighting_light_volume_point_accum.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="..\shaders\lighting\lighting_light_volume_spot_accum.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="..\shaders\lighting\lighting_light_volume_spot_cvsm_accum.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="..\shaders\post_processing\post_processing_fxaa_hq_edge_aware.frag">
+      <Filter>shaders\post_processing</Filter>
+    </None>
+    <None Include="..\shaders\post_processing\post_processing_fxaa_lq.frag">
+      <Filter>shaders\post_processing</Filter>
+    </None>
+    <None Include="..\shaders\post_processing\post_processing_fxaa_lq_edge_aware.frag">
+      <Filter>shaders\post_processing</Filter>
+    </None>
+    <None Include="..\shaders\post_processing\post_processing_luma.frag">
+      <Filter>shaders\post_processing</Filter>
+    </None>
+    <None Include="..\shaders\post_processing\post_processing_motion_blur.frag">
+      <Filter>shaders\post_processing</Filter>
+    </None>
+    <None Include="..\shaders\post_processing\post_processing_rect_blur.frag">
+      <Filter>shaders\post_processing</Filter>
+    </None>
+    <None Include="..\shaders\post_processing\post_processing_rect_blur_array.frag">
+      <Filter>shaders\post_processing</Filter>
+    </None>
+    <None Include="..\shaders\post_processing\fullscreen_null.frag">
+      <Filter>shaders\post_processing</Filter>
+    </None>
+    <None Include="..\shaders\post_processing\fullscreen_ones.frag">
+      <Filter>shaders\post_processing</Filter>
+    </None>
+    <None Include="..\shaders\post_processing\fullscreen_quad.frag">
+      <Filter>shaders\post_processing</Filter>
+    </None>
+    <None Include="..\shaders\post_processing\fullscreen_quad.vert">
+      <Filter>shaders\post_processing</Filter>
+    </None>
+    <None Include="..\shaders\post_processing\fullscreen_r_quad.frag">
+      <Filter>shaders\post_processing</Filter>
+    </None>
+    <None Include="..\shaders\post_processing\fullscreen_rg_quad.frag">
+      <Filter>shaders\post_processing</Filter>
+    </None>
+    <None Include="..\shaders\post_processing\fullscreen_rgb_quad.frag">
+      <Filter>shaders\post_processing</Filter>
+    </None>
+    <None Include="..\shaders\post_processing\fxaa3_11.frag">
+      <Filter>shaders\post_processing</Filter>
+    </None>
+    <None Include="..\shaders\post_processing\post_processing_dof.frag">
+      <Filter>shaders\post_processing</Filter>
+    </None>
+    <None Include="..\shaders\post_processing\post_processing_dof.vert">
+      <Filter>shaders\post_processing</Filter>
+    </None>
+    <None Include="..\shaders\post_processing\post_processing_fxaa_hq.frag">
+      <Filter>shaders\post_processing</Filter>
+    </None>
+    <None Include="..\shaders\ui\librocket_with_texture.vert">
+      <Filter>shaders\ui</Filter>
+    </None>
+    <None Include="..\shaders\ui\textured_quad.frag">
+      <Filter>shaders\ui</Filter>
+    </None>
+    <None Include="..\shaders\ui\textured_quad.vert">
+      <Filter>shaders\ui</Filter>
+    </None>
+    <None Include="..\shaders\ui\librocket_no_texture.frag">
+      <Filter>shaders\ui</Filter>
+    </None>
+    <None Include="..\shaders\ui\librocket_no_texture.vert">
+      <Filter>shaders\ui</Filter>
+    </None>
+    <None Include="..\shaders\ui\librocket_with_texture.frag">
+      <Filter>shaders\ui</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_empty.vert">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_include.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_norm_vis.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_norm_vis.geom">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_norm_vis_screennorm.geom">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_text_disp_mesh.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_text_disp_mesh.tessc.geom">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_text_disp_mesh.tesse.geom">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_text_disp_mesh.vert">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_text_disp_mesh_vel.tessc.geom">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_text_disp_mesh_vel.tesse.geom">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_text_disp_mesh_vel.vert">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_text_mesh.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_text_mesh.vert">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_text_mesh_vel.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_text_mesh_vel.vert">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_clear.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_colr_mesh.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_colr_mesh.vert">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_colr_mesh_vel.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_colr_mesh_vel.vert">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_const_colr_mesh.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_const_colr_mesh.vert">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_const_colr_mesh_vel.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_const_colr_mesh_vel.vert">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_clear_tex.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_visualize_depth.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_visualize_light_accum_diffuse.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_visualize_light_accum_specular.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_visualize_lighting_stencil.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_visualize_normal.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_visualize_pos.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_visualize_vel.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_visualize_albedo.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_text_boned_mesh.vert">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\lighting\lighting_vsm_text_boned_mesh.vert">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="..\shaders\lighting\lighting_vsm_colr_boned_mesh.vert">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_colr_boned_mesh.vert">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_colr_boned_mesh_vel.vert">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_text_boned_mesh_vel.vert">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_text_boned_mesh_vel_hq.vert">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_colr_boned_mesh_vel_hq.vert">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_const_colr_boned_mesh_vel.vert">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_const_colr_boned_mesh_vel_hq.vert">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\g_buffer\g_buffer_const_colr_boned_mesh.vert">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="..\shaders\lighting\lighting_vsm_const_colr_boned_mesh.vert">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="..\shaders\lighting\lighting_draw_cvsm.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="..\shaders\lighting\lighting_draw_vsm.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="..\shaders\lighting\lighting_light_volume_spot_cvsm_cnt1_accum.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+  </ItemGroup>
+</Project>

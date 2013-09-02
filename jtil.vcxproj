@@ -1,0 +1,520 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B6B147F5-C7F9-4E94-A58C-1B4855967A48}</ProjectGuid>
+    <RootNamespace>jtil</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(ProjectDir)\build\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)\build_intermediate\$(Platform)\$(Configuration)\</IntDir>
+    <TargetExt>.lib</TargetExt>
+    <TargetName>$(ProjectName)_d</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IntDir>$(ProjectDir)\build_intermediate\$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>$(ProjectDir)\build\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)..\include\WIN;$(ProjectDir)..\include\WIN\AMD_APP_SDK_2.8.1016.5</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PreprocessorDefinitions>BREAK_ON_EXCEPTION_INT;FREEIMAGE_LIB;GLEW_STATIC;UNICODE;_UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <OpenMPSupport>true</OpenMPSupport>
+      <ProgramDataBaseFileName>$(TargetDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>true</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\lib\WIN\freeimage;$(ProjectDir)..\lib\WIN\GLFW;$(ProjectDir)..\lib\WIN\freetype;$(ProjectDir)..\lib\WIN\GLEW;$(ProjectDir)..\lib\WIN\Rocket;$(ProjectDir)..\lib\WIN\assimp;$(ProjectDir)..\lib\WIN\AMD_APP_SDK_2.8.1016.5\x86_64</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glu32.lib;opengl32.lib;Comctl32.lib;vfw32.lib;freetype243_D.lib;FreeImaged.lib;glfw3_d.lib;assimpD.lib;RocketControls_d.lib;RocketCore_d.lib;RocketDebugger_d.lib</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalOptions>/ignore:4006 %(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)..\include\WIN;$(ProjectDir)..\include\WIN\AMD_APP_SDK_2.8.1016.5</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PreprocessorDefinitions>BREAK_ON_EXCEPTION_INT;FREEIMAGE_LIB;GLEW_STATIC;UNICODE;_UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <OpenMPSupport>true</OpenMPSupport>
+      <ProgramDataBaseFileName>$(TargetDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\lib\WIN\freeimage;$(ProjectDir)..\lib\WIN\GLFW;$(ProjectDir)..\lib\WIN\freetype;$(ProjectDir)..\lib\WIN\GLEW;$(ProjectDir)..\lib\WIN\Rocket;$(ProjectDir)..\lib\WIN\assimp;$(ProjectDir)..\lib\WIN\AMD_APP_SDK_2.8.1016.5\x86_64</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glu32.lib;opengl32.lib;Comctl32.lib;vfw32.lib;freetype243.lib;FreeImage.lib;glfw3.lib;assimp.lib;RocketControls.lib;RocketCore.lib;RocketDebugger.lib</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalOptions>/ignore:4006 %(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="include\jtil\alignment\data_align.h" />
+    <ClInclude Include="include\jtil\clk\clk.h" />
+    <ClInclude Include="include\jtil\data_str\circular_buffer.h" />
+    <ClInclude Include="include\jtil\data_str\hash_funcs.h" />
+    <ClInclude Include="include\jtil\data_str\hash_map.h" />
+    <ClInclude Include="include\jtil\data_str\hash_map_managed.h" />
+    <ClInclude Include="include\jtil\data_str\hash_set.h" />
+    <ClInclude Include="include\jtil\data_str\min_heap.h" />
+    <ClInclude Include="include\jtil\data_str\pair.h" />
+    <ClInclude Include="include\jtil\data_str\triple.h" />
+    <ClInclude Include="include\jtil\data_str\vector.h" />
+    <ClInclude Include="include\jtil\data_str\vector_managed.h" />
+    <ClInclude Include="include\jtil\debug_util\debug_util.h" />
+    <ClInclude Include="include\jtil\exceptions\wruntime_error.h" />
+    <ClInclude Include="include\jtil\fastlz\fastlz.h" />
+    <ClInclude Include="include\jtil\fastlz\fastlz_helper.h" />
+    <ClInclude Include="include\jtil\file_io\csv_handle.h" />
+    <ClInclude Include="include\jtil\file_io\csv_handle_read.h" />
+    <ClInclude Include="include\jtil\file_io\csv_handle_write.h" />
+    <ClInclude Include="include\jtil\file_io\data_str_serialization.h" />
+    <ClInclude Include="include\jtil\file_io\file_io.h" />
+    <ClInclude Include="include\jtil\glew\glew.h" />
+    <ClInclude Include="include\jtil\glew\wglew.h" />
+    <ClInclude Include="include\jtil\image_util\image_util.h" />
+    <ClInclude Include="include\jtil\image_util\marching_squares\contour.h" />
+    <ClInclude Include="include\jtil\image_util\marching_squares\marching_squares.h" />
+    <ClInclude Include="include\jtil\image_util\marching_squares\min_heap_contours.h" />
+    <ClInclude Include="include\jtil\jtil.h" />
+    <ClInclude Include="include\jtil\math\bfgs.h" />
+    <ClInclude Include="include\jtil\math\common_optimization.h" />
+    <ClInclude Include="include\jtil\math\decompose.h" />
+    <ClInclude Include="include\jtil\math\icp.h" />
+    <ClInclude Include="include\jtil\math\icp_eigen_data.h" />
+    <ClInclude Include="include\jtil\math\lm_fit.h" />
+    <ClInclude Include="include\jtil\math\pso_parallel.h" />
+    <ClInclude Include="include\jtil\math\mat2x2.h" />
+    <ClInclude Include="include\jtil\math\mat3x3.h" />
+    <ClInclude Include="include\jtil\math\mat4x4.h" />
+    <ClInclude Include="include\jtil\math\math_base.h" />
+    <ClInclude Include="include\jtil\math\math_types.h" />
+    <ClInclude Include="include\jtil\math\noise.h" />
+    <ClInclude Include="include\jtil\math\perlin_noise.h" />
+    <ClInclude Include="include\jtil\math\plane.h" />
+    <ClInclude Include="include\jtil\math\pso.h" />
+    <ClInclude Include="include\jtil\math\quat.h" />
+    <ClInclude Include="include\jtil\math\vec2.h" />
+    <ClInclude Include="include\jtil\math\vec3.h" />
+    <ClInclude Include="include\jtil\math\vec4.h" />
+    <ClInclude Include="include\jtil\misc\class_template.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="include\jtil\renderer\camera\camera.h" />
+    <ClInclude Include="include\jtil\renderer\camera\frustum.h" />
+    <ClInclude Include="include\jtil\renderer\camera\viewtest.h" />
+    <ClInclude Include="include\jtil\renderer\colors\colors.h" />
+    <ClInclude Include="include\jtil\renderer\geometry\bone.h" />
+    <ClInclude Include="include\jtil\renderer\geometry\geometry.h" />
+    <ClInclude Include="include\jtil\renderer\geometry\geometry_instance.h" />
+    <ClInclude Include="include\jtil\renderer\geometry\geometry_manager.h" />
+    <ClInclude Include="include\jtil\renderer\geometry\geometry_render_pass.h" />
+    <ClInclude Include="include\jtil\renderer\geometry\mesh_simplification\edge.h" />
+    <ClInclude Include="include\jtil\renderer\geometry\mesh_simplification\mesh_simplification.h" />
+    <ClInclude Include="include\jtil\renderer\geometry\mesh_simplification\min_heap_edges.h" />
+    <ClInclude Include="include\jtil\renderer\gl_include.h" />
+    <ClInclude Include="include\jtil\renderer\gl_state.h" />
+    <ClInclude Include="include\jtil\renderer\g_buffer.h" />
+    <ClInclude Include="include\jtil\renderer\lighting.h" />
+    <ClInclude Include="include\jtil\renderer\lights\light.h" />
+    <ClInclude Include="include\jtil\renderer\lights\lights.h" />
+    <ClInclude Include="include\jtil\renderer\lights\light_dir.h" />
+    <ClInclude Include="include\jtil\renderer\lights\light_point.h" />
+    <ClInclude Include="include\jtil\renderer\lights\light_spot.h" />
+    <ClInclude Include="include\jtil\renderer\lights\light_spot_cvsm.h" />
+    <ClInclude Include="include\jtil\renderer\material\material.h" />
+    <ClInclude Include="include\jtil\renderer\objects\aabbox.h" />
+    <ClInclude Include="include\jtil\renderer\objects\bsphere.h" />
+    <ClInclude Include="include\jtil\renderer\post_processing.h" />
+    <ClInclude Include="include\jtil\renderer\renderer.h" />
+    <ClInclude Include="include\jtil\renderer\shader\shader.h" />
+    <ClInclude Include="include\jtil\renderer\shader\shader_program.h" />
+    <ClInclude Include="include\jtil\renderer\texture\texture.h" />
+    <ClInclude Include="include\jtil\renderer\texture\texture_base.h" />
+    <ClInclude Include="include\jtil\renderer\texture\texture_gbuffer.h" />
+    <ClInclude Include="include\jtil\renderer\texture\texture_renderable.h" />
+    <ClInclude Include="include\jtil\renderer\texture\texture_renderable_array.h" />
+    <ClInclude Include="include\jtil\renderer\texture\texture_utils.h" />
+    <ClInclude Include="include\jtil\settings\setting.h" />
+    <ClInclude Include="include\jtil\settings\settings_manager.h" />
+    <ClInclude Include="include\jtil\settings\setting_base.h" />
+    <ClInclude Include="include\jtil\string_util\macros.h" />
+    <ClInclude Include="include\jtil\string_util\md5.h" />
+    <ClInclude Include="include\jtil\string_util\string_util.h" />
+    <ClInclude Include="include\jtil\string_util\win32_debug_buffer.h" />
+    <ClInclude Include="include\jtil\threading\callback.h" />
+    <ClInclude Include="include\jtil\threading\callback_instances.h" />
+    <ClInclude Include="include\jtil\threading\callback_queue.h" />
+    <ClInclude Include="include\jtil\threading\callback_queue_item.h" />
+    <ClInclude Include="include\jtil\threading\thread.h" />
+    <ClInclude Include="include\jtil\threading\thread_pool.h" />
+    <ClInclude Include="include\jtil\ucl\acc\acc.h" />
+    <ClInclude Include="include\jtil\ucl\acc\acc_arch.h" />
+    <ClInclude Include="include\jtil\ucl\acc\acc_auto.h" />
+    <ClInclude Include="include\jtil\ucl\acc\acc_cc.h" />
+    <ClInclude Include="include\jtil\ucl\acc\acc_cxx.h" />
+    <ClInclude Include="include\jtil\ucl\acc\acc_defs.h" />
+    <ClInclude Include="include\jtil\ucl\acc\acc_incd.h" />
+    <ClInclude Include="include\jtil\ucl\acc\acc_ince.h" />
+    <ClInclude Include="include\jtil\ucl\acc\acc_inci.h" />
+    <ClInclude Include="include\jtil\ucl\acc\acc_init.h" />
+    <ClInclude Include="include\jtil\ucl\acc\acc_lib.h" />
+    <ClInclude Include="include\jtil\ucl\acc\acc_mm.h" />
+    <ClInclude Include="include\jtil\ucl\acc\acc_os.h" />
+    <ClInclude Include="include\jtil\ucl\acc\acc_type.h" />
+    <ClInclude Include="include\jtil\ucl\getbit.h" />
+    <ClInclude Include="include\jtil\ucl\ucl.h" />
+    <ClInclude Include="include\jtil\ucl\uclconf.h" />
+    <ClInclude Include="include\jtil\ucl\ucl_asm.h" />
+    <ClInclude Include="include\jtil\ucl\ucl_conf.h" />
+    <ClInclude Include="include\jtil\ucl\ucl_helper.h" />
+    <ClInclude Include="include\jtil\ucl\ucl_ptr.h" />
+    <ClInclude Include="include\jtil\ui\rocket_event_listener.h" />
+    <ClInclude Include="include\jtil\ui\rocket_file_interface.h" />
+    <ClInclude Include="include\jtil\ui\rocket_render_interface.h" />
+    <ClInclude Include="include\jtil\ui\rocket_system_interface.h" />
+    <ClInclude Include="include\jtil\ui\ui.h" />
+    <ClInclude Include="include\jtil\video\video_stream.h" />
+    <ClInclude Include="include\jtil\windowing\glfw.h" />
+    <ClInclude Include="include\jtil\windowing\glfw_keys.h" />
+    <ClInclude Include="include\jtil\windowing\keys_and_buttons.h" />
+    <ClInclude Include="include\jtil\windowing\message_dialog_win32.h" />
+    <ClInclude Include="include\jtil\windowing\window.h" />
+    <ClInclude Include="include\jtil\windowing\window_cb.h" />
+    <ClInclude Include="include\jtil\windowing\window_interface.h" />
+    <ClInclude Include="include\jtil\windowing\window_settings.h" />
+    <ClInclude Include="include\test_unit\log_message.h" />
+    <ClInclude Include="include\test_unit\log_writer.h" />
+    <ClInclude Include="include\test_unit\param_map.h" />
+    <ClInclude Include="include\test_unit\test_unit.h" />
+    <ClInclude Include="include\test_unit\test_util.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\jtil\data_str\hash_funcs.cpp" />
+    <ClCompile Include="src\jtil\debug_util\debug_util_macosx.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\jtil\debug_util\debug_util_win32.cpp" />
+    <ClCompile Include="src\jtil\exceptions\wruntime_error.cpp" />
+    <ClCompile Include="src\jtil\fastlz\fastlz.c">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsC</CompileAs>
+    </ClCompile>
+    <ClCompile Include="src\jtil\fastlz\fastlz_helper.cpp" />
+    <ClCompile Include="src\jtil\file_io\csv_handle.cpp" />
+    <ClCompile Include="src\jtil\file_io\csv_handle_read.cpp" />
+    <ClCompile Include="src\jtil\file_io\csv_handle_write.cpp" />
+    <ClCompile Include="src\jtil\file_io\data_str_serialization.cpp" />
+    <ClCompile Include="src\jtil\file_io\file_io.cpp" />
+    <ClCompile Include="src\jtil\glew\glew.c">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Default</CompileAs>
+    </ClCompile>
+    <ClCompile Include="src\jtil\glew\glewinfo.c">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Default</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Default</CompileAs>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\jtil\glew\visualinfo.c">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Default</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Default</CompileAs>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\jtil\image_util\image_util.cpp" />
+    <ClCompile Include="src\jtil\image_util\marching_squares\contour.cpp" />
+    <ClCompile Include="src\jtil\image_util\marching_squares\marching_squares.cpp" />
+    <ClCompile Include="src\jtil\image_util\marching_squares\min_heap_contours.cpp" />
+    <ClCompile Include="src\jtil\math\common_optimization.cpp" />
+    <ClCompile Include="src\jtil\math\decompose.c">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsC</CompileAs>
+    </ClCompile>
+    <ClCompile Include="src\jtil\math\icp.cpp" />
+    <ClCompile Include="src\jtil\math\icp_eigen_data.cpp" />
+    <ClCompile Include="src\jtil\math\pso_parallel.cpp" />
+    <ClCompile Include="src\jtil\math\math_base.cpp" />
+    <ClCompile Include="src\jtil\math\pso.cpp" />
+    <ClCompile Include="src\jtil\misc\class_template.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\jtil\renderer\camera\camera.cpp" />
+    <ClCompile Include="src\jtil\renderer\camera\frustum.cpp" />
+    <ClCompile Include="src\jtil\renderer\colors\colors.cpp" />
+    <ClCompile Include="src\jtil\renderer\geometry\bone.cpp" />
+    <ClCompile Include="src\jtil\renderer\geometry\geometry.cpp" />
+    <ClCompile Include="src\jtil\renderer\geometry\geometry_instance.cpp" />
+    <ClCompile Include="src\jtil\renderer\geometry\geometry_manager.cpp" />
+    <ClCompile Include="src\jtil\renderer\geometry\geometry_render_pass.cpp" />
+    <ClCompile Include="src\jtil\renderer\geometry\mesh_simplification\edge.cpp" />
+    <ClCompile Include="src\jtil\renderer\geometry\mesh_simplification\mesh_simplification.cpp" />
+    <ClCompile Include="src\jtil\renderer\geometry\mesh_simplification\min_heap_edges.cpp" />
+    <ClCompile Include="src\jtil\renderer\gl_include.cpp" />
+    <ClCompile Include="src\jtil\renderer\gl_state.cpp" />
+    <ClCompile Include="src\jtil\renderer\g_buffer.cpp" />
+    <ClCompile Include="src\jtil\renderer\lighting.cpp" />
+    <ClCompile Include="src\jtil\renderer\lights\light.cpp" />
+    <ClCompile Include="src\jtil\renderer\lights\light_dir.cpp" />
+    <ClCompile Include="src\jtil\renderer\lights\light_point.cpp" />
+    <ClCompile Include="src\jtil\renderer\lights\light_spot.cpp" />
+    <ClCompile Include="src\jtil\renderer\lights\light_spot_cvsm.cpp" />
+    <ClCompile Include="src\jtil\renderer\material\material.cpp" />
+    <ClCompile Include="src\jtil\renderer\objects\aabbox.cpp" />
+    <ClCompile Include="src\jtil\renderer\objects\bsphere.cpp" />
+    <ClCompile Include="src\jtil\renderer\post_processing.cpp" />
+    <ClCompile Include="src\jtil\renderer\renderer.cpp" />
+    <ClCompile Include="src\jtil\renderer\shader\shader.cpp" />
+    <ClCompile Include="src\jtil\renderer\shader\shader_program.cpp" />
+    <ClCompile Include="src\jtil\renderer\texture\texture.cpp" />
+    <ClCompile Include="src\jtil\renderer\texture\texture_gbuffer.cpp" />
+    <ClCompile Include="src\jtil\renderer\texture\texture_renderable.cpp" />
+    <ClCompile Include="src\jtil\renderer\texture\texture_renderable_array.cpp" />
+    <ClCompile Include="src\jtil\renderer\texture\texture_utils.cpp" />
+    <ClCompile Include="src\jtil\settings\settings_manager.cpp" />
+    <ClCompile Include="src\jtil\settings\setting_base.cpp" />
+    <ClCompile Include="src\jtil\string_util\md5c.c">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsC</CompileAs>
+    </ClCompile>
+    <ClCompile Include="src\jtil\string_util\string_util.cpp" />
+    <ClCompile Include="src\jtil\threading\thread.cpp" />
+    <ClCompile Include="src\jtil\threading\thread_pool.cpp" />
+    <ClCompile Include="src\jtil\ucl\alloc.c" />
+    <ClCompile Include="src\jtil\ucl\n2b_99.c" />
+    <ClCompile Include="src\jtil\ucl\n2b_d.c" />
+    <ClCompile Include="src\jtil\ucl\n2b_ds.c" />
+    <ClCompile Include="src\jtil\ucl\n2b_to.c" />
+    <ClCompile Include="src\jtil\ucl\n2d_99.c" />
+    <ClCompile Include="src\jtil\ucl\n2d_d.c" />
+    <ClCompile Include="src\jtil\ucl\n2d_ds.c" />
+    <ClCompile Include="src\jtil\ucl\n2d_to.c" />
+    <ClCompile Include="src\jtil\ucl\n2e_99.c" />
+    <ClCompile Include="src\jtil\ucl\n2e_d.c" />
+    <ClCompile Include="src\jtil\ucl\n2e_ds.c" />
+    <ClCompile Include="src\jtil\ucl\n2e_to.c" />
+    <ClCompile Include="src\jtil\ucl\ucl_crc.c" />
+    <ClCompile Include="src\jtil\ucl\ucl_helper.cpp" />
+    <ClCompile Include="src\jtil\ucl\ucl_init.c" />
+    <ClCompile Include="src\jtil\ucl\ucl_ptr.c" />
+    <ClCompile Include="src\jtil\ucl\ucl_str.c" />
+    <ClCompile Include="src\jtil\ucl\ucl_util.c" />
+    <ClCompile Include="src\jtil\ui\rocket_event_listener.cpp" />
+    <ClCompile Include="src\jtil\ui\rocket_file_interface.cpp" />
+    <ClCompile Include="src\jtil\ui\rocket_render_interface.cpp" />
+    <ClCompile Include="src\jtil\ui\rocket_system_interface.cpp" />
+    <ClCompile Include="src\jtil\ui\ui.cpp" />
+    <ClCompile Include="src\jtil\video\video_stream.cpp" />
+    <ClCompile Include="src\jtil\windowing\message_dialog_win32.cpp">
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4996</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4996</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="src\jtil\windowing\window.cpp" />
+    <ClCompile Include="src\jtil\windowing\window_macosx.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\jtil\windowing\window_settings.cpp" />
+    <ClCompile Include="src\jtil\windowing\window_win32.cpp" />
+    <ClCompile Include="src\test_unit\log_message.cpp" />
+    <ClCompile Include="src\test_unit\log_writer.cpp" />
+    <ClCompile Include="src\test_unit\param_map.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\COMPILE_NOTES.txt" />
+    <Text Include="..\README.txt" />
+    <Text Include="..\TO_BE_DONE.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\shaders\g_buffer\g_buffer_clear.frag" />
+    <None Include="..\shaders\g_buffer\g_buffer_clear_tex.frag" />
+    <None Include="..\shaders\g_buffer\g_buffer_colr_boned_mesh.vert" />
+    <None Include="..\shaders\g_buffer\g_buffer_colr_boned_mesh_vel.vert" />
+    <None Include="..\shaders\g_buffer\g_buffer_colr_boned_mesh_vel_hq.vert" />
+    <None Include="..\shaders\g_buffer\g_buffer_colr_mesh.frag" />
+    <None Include="..\shaders\g_buffer\g_buffer_colr_mesh.vert" />
+    <None Include="..\shaders\g_buffer\g_buffer_colr_mesh_vel.frag" />
+    <None Include="..\shaders\g_buffer\g_buffer_colr_mesh_vel.vert" />
+    <None Include="..\shaders\g_buffer\g_buffer_const_colr_boned_mesh.vert" />
+    <None Include="..\shaders\g_buffer\g_buffer_const_colr_boned_mesh_vel.vert" />
+    <None Include="..\shaders\g_buffer\g_buffer_const_colr_boned_mesh_vel_hq.vert" />
+    <None Include="..\shaders\g_buffer\g_buffer_const_colr_mesh.frag" />
+    <None Include="..\shaders\g_buffer\g_buffer_const_colr_mesh.vert" />
+    <None Include="..\shaders\g_buffer\g_buffer_const_colr_mesh_vel.frag" />
+    <None Include="..\shaders\g_buffer\g_buffer_const_colr_mesh_vel.vert" />
+    <None Include="..\shaders\g_buffer\g_buffer_empty.vert" />
+    <None Include="..\shaders\g_buffer\g_buffer_include.frag" />
+    <None Include="..\shaders\g_buffer\g_buffer_norm_vis.frag" />
+    <None Include="..\shaders\g_buffer\g_buffer_norm_vis.geom" />
+    <None Include="..\shaders\g_buffer\g_buffer_norm_vis_screennorm.geom" />
+    <None Include="..\shaders\g_buffer\g_buffer_text_boned_mesh.vert" />
+    <None Include="..\shaders\g_buffer\g_buffer_text_boned_mesh_vel.vert" />
+    <None Include="..\shaders\g_buffer\g_buffer_text_boned_mesh_vel_hq.vert" />
+    <None Include="..\shaders\g_buffer\g_buffer_text_disp_mesh.frag" />
+    <None Include="..\shaders\g_buffer\g_buffer_text_disp_mesh.tessc.geom" />
+    <None Include="..\shaders\g_buffer\g_buffer_text_disp_mesh.tesse.geom" />
+    <None Include="..\shaders\g_buffer\g_buffer_text_disp_mesh.vert" />
+    <None Include="..\shaders\g_buffer\g_buffer_text_disp_mesh_vel.tessc.geom" />
+    <None Include="..\shaders\g_buffer\g_buffer_text_disp_mesh_vel.tesse.geom" />
+    <None Include="..\shaders\g_buffer\g_buffer_text_disp_mesh_vel.vert" />
+    <None Include="..\shaders\g_buffer\g_buffer_text_mesh.frag" />
+    <None Include="..\shaders\g_buffer\g_buffer_text_mesh.vert" />
+    <None Include="..\shaders\g_buffer\g_buffer_text_mesh_vel.frag" />
+    <None Include="..\shaders\g_buffer\g_buffer_text_mesh_vel.vert" />
+    <None Include="..\shaders\g_buffer\g_buffer_visualize_albedo.frag" />
+    <None Include="..\shaders\g_buffer\g_buffer_visualize_depth.frag" />
+    <None Include="..\shaders\g_buffer\g_buffer_visualize_lighting_stencil.frag" />
+    <None Include="..\shaders\g_buffer\g_buffer_visualize_light_accum_diffuse.frag" />
+    <None Include="..\shaders\g_buffer\g_buffer_visualize_light_accum_specular.frag" />
+    <None Include="..\shaders\g_buffer\g_buffer_visualize_normal.frag" />
+    <None Include="..\shaders\g_buffer\g_buffer_visualize_pos.frag" />
+    <None Include="..\shaders\g_buffer\g_buffer_visualize_vel.frag" />
+    <None Include="..\shaders\lighting\lighting_ambient_occlusion.frag" />
+    <None Include="..\shaders\lighting\lighting_ambient_occlusion_blur.frag" />
+    <None Include="..\shaders\lighting\lighting_calc_csm_split.frag" />
+    <None Include="..\shaders\lighting\lighting_draw_cvsm.frag" />
+    <None Include="..\shaders\lighting\lighting_draw_vsm.frag" />
+    <None Include="..\shaders\lighting\lighting_final.frag" />
+    <None Include="..\shaders\lighting\lighting_include.frag" />
+    <None Include="..\shaders\lighting\lighting_light_dir_accum.frag" />
+    <None Include="..\shaders\lighting\lighting_light_volume.vert" />
+    <None Include="..\shaders\lighting\lighting_light_volume_point_accum.frag" />
+    <None Include="..\shaders\lighting\lighting_light_volume_spot_accum.frag" />
+    <None Include="..\shaders\lighting\lighting_light_volume_spot_cvsm_accum.frag" />
+    <None Include="..\shaders\lighting\lighting_light_volume_spot_cvsm_cnt1_accum.frag" />
+    <None Include="..\shaders\lighting\lighting_light_volume_spot_vsm_accum.frag" />
+    <None Include="..\shaders\lighting\lighting_light_volume_stencil.frag" />
+    <None Include="..\shaders\lighting\lighting_visualize_csm_split.frag" />
+    <None Include="..\shaders\lighting\lighting_vsm_colr_boned_mesh.vert" />
+    <None Include="..\shaders\lighting\lighting_vsm_colr_mesh.vert" />
+    <None Include="..\shaders\lighting\lighting_vsm_const_colr_boned_mesh.vert" />
+    <None Include="..\shaders\lighting\lighting_vsm_const_colr_mesh.vert" />
+    <None Include="..\shaders\lighting\lighting_vsm_mesh.frag" />
+    <None Include="..\shaders\lighting\lighting_vsm_text_boned_mesh.vert" />
+    <None Include="..\shaders\lighting\lighting_vsm_text_disp_mesh.tessc.geom" />
+    <None Include="..\shaders\lighting\lighting_vsm_text_disp_mesh.tesse.geom" />
+    <None Include="..\shaders\lighting\lighting_vsm_text_disp_mesh.vert" />
+    <None Include="..\shaders\lighting\lighting_vsm_text_mesh.vert" />
+    <None Include="..\shaders\post_processing\fullscreen_null.frag" />
+    <None Include="..\shaders\post_processing\fullscreen_ones.frag" />
+    <None Include="..\shaders\post_processing\fullscreen_quad.frag" />
+    <None Include="..\shaders\post_processing\fullscreen_quad.vert" />
+    <None Include="..\shaders\post_processing\fullscreen_rgb_quad.frag" />
+    <None Include="..\shaders\post_processing\fullscreen_rg_quad.frag" />
+    <None Include="..\shaders\post_processing\fullscreen_r_quad.frag" />
+    <None Include="..\shaders\post_processing\fxaa3_11.frag" />
+    <None Include="..\shaders\post_processing\post_processing_dof.frag" />
+    <None Include="..\shaders\post_processing\post_processing_dof.vert" />
+    <None Include="..\shaders\post_processing\post_processing_fxaa_hq.frag" />
+    <None Include="..\shaders\post_processing\post_processing_fxaa_hq_edge_aware.frag" />
+    <None Include="..\shaders\post_processing\post_processing_fxaa_lq.frag" />
+    <None Include="..\shaders\post_processing\post_processing_fxaa_lq_edge_aware.frag" />
+    <None Include="..\shaders\post_processing\post_processing_luma.frag" />
+    <None Include="..\shaders\post_processing\post_processing_motion_blur.frag" />
+    <None Include="..\shaders\post_processing\post_processing_rect_blur.frag" />
+    <None Include="..\shaders\post_processing\post_processing_rect_blur_array.frag" />
+    <None Include="..\shaders\ui\librocket_no_texture.frag" />
+    <None Include="..\shaders\ui\librocket_no_texture.vert" />
+    <None Include="..\shaders\ui\librocket_with_texture.frag" />
+    <None Include="..\shaders\ui\librocket_with_texture.vert" />
+    <None Include="..\shaders\ui\textured_quad.frag" />
+    <None Include="..\shaders\ui\textured_quad.vert" />
+    <None Include="include\jtil\ucl\acc\acclib\bele.ch" />
+    <None Include="include\jtil\ucl\acc\acclib\dosalloc.ch" />
+    <None Include="include\jtil\ucl\acc\acclib\fnmatch.ch" />
+    <None Include="include\jtil\ucl\acc\acclib\getopt.ch" />
+    <None Include="include\jtil\ucl\acc\acclib\halloc.ch" />
+    <None Include="include\jtil\ucl\acc\acclib\hfread.ch" />
+    <None Include="include\jtil\ucl\acc\acclib\hmemcpy.ch" />
+    <None Include="include\jtil\ucl\acc\acclib\hread.ch" />
+    <None Include="include\jtil\ucl\acc\acclib\hsread.ch" />
+    <None Include="include\jtil\ucl\acc\acclib\hstring.ch" />
+    <None Include="include\jtil\ucl\acc\acclib\misc.ch" />
+    <None Include="include\jtil\ucl\acc\acclib\opendir.ch" />
+    <None Include="include\jtil\ucl\acc\acclib\perfctr.ch" />
+    <None Include="include\jtil\ucl\acc\acclib\rand.ch" />
+    <None Include="include\jtil\ucl\acc\acclib\rdtsc.ch" />
+    <None Include="include\jtil\ucl\acc\acclib\uclock.ch" />
+    <None Include="include\jtil\ucl\acc\acclib\wildargv.ch" />
+    <None Include="include\jtil\ucl\acc\acc_chk.ch" />
+    <None Include="include\jtil\ucl\acc\acc_chkr.ch" />
+    <None Include="include\jtil\ucl\acc\acc_lib.ch" />
+    <None Include="include\jtil\ucl\n2_99.ch" />
+    <None Include="include\jtil\ucl\ucl_dll.ch" />
+    <None Include="include\jtil\ucl\ucl_mchw.ch" />
+    <None Include="include\jtil\ucl\ucl_swd.ch" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
