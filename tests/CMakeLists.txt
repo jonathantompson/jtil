@@ -50,7 +50,7 @@ set(LIB_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../lib/MAC_OS_X)
 
 set(INCLUDE_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../include/MAC_OS_X)
 
-set(JTIL_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../jtil/include/)
+set(JTIL_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../include/)
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 # COMPILER FLAGS AND PREDEFINES
