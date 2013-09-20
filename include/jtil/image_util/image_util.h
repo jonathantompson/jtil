@@ -747,6 +747,61 @@ namespace image_util {
     }
   };
 
+  template <class T>
+  T getpixel(T* src, const int32_t src_width, const int32_t src_height, 
+    const int32_t x, const int32_t y, const int32_t channel, 
+    const int32_t n_channels) {
+    if (x < src_width && y < src_height) {
+      return src[(x * n_channels * src_width) + (n_channels * y) + channel];
+    }
+
+    return 0;
+  }
+
+  template <class T>
+  void bicubicresize(const T* src, const int32_t src_width, 
+    const int32_t src_height, T* dst, const int32_t dest_width, 
+    const int32_t dest_height, const int32_t n_channels) {
+
+    const double tx = double(src_width) / (double)dest_width;
+    const double ty = double(src_height) / (double)dest_height;
+    const int32_t row_stride = dest_width * n_channels;
+
+    T C[5] = { 0, 0, 0, 0, 0 };
+
+    for (int32_t i = 0; i < dest_height; ++i) {
+      for (int32_t j = 0; j < dest_width; ++j) {
+        const int32_t x = int32_t(tx * j);
+        const int32_t y = int32_t(ty * i);
+        const double dx = tx * j - x;
+        const double dy = ty * i - y;
+
+        for (int k = 0; k < n_channels; ++k) {
+          for (int jj = 0; jj < 4; ++jj) {
+            const int z = y - 1 + jj;
+            T a0 = getpixel(in, src_width, src_height, z, x, k, n_channels);
+            T d0 = getpixel(in, src_width, src_height, z, x - 1, k, n_channels) - a0;
+            T d2 = getpixel(in, src_width, src_height, z, x + 1, k, n_channels) - a0;
+            T d3 = getpixel(in, src_width, src_height, z, x + 2, k, n_channels) - a0;
+            T a1 = -1.0 / 3 * d0 + d2 - 1.0 / 6 * d3;
+            T a2 = 1.0 / 2 * d0 + 1.0 / 2 * d2;
+            T a3 = -1.0 / 6 * d0 - 1.0 / 2 * d2 + 1.0 / 6 * d3;
+            C[jj] = a0 + a1 * dx + a2 * dx * dx + a3 * dx * dx * dx;
+
+            d0 = C[0] - C[1];
+            d2 = C[2] - C[1];
+            d3 = C[3] - C[1];
+            a0 = C[1];
+            a1 = -1.0 / 3 * d0 + d2 -1.0 / 6 * d3;
+            a2 = 1.0 / 2 * d0 + 1.0 / 2 * d2;
+            a3 = -1.0 / 6 * d0 - 1.0 / 2 * d2 + 1.0 / 6 * d3;
+            dst[i * row_stride + j * n_channels + k] = a0 + a1 * dy + a2 * dy * dy + a3 * dy * dy * dy;
+          }
+        }
+      }
+    }
+  }
+
   // FracDownsampleImageSAT
   // --> This is the same as the version above, but will create an integral
   //     image with double precision from the input data.

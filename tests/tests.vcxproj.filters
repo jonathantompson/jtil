@@ -92,6 +92,9 @@
     <ClInclude Include="headers\test_marching_squares.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="headers\test_image_util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\test_all_tests.cpp">

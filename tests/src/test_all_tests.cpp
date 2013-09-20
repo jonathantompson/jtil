@@ -14,6 +14,7 @@
 #include "test_thread_pool.h"
 #include "test_optimization.h"
 #include "test_marching_squares.h"
+#include "test_image_util.h"
 #include "test_math/test_profile_simd_math.h"  // Profile last
 
 #include "jtil/debug_util/debug_util.h"  // Must come last in .cpp with main
