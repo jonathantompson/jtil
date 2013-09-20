@@ -46,13 +46,11 @@ namespace renderer {
     }
     freeimage_init_lock_.unlock();
 
-    unsigned int nbits;
-
     mip_map_ = mip_map;
     wrap_ = wrap;
     filter_ = filter;
     filename_ = filename;
-    // Check if the file has any backslashes (these done load on Mac OS X)
+    // Check if the file has any backslashes (these dont load on Mac OS X)
     size_t ind = filename_.find_first_of('\\');
     while (ind != std::string::npos) {
       filename_[ind] = '/';
@@ -91,7 +89,7 @@ namespace renderer {
     }
 
     // Convert everything to RGBA:
-    nbits = FreeImage_GetBPP(dib);
+    unsigned int nbits = FreeImage_GetBPP(dib);
     if (nbits != 32) {
       FIBITMAP* old_dib = dib;
       dib = FreeImage_ConvertTo32Bits(old_dib);
@@ -310,12 +308,12 @@ namespace renderer {
     return texture_; 
   }
 
-  bool Texture::saveRGBToFile(const std::string filename, const uint8_t* rgb,
+  bool Texture::saveRGBToFile(const std::string& filename, const uint8_t* rgb,
     const uint32_t width, const uint32_t height, const bool save_flipped) {
     return saveImToFile(filename, rgb, width, height, save_flipped, 3);
   }
 
-  bool Texture::saveGreyscaleToFile(const std::string filename, 
+  bool Texture::saveGreyscaleToFile(const std::string& filename, 
     const uint8_t* grey, const uint32_t width, const uint32_t height, 
     const bool save_flipped) {
     return saveImToFile(filename, grey, width, height, save_flipped, 1);
@@ -326,7 +324,7 @@ namespace renderer {
 #pragma warning(disable:4800)
 #endif
 
-  bool Texture::saveImToFile(const std::string filename, const uint8_t* im, 
+  bool Texture::saveImToFile(const std::string& filename, const uint8_t* im, 
     const uint32_t width, const uint32_t height, const bool save_flipped, 
     const uint32_t num_channels) {
     freeimage_init_lock_.lock();
@@ -398,6 +396,88 @@ namespace renderer {
 
     SAFE_DELETE_ARR(im_rev);
     return ret;
+  }
+
+  void Texture::loadImFromFile(const std::string& filename, uint8_t*& im, 
+    uint32_t& width, uint32_t& height, uint32_t& n_chan) {
+    freeimage_init_lock_.lock();
+    if (!freeimage_init_) {
+      freeimage_init_lock_.unlock();
+      throw std::wruntime_error("Texture::Texture() - ERROR: Please call "
+        "initTextureSystem() before loading textures from file!");
+    }
+    freeimage_init_lock_.unlock();
+
+    // Check if the file has any backslashes (these dont load on Mac OS X)
+    std::string file = filename;
+    size_t ind = file.find_first_of('\\');
+    while (ind != std::string::npos) {
+      file[ind] = '/';
+      ind = file.find_first_of('\\');
+    }
+
+    // NEW CODE USING THE FREEIMAGE LIBRARY
+    FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;  //image format
+	  FIBITMAP* dib = NULL;  //pointer to the image, once loaded
+	  BYTE* fi_bits = NULL;  //pointer to the image data
+
+    // check the file signature and deduce its format
+    fif = FreeImage_GetFileType(file.c_str(), 0);
+	  // if still unknown, try to guess the file format from the file extension
+	  if (fif == FIF_UNKNOWN) {
+      fif = FreeImage_GetFIFFromFilename(file.c_str());
+    }
+	  // if still unkown, return failure
+	  if (fif == FIF_UNKNOWN) {
+      throw wruntime_error(wstring(L"Texture() - ERROR: Cannot deduce format"
+        L" of the file: ") + string_util::ToWideString(file));
+    }
+
+    // check that FreeImage has reading capabilities and if so load the file
+    if (FreeImage_FIFSupportsReading(fif)) {
+      dib = FreeImage_Load(fif, file.c_str());
+    }
+    //if the image failed to load, return failure
+    if (!dib) {
+      throw wruntime_error(wstring(L"Texture() - ERROR: FreeImage couldn't "
+        L"load the file: ") + string_util::ToWideString(file));
+    }
+
+    n_chan = FreeImage_GetBPP(dib) / 8;
+
+    FreeImage_FlipVertical(dib);
+
+    //retrieve the image data
+	  fi_bits = FreeImage_GetBits(dib);
+	  //get the image width and height
+	  width = FreeImage_GetWidth(dib);
+	  height = FreeImage_GetHeight(dib);
+	  // if this somehow one of these failed (they shouldn't), return failure
+	  if ((fi_bits == 0) || (width == 0) || (height == 0)) {
+      throw wruntime_error(wstring(L"Texture() - ERROR: FreeImage couldn't "
+        L"load the file: ") + string_util::ToWideString(filename));
+    }
+
+    // Copy it into memory and leave it there in case we need it later.
+    im = new uint8_t[width * height * n_chan];
+    memcpy(im, fi_bits, sizeof(im[0]) * width * height * n_chan);
+
+    // Unfortunately the R and B bits get flipped:
+    // http://sourceforge.net/p/freeimage/bugs/172/
+    if (n_chan > 1) {
+      uint8_t* tmp = new uint8_t[n_chan];
+      for (uint32_t v = 0; v < height; v++) {
+        for (uint32_t u = 0; u < width; u++) {
+          for (uint32_t i = 0; i < n_chan; i++) {
+            tmp[n_chan - i - 1] = im[(v * width + u) * n_chan + i];
+          }
+          for (uint32_t i = 0; i < n_chan; i++) {
+            im[(v * width + u) * n_chan + i] = tmp[i];
+          }
+        }
+      }
+      delete[] tmp;
+    }
   }
 
 #if defined(WIN32) || defined(_WIN32)

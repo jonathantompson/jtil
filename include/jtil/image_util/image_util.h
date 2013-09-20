@@ -628,6 +628,8 @@ namespace image_util {
     return value;
   };
 
+  // This is just bilinear interpolation but with bounds checking for going 
+  // off the image
   template <class T>
   T SampleBilerpMipMap(const T* a, const float px, const float py, 
     const int32_t w, const int32_t h) {
@@ -746,61 +748,6 @@ namespace image_util {
       }
     }
   };
-
-  template <class T>
-  T getpixel(T* src, const int32_t src_width, const int32_t src_height, 
-    const int32_t x, const int32_t y, const int32_t channel, 
-    const int32_t n_channels) {
-    if (x < src_width && y < src_height) {
-      return src[(x * n_channels * src_width) + (n_channels * y) + channel];
-    }
-
-    return 0;
-  }
-
-  template <class T>
-  void bicubicresize(const T* src, const int32_t src_width, 
-    const int32_t src_height, T* dst, const int32_t dest_width, 
-    const int32_t dest_height, const int32_t n_channels) {
-
-    const double tx = double(src_width) / (double)dest_width;
-    const double ty = double(src_height) / (double)dest_height;
-    const int32_t row_stride = dest_width * n_channels;
-
-    T C[5] = { 0, 0, 0, 0, 0 };
-
-    for (int32_t i = 0; i < dest_height; ++i) {
-      for (int32_t j = 0; j < dest_width; ++j) {
-        const int32_t x = int32_t(tx * j);
-        const int32_t y = int32_t(ty * i);
-        const double dx = tx * j - x;
-        const double dy = ty * i - y;
-
-        for (int k = 0; k < n_channels; ++k) {
-          for (int jj = 0; jj < 4; ++jj) {
-            const int z = y - 1 + jj;
-            T a0 = getpixel(in, src_width, src_height, z, x, k, n_channels);
-            T d0 = getpixel(in, src_width, src_height, z, x - 1, k, n_channels) - a0;
-            T d2 = getpixel(in, src_width, src_height, z, x + 1, k, n_channels) - a0;
-            T d3 = getpixel(in, src_width, src_height, z, x + 2, k, n_channels) - a0;
-            T a1 = -1.0 / 3 * d0 + d2 - 1.0 / 6 * d3;
-            T a2 = 1.0 / 2 * d0 + 1.0 / 2 * d2;
-            T a3 = -1.0 / 6 * d0 - 1.0 / 2 * d2 + 1.0 / 6 * d3;
-            C[jj] = a0 + a1 * dx + a2 * dx * dx + a3 * dx * dx * dx;
-
-            d0 = C[0] - C[1];
-            d2 = C[2] - C[1];
-            d3 = C[3] - C[1];
-            a0 = C[1];
-            a1 = -1.0 / 3 * d0 + d2 -1.0 / 6 * d3;
-            a2 = 1.0 / 2 * d0 + 1.0 / 2 * d2;
-            a3 = -1.0 / 6 * d0 - 1.0 / 2 * d2 + 1.0 / 6 * d3;
-            dst[i * row_stride + j * n_channels + k] = a0 + a1 * dy + a2 * dy * dy + a3 * dy * dy * dy;
-          }
-        }
-      }
-    }
-  }
 
   // FracDownsampleImageSAT
   // --> This is the same as the version above, but will create an integral
@@ -967,10 +914,38 @@ namespace image_util {
     }
   };
 
+  // DownsampleBoolImageConservative only if all src pixels in downsample kernel
+  // are one then it will output a 1 value in dst.
+  template <class T>
+  void DownsampleBoolImageConservative(T* dst, T* src, 
+    uint32_t srcw, uint32_t srch, uint32_t downsample, const T zero_val, 
+    const T one_val) {
+      uint32_t width_downsample = srcw / downsample;
+      for (uint32_t v = 0; v < srch; v+= downsample) {
+        for (uint32_t u = 0; u < srcw; u+= downsample) {
+          T cur_label = one_val;
+          // If any of the surrounding pixels are 0, let this one be zero
+          // --> Conservative.
+          for (uint32_t v_offset = 0; v_offset < downsample && cur_label == 1; 
+            v_offset++) {
+            for (uint32_t u_offset = 0; u_offset < downsample  && 
+              cur_label == 1; u_offset++) {
+              uint32_t ind = (v + v_offset) * srcw + (u + u_offset);
+              if (src[ind] == zero_val) {
+                cur_label = zero_val;
+              }
+            }
+          }
+          dst[(v/downsample) * width_downsample + (u/downsample)] = cur_label;
+        }
+      }
+  };
+
   // FracUpsampleImageBilinear 
   // --> Just a fast bilinear interpolated upsample
   // --> This is not optimized for continuous rescale and shouldn't be used for
   //     3D mip-map filtering
+  // --> Bicubic below gives better results!
   template <class T>
   void FracUpsampleImageBilinear(T* dst, const T* src, const int32_t sw, 
     const int32_t sh, float upsample) {
@@ -1006,30 +981,85 @@ namespace image_util {
     }
   };
 
-  // DownsampleBoolImageConservative only if all src pixels in downsample kernel
-  // are one then it will output a 1 value in dst.
   template <class T>
-  void DownsampleBoolImageConservative(T* dst, T* src, 
-    uint32_t srcw, uint32_t srch, uint32_t downsample, const T zero_val, 
-    const T one_val) {
-      uint32_t width_downsample = srcw / downsample;
-      for (uint32_t v = 0; v < srch; v+= downsample) {
-        for (uint32_t u = 0; u < srcw; u+= downsample) {
-          T cur_label = one_val;
-          // If any of the surrounding pixels are 0, let this one be zero
-          // --> Conservative.
-          for (uint32_t v_offset = 0; v_offset < downsample && cur_label == 1; v_offset++) {
-            for (uint32_t u_offset = 0; u_offset < downsample  && cur_label == 1; u_offset++) {
-              uint32_t ind = (v + v_offset) * srcw + (u + u_offset);
-              if (src[ind] == zero_val) {
-                cur_label = zero_val;
-              }
-            }
+  T GetPixel(T* src, const int32_t src_width, const int32_t src_height, 
+    const int32_t y, const int32_t x, const int32_t channel, 
+    const int32_t n_channels) {
+    if (x < src_width && y < src_height) {
+      return src[(y * n_channels * src_width) + (n_channels * x) + channel];
+    }
+
+    return 0;
+  }
+
+  // FracUpsampleImageBicubic 
+  // --> Just a fast bicubic interpolated upsample
+  // --> This is not optimized for continuous rescale and shouldn't be used for
+  //     3D mip-map filtering
+  // This comes from: https://code.google.com/a/eclipselabs.org/p/bicubic-interpolation-image-processing/source/browse/trunk/libimage.c
+  template <class T>
+  void FracUpsampleImageBicubic(const T* src, const int32_t sw, 
+    const int32_t sh, T* dst, const int32_t dw, const int32_t dh, 
+    const int32_t nchan) {
+
+    int a,b,c,d,index;
+    T Ca,Cb,Cc;
+    T C[5];
+    T d0,d2,d3,a0,a1,a2,a3;
+    int i,j,k,ii,jj;
+    int x,y;
+    float dx,dy;
+    float tx,ty;
+
+    tx = (float)sw / dw ;
+    ty =  (float)sh / dh;
+    int width_step = sw * nchan;
+    int dst_width_step = dw * nchan;
+
+    for(i=0; i<dh; i++) {
+      for(j=0; j<dw; j++) {
+        x = (int)(tx*j);
+        y = (int)(ty*i);
+
+        dx= tx*j-x;
+        dy=ty*i -y;
+
+        index = y*width_step + x*nchan;
+        a = y*width_step + (x+1)*nchan;
+        b = (y+1)*width_step + x*nchan;
+        c = (y+1)*width_step + (x+1)*nchan;
+
+        for(k=0;k<3;k++) {
+          for(jj=0;jj<=3;jj++) {
+            const int z = y - 1 + jj;
+            a0 = GetPixel(src, sw, sh, z, x, k, nchan);
+            d0 = GetPixel(src, sw, sh, z, x - 1, k, nchan) - a0;
+            d2 = GetPixel(src, sw, sh, z, x + 1, k, nchan) - a0;
+            d3 = GetPixel(src, sw, sh, z, x + 2, k, nchan) - a0;
+
+            /*d0 = src[(y-1+jj)*width_step + (x-1)*nchan +k] - src[(y-1+jj)*width_step + (x)*nchan +k];
+            d2 = src[(y-1+jj)*width_step + (x+1)*nchan +k] - src[(y-1+jj)*width_step + (x)*nchan +k];
+            d3 = src[(y-1+jj)*width_step + (x+2)*nchan +k] - src[(y-1+jj)*width_step + (x)*nchan +k];
+            a0 = src[(y-1+jj)*width_step + (x)*nchan +k];*/
+            a1 =  -1.0/3*d0 + d2 -1.0/6*d3;
+            a2 = 1.0/2*d0 + 1.0/2*d2;
+            a3 = -1.0/6*d0 - 1.0/2*d2 + 1.0/6*d3;
+            C[jj] = a0 + a1*dx + a2*dx*dx + a3*dx*dx*dx;
           }
-          dst[(v/downsample) * width_downsample + (u/downsample)] = cur_label;
+
+          d0 = C[0]-C[1];
+          d2 = C[2]-C[1];
+          d3 = C[3]-C[1];
+          a0 = C[1];
+          a1 = -1.0/3*d0 + d2 -1.0/6*d3;
+          a2 = 1.0/2*d0 + 1.0/2*d2;
+          a3 = -1.0/6*d0 - 1.0/2*d2 + 1.0/6*d3;
+          Cc = a0 + a1*dy + a2*dy*dy + a3*dy*dy*dy;
+          dst[i*dst_width_step +j*nchan +k ] = Cc;
         }
       }
-  };
+    }
+  }
 
   typedef enum {
     DumbNormalApproximation,  // average normals (no weighting) - SLOW and stupid

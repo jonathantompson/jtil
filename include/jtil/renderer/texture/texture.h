@@ -57,13 +57,16 @@ namespace renderer {
     inline const bool mip_map() const { return mip_map_; }
     inline const unsigned int format() const { return format_; }
     inline void flagDirty() { dirty_data_ = true; }
+    inline unsigned char* bits() { return bits_; }
 
     // Some wrappers to FreeImage
-    static bool saveRGBToFile(const std::string filename, const uint8_t* rgb,
+    static bool saveRGBToFile(const std::string& filename, const uint8_t* rgb,
       const uint32_t width, const uint32_t height, const bool save_flipped);
-    static bool saveGreyscaleToFile(const std::string filename, 
+    static bool saveGreyscaleToFile(const std::string& filename, 
       const uint8_t* grey, const uint32_t width, const uint32_t height, 
       const bool save_flipped);
+    static void loadImFromFile(const std::string& filename, uint8_t*& im, 
+      uint32_t& width, uint32_t& height, uint32_t& num_channels);
 
     // target_id = GL_TEXTURE0/1/2/3...
     // h_texture_sampler = name of the sampler2D in the shader
@@ -95,7 +98,7 @@ namespace renderer {
     void sync() const;
     void setTextureProperties() const;
 
-    static bool saveImToFile(const std::string filename, 
+    static bool saveImToFile(const std::string& filename, 
       const uint8_t* im, const uint32_t width, const uint32_t height, 
       const bool save_flipped, const uint32_t num_channels);
 
