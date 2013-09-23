@@ -18,28 +18,31 @@ TEST(ImageUtil, Resizing) {
   uint32_t src_h;
   uint32_t n_chan;
   uint8_t* src;
-  jtil::renderer::Texture::loadImFromFile("kitteh.png", src, src_w, src_h, 
-    n_chan);
+  jtil::renderer::Texture::loadImFromFile("kitteh_small.png", src, src_w, 
+    src_h, n_chan);
 
-  const uint32_t dst_w = src_w * 2;
-  const uint32_t dst_h = src_h * 2;
+  const uint32_t dst_w = src_w * 8;
+  const uint32_t dst_h = src_h * 8;
 
   // Run the interpolation
   uint8_t* dst = new uint8_t[dst_w * dst_h * n_chan];
-  jtil::image_util::FracUpsampleImageBicubic<uint8_t>(src, src_w, src_h, 
+  jtil::image_util::FracUpsampleImageBicubic<uint8_t, float>(src, src_w, src_h, 
     dst, dst_w, dst_h, n_chan);
-
-  jtil::renderer::Texture::saveRGBToFile("kitteh_identity.png", 
-    src, src_w, src_h, true);
 
   jtil::renderer::Texture::saveRGBToFile("kitteh_bicubic.png", 
     dst, dst_w, dst_h, true);
 
-  //jtil::image_util::FracUpsampleImageBilinear<uint8_t>(dst, src, src_w, src_h, 
-  //  (float)(dst_w / src_w));
+  jtil::image_util::FracUpsampleImageBilinear<uint8_t, float>(dst, src, src_w, 
+    src_h, (float)(dst_w / src_w), n_chan);
 
-  //jtil::renderer::Texture::saveRGBToFile("kitteh_bilinear.png", 
-  //  dst, dst_w, dst_h, true);
+  jtil::renderer::Texture::saveRGBToFile("kitteh_bilinear.png", 
+    dst, dst_w, dst_h, true);
+
+  jtil::image_util::FracUpsampleImageLanczos<uint8_t, float>(src, src_w, src_h, 
+    dst, dst_w, dst_h, n_chan);
+
+  jtil::renderer::Texture::saveRGBToFile("kitteh_lanczos.png", 
+    dst, dst_w, dst_h, true);
 
   delete[] dst;
   delete[] src;

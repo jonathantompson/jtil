@@ -14,6 +14,7 @@
   #include <iostream>
 #endif
 #include <string>
+#include <limits>
 #include "jtil/exceptions/wruntime_error.h"
 #include "jtil/math/math_types.h"
 #include "jtil/math/math_base.h"
@@ -591,8 +592,10 @@ namespace image_util {
 		}
 	};
   
-  template <class T>
-  double SampleBilerp(const T* a, const double px, const double py, 
+  // Bilinear interpolation that returns a higher precision value.  This is
+  // used as a special case for calculating integral images.
+  template <class TImage>
+  double SampleBilerpSAT(const TImage* a, const double px, const double py, 
     const int32_t stride) {
     // px and py can be -1 --> We assume a clamped 0 border
     int32_t fpx = (int32_t)floor(px);
@@ -600,57 +603,59 @@ namespace image_util {
     int32_t fpy = (int32_t)floor(py);
     int32_t cpy = (int32_t)ceil(py);
 
-    double u = px - (double)fpx;
-    double v = py - (double)fpy;
+    TCalc u = px - (TCalc)fpx;
+    TCalc v = py - (TCalc)fpy;
 
     double value = 0;
     if (!(fpx < 0 || fpy < 0)) {
-      value += (a[fpx + fpy * stride] * (1 - u) * (1 - v));
+      value += ((double)a[fpx + fpy * stride] * ((double)1 - u) * ((double)1 - v));
     }
     if (!(cpx < 0 || fpy < 0)) {
-      value += (a[cpx + fpy * stride] * u * (1 - v));
+      value += ((double)a[cpx + fpy * stride] * u * ((double)1 - v));
     }
 
     if (!(fpx < 0 || cpy < 0)) {
-      value += (a[fpx + cpy * stride] * (1 - u) * v);
+      value += ((double)a[fpx + cpy * stride] * ((double)1 - u) * v);
     }
 
     if (!(cpx < 0 || cpy < 0)) {
-      value += (a[cpx + cpy * stride] * u * v);
+      value += ((double)a[cpx + cpy * stride] * u * v);
     }
-
-    //double value = 
-    //  (fpx < 0 || fpy < 0) ? 0 : (a[fpx + fpy * stride] * (1 - u) * (1 - v));
-    //value += (cpx < 0 || fpy < 0) ? 0 : (a[cpx + fpy * stride] * u * (1 - v));
-    //value += (fpx < 0 || cpy < 0) ? 0 : (a[fpx + cpy * stride] * (1 - u) * v);
-    //value += (cpx < 0 || cpy < 0) ? 0 : (a[cpx + cpy * stride] * u * v);
 
     return value;
   };
 
-  // This is just bilinear interpolation but with bounds checking for going 
-  // off the image
-  template <class T>
-  T SampleBilerpMipMap(const T* a, const float px, const float py, 
-    const int32_t w, const int32_t h) {
+  // - This is just bilinear interpolation (with bounds checking for going 
+  //   off the image)
+  // - We also define a type for performing the interpolation in (to avoid 
+  //   precision issues, as we need fractional values).  This is typically
+  //   TCalc = float
+  template <class TImage, class TCalc>
+  TImage SampleBilerp(const TImage* a, const TCalc px, const TCalc py, 
+    const int32_t sw, const int32_t sh, const int32_t channel = 1, 
+    const int32_t n_channels = 1) {
     int32_t fpx = std::min<int32_t>(std::max<int32_t>(0, 
-      (int32_t)floor(px)), w-1);
+      (int32_t)floor(px)), sw-1);
     int32_t cpx = std::min<int32_t>(std::max<int32_t>(0, 
-      (int32_t)ceil(px)), w-1);
+      (int32_t)ceil(px)), sw-1);
     int32_t fpy = std::min<int32_t>(std::max<int32_t>(0, 
-      (int32_t)floor(py)), h-1);
+      (int32_t)floor(py)), sh-1);
     int32_t cpy = std::min<int32_t>(std::max<int32_t>(0, 
-      (int32_t)ceil(py)), h-1);
+      (int32_t)ceil(py)), sh-1);
 
-    float u = px - (float)fpx;
-    float v = py - (float)fpy;
+    TCalc u = px - (TCalc)fpx;
+    TCalc v = py - (TCalc)fpy;
 
-    T value = (a[fpx + fpy * w] * (1 - u) * (1 - v));
-    value += (a[cpx + fpy * w] * u * (1 - v));
-    value += (a[fpx + cpy * w] * (1 - u) * v);
-    value += (a[cpx + cpy * w] * u * v);
+    TCalc value = ((TCalc)a[(fpx + fpy * sw) * n_channels + channel] * ((TCalc)1 - u) * ((TCalc)1 - v));
+    value += ((TCalc)a[(cpx + fpy * sw) * n_channels + channel] * u * ((TCalc)1 - v));
+    value += ((TCalc)a[(fpx + cpy * sw) * n_channels + channel] * ((TCalc)1 - u) * v);
+    value += ((TCalc)a[(cpx + cpy * sw) * n_channels + channel] * u * v);
 
-    return value;
+    // Clamp to prevent overflow (or underflow)
+    value = std::max<TCalc>(value, (TCalc)0);
+    value = std::min<TCalc>(value, (TCalc)(std::numeric_limits<TImage>::max)());
+
+    return (TImage)value;
   };
 
   template <class T>
@@ -662,6 +667,106 @@ namespace image_util {
         sizeof(dst[0]) * srcw * n_elems);
     }
   };
+
+  template <class T>
+  T GetPixelSafe(const T* src, const int32_t src_width, 
+    const int32_t src_height, int32_t y, int32_t x, const int32_t channel, 
+    const int32_t n_channels) {
+    // Clamp the pixel to the boundry
+    x = std::max<int32_t>(std::min<int32_t>(x, src_width - 1), 0);
+    y = std::max<int32_t>(std::min<int32_t>(y, src_height - 1), 0);
+    return src[(y * src_width + x) * n_channels + channel];
+  }
+
+  template <class TImage, class TCalc>
+  TImage SampleBicubic(const TImage* src, const TCalc px, const TCalc py, 
+    const int32_t sw, const int32_t sh, const int32_t channel = 1, 
+    const int32_t n_channels = 1) {
+    // Calculate fractional and integer component
+    int32_t x = (int32_t)std::floorf(px);
+    int32_t y = (int32_t)std::floorf(py);
+    TCalc dx = px - (TCalc)x;
+    TCalc dy = py - (TCalc)y;
+
+    TCalc C[5];
+    for (int32_t jj = 0; jj <= 3; jj++) {
+      const int32_t z = y - 1 + jj;
+      TCalc a0 = (TCalc)GetPixelSafe<TImage>(src, sw, sh, z, x, channel, n_channels);
+      TCalc d0 = (TCalc)GetPixelSafe<TImage>(src, sw, sh, z, x - 1, channel, n_channels) - a0;
+      TCalc d2 = (TCalc)GetPixelSafe<TImage>(src, sw, sh, z, x + 1, channel, n_channels) - a0;
+      TCalc d3 = (TCalc)GetPixelSafe<TImage>(src, sw, sh, z, x + 2, channel, n_channels) - a0;
+
+      TCalc a1 =  -(TCalc)1.0/(TCalc)3.0*d0 + d2 -(TCalc)1.0/(TCalc)6.0*d3;
+      TCalc a2 = (TCalc)1.0/(TCalc)2.0*d0 + (TCalc)1.0/(TCalc)2.0*d2;
+      TCalc a3 = -(TCalc)1.0/(TCalc)6.0*d0 - (TCalc)1.0/(TCalc)2.0*d2 + (TCalc)1.0/(TCalc)6.0*d3;
+      // C[jj] = a0 + a1*dx + a2*dx*dx + a3*dx*dx*dx;
+      C[jj] = a0 + dx * (a1 + dx * (a2 + a3 * dx));
+    }
+
+    TCalc d0 = C[0]-C[1];
+    TCalc d2 = C[2]-C[1];
+    TCalc d3 = C[3]-C[1];
+    TCalc a0 = C[1];
+    TCalc a1 = -(TCalc)1/(TCalc)3*d0 + d2 - (TCalc)1/(TCalc)6*d3;
+    TCalc a2 = (TCalc)1/(TCalc)2*d0 + (TCalc)1/(TCalc)2*d2;
+    TCalc a3 = -(TCalc)1/(TCalc)6*d0 - (TCalc)1/(TCalc)2*d2 + (TCalc)1/(TCalc)6*d3;
+    // TCalc Cc = a0 + a1*dy + a2*dy*dy + a3*dy*dy*dy;
+    TCalc Cc = a0 + dy * (a1 + dy * (a2 + a3 * dy));
+
+    // Now clamp to the output precision (to prevent under or overflow
+    Cc = std::min<TCalc>(Cc, (TCalc)(std::numeric_limits<TImage>::max)());
+    Cc = std::max<TCalc>(Cc, (TCalc)0);
+
+    return (TImage)Cc;
+  }
+
+  // Calculate the Lanczos kernel function at the x value
+  template <class T>
+  T LanczosKernel(T x, const T rad) {
+    x = std::abs(x);
+    if ( x < EPSILON ) {
+      return 1; 
+    } else if (x > rad) {
+      return 0;
+    } else {
+      return (rad * sin((T)M_PI * x) * sin((T)M_PI * x / rad)) / 
+        ((T)(M_PI * M_PI) * x * x);
+    }
+  }
+
+  // Lanczos radius is typically between 2 and 3
+  // Note: This could be MUCH faster --> We could separate out the x and
+  // y re-sampling if the sampling is on a regular grid.  However, when 
+  // performing non-uniform resamplings (like rotations), we need to use this
+  // version.
+  template <class TImage, class TCalc>
+  TImage SampleLanczos(const TImage* src, const TCalc px, const TCalc py, 
+    const int32_t sw, const int32_t sh, const int32_t channel = 1, 
+    const int32_t n_channels = 1, const int32_t radius = 3) {
+    TCalc res = 0;
+    TCalc sum_weights = 0;
+
+    int32_t x = (int32_t)std::floorf(px);
+    int32_t y = (int32_t)std::floorf(py);
+
+    for (int32_t i = x - radius + 1; i <= x + radius; i++) {
+      for (int32_t j = y - radius + 1; j <= y + radius; j++) {
+        TCalc Sij = (TCalc)GetPixelSafe<TImage>(src, sw, sh, j, i, channel, 
+          n_channels);
+        TCalc weight = LanczosKernel<TCalc>(px - i, (TCalc)radius) *
+          LanczosKernel<TCalc>(py - j, (TCalc)radius);
+        res += Sij * weight;
+        sum_weights += weight;
+      }
+    }
+
+    // Now clamp to the output precision (to prevent under or overflow
+    res = res / sum_weights;  // Normalize
+    res = std::min<TCalc>(res, (TCalc)(std::numeric_limits<TImage>::max)());
+    res = std::max<TCalc>(res, (TCalc)0);
+
+    return (TImage)res;
+  }
 
   // MipMapImage
   // - Produce n mip map levels (including the origional image level)
@@ -686,7 +791,7 @@ namespace image_util {
 
   // FracDownsampleImageSAT 
   // --> This works but it is pretty low quality.
-  // --> Allows an arbitrary rectangle in src to map to an  rectangle in dest.
+  // --> Allows an arbitrary rectangle in src to map to an rectangle in dest.
   // --> type T must have sufficient resolution to create an integral image
   //     (it must be able to store sum of all elements without overflow!)
   //     Even with float it doesn't work well, use the method below instead.
@@ -720,10 +825,10 @@ namespace image_util {
           int di = x + y * ds;
           if (st >= -1 && sb < stotalh) {
 
-            double A = SampleBilerp(src, sl, st, ss);
-            double B = SampleBilerp(src, sr, st, ss);
-            double C = SampleBilerp(src, sl, sb, ss);
-            double D = SampleBilerp(src, sr, sb, ss);
+            double A = SampleBilerpSAT(src, sl, st, ss);
+            double B = SampleBilerpSAT(src, sr, st, ss);
+            double C = SampleBilerpSAT(src, sl, sb, ss);
+            double D = SampleBilerpSAT(src, sr, sb, ss);
 
             //  0  1  2  3
             //  4  5  6  7 
@@ -777,10 +882,10 @@ namespace image_util {
           double sr = (double)(x + 1 - dx) * upScaleX + (double)sx - 1.0;
           int di = x + y * ds;
           if (sl >= -1 && sr < ss) {
-            double A = SampleBilerp<double>(tmp_array, sl, st, ss);
-            double B = SampleBilerp<double>(tmp_array, sr, st, ss);
-            double C = SampleBilerp<double>(tmp_array, sl, sb, ss);
-            double D = SampleBilerp<double>(tmp_array, sr, sb, ss);
+            double A = SampleBilerpSAT<double>(tmp_array, sl, st, ss);
+            double B = SampleBilerpSAT<double>(tmp_array, sr, st, ss);
+            double C = SampleBilerpSAT<double>(tmp_array, sl, sb, ss);
+            double D = SampleBilerpSAT<double>(tmp_array, sr, sb, ss);
 
             //  0  1  2  3
             //  4  5  6  7 
@@ -908,8 +1013,9 @@ namespace image_util {
         // Sample the top mip-map level using bilinear interpolation
         float up_v = (v_frac) / texel_size_up_v - 0.5f;
         float up_u = (u_frac) / texel_size_up_u - 0.5f;
-        T a = SampleBilerpMipMap<T>(mip_up, up_u, up_v, w_up, h_up);
-        dst[v * w_dst + u] = a ;
+
+        dst[v * w_dst + u] = 
+          SampleBilerp<T, float>(mip_up, up_u, up_v, w_up, h_up);
       }
     }
   };
@@ -946,9 +1052,15 @@ namespace image_util {
   // --> This is not optimized for continuous rescale and shouldn't be used for
   //     3D mip-map filtering
   // --> Bicubic below gives better results!
-  template <class T>
-  void FracUpsampleImageBilinear(T* dst, const T* src, const int32_t sw, 
-    const int32_t sh, float upsample) {
+  // --> It is likely not very fast, nor do I gaurentee that the finite 
+  //     precision roundoff is optimal.  For this reason I define TCalculation
+  //     which is the internal datatype used to perform the interpolation (and
+  //     in general requires more precision that TImage), so a common use case
+  //     would be TImage=uint8_t & TCalc=float
+  template <class TImage, class TCalc>
+  void FracUpsampleImageBilinear(TImage* dst, const TImage* src, 
+    const int32_t sw, const int32_t sh, TCalc upsample, 
+    const int32_t n_channels = 1) {
     if (upsample < 1) {
       throw std::wruntime_error("FracDownsampleImageBilinear() - ERROR " 
         "this method is for magnification only!");
@@ -961,101 +1073,97 @@ namespace image_util {
     // Fractional interpolation --> Just sample point wise at the texel center
     // There will be some aliasing, but hopefully the mipmap level is close 
     // enough.
-    int32_t w_dst = (int32_t)floor((float)sw * upsample);
-    int32_t h_dst = (int32_t)floor((float)sh * upsample);
-    float texel_size_dst_v = 1.0f / (float)(w_dst);
-    float texel_size_dst_u = 1.0f / (float)(h_dst);
-    float texel_size_src_v = 1.0f / (float)(sw);
-    float texel_size_src_u = 1.0f / (float)(sh);
+    int32_t w_dst = (int32_t)floor((TCalc)sw * upsample);
+    int32_t h_dst = (int32_t)floor((TCalc)sh * upsample);
+    TCalc texel_size_dst_v = (TCalc)1.0 / (TCalc)(w_dst);
+    TCalc texel_size_dst_u = (TCalc)1.0 / (TCalc)(h_dst);
+    TCalc texel_size_src_v = (TCalc)1.0 / (TCalc)(sw);
+    TCalc texel_size_src_u = (TCalc)1.0 / (TCalc)(sh);
     for (int32_t v = 0; v < h_dst; v++) {
       for (int32_t u = 0; u < w_dst; u++) {
-        // vu_frac is the 0 to 1 texel center of the destination pixel
-        float v_frac = ((float)v + 0.5f) * texel_size_dst_v;
-        float u_frac = ((float)u + 0.5f) * texel_size_dst_u;
-        // Sample using bilinear interpolation
-        float src_v = (v_frac) / texel_size_src_v - 0.5f;
-        float src_u = (u_frac) / texel_size_src_u - 0.5f;
-        T a = SampleBilerpMipMap<T>(src, src_u, src_v, sw, sh);
-        dst[v * w_dst + u] = a ;
+        for (int32_t c = 0; c < n_channels; c++) {
+          // vu_frac is the 0 to 1 texel center of the destination pixel
+          TCalc v_frac = ((TCalc)v + (TCalc)0.5) * texel_size_dst_v;
+          TCalc u_frac = ((TCalc)u + (TCalc)0.5) * texel_size_dst_u;
+          // Sample using bilinear interpolation
+          TCalc src_v = (v_frac) / texel_size_src_v - (TCalc)0.5;
+          TCalc src_u = (u_frac) / texel_size_src_u - (TCalc)0.5;
+          dst[(v * w_dst + u) * n_channels + c] = SampleBilerp<TImage, TCalc>(
+            src, src_u, src_v, sw, sh, c, n_channels);
+        }
       }
     }
   };
 
-  template <class T>
-  T GetPixel(T* src, const int32_t src_width, const int32_t src_height, 
-    const int32_t y, const int32_t x, const int32_t channel, 
-    const int32_t n_channels) {
-    if (x < src_width && y < src_height) {
-      return src[(y * n_channels * src_width) + (n_channels * x) + channel];
-    }
-
-    return 0;
-  }
-
   // FracUpsampleImageBicubic 
-  // --> Just a fast bicubic interpolated upsample
+  // --> Just a simple bicubic interpolated upsample
   // --> This is not optimized for continuous rescale and shouldn't be used for
   //     3D mip-map filtering
-  // This comes from: https://code.google.com/a/eclipselabs.org/p/bicubic-interpolation-image-processing/source/browse/trunk/libimage.c
-  template <class T>
-  void FracUpsampleImageBicubic(const T* src, const int32_t sw, 
-    const int32_t sh, T* dst, const int32_t dw, const int32_t dh, 
+  // --> It is likely not very fast, nor do I gaurentee that the finite 
+  //     precision roundoff is optimal.  For this reason I define TCalculation
+  //     which is the internal datatype used to perform the interpolation (and
+  //     in general requires more precision that TImage), so a common use case
+  //     would be TImage=uint8_t & TCalc=float
+  template <class TImage, class TCalc>
+  void FracUpsampleImageBicubic(const TImage* src, const int32_t sw, 
+    const int32_t sh, TImage* dst, const int32_t dw, const int32_t dh, 
     const int32_t nchan) {
 
-    int a,b,c,d,index;
-    T Ca,Cb,Cc;
-    T C[5];
-    T d0,d2,d3,a0,a1,a2,a3;
-    int i,j,k,ii,jj;
-    int x,y;
-    float dx,dy;
-    float tx,ty;
+    TCalc texel_size_dst_v = (TCalc)1.0 / (TCalc)(dw);
+    TCalc texel_size_dst_u = (TCalc)1.0 / (TCalc)(dh);
+    TCalc texel_size_src_v = (TCalc)1.0 / (TCalc)(sw);
+    TCalc texel_size_src_u = (TCalc)1.0 / (TCalc)(sh);
 
-    tx = (float)sw / dw ;
-    ty =  (float)sh / dh;
-    int width_step = sw * nchan;
-    int dst_width_step = dw * nchan;
+    for (int32_t v = 0; v < dh; v++) {
+      for (int32_t u = 0; u < dw; u++) {
+        for (int32_t c = 0; c < nchan; c++) {
+          // vu_frac is the 0 to 1 texel center of the destination pixel
+          TCalc v_frac = ((TCalc)v + (TCalc)0.5) * texel_size_dst_v;
+          TCalc u_frac = ((TCalc)u + (TCalc)0.5) * texel_size_dst_u;
+          // Sample using bilinear interpolation
+          TCalc src_v = (v_frac) / texel_size_src_v - (TCalc)0.5;
+          TCalc src_u = (u_frac) / texel_size_src_u - (TCalc)0.5;
+          dst[(v * dw + u) * nchan + c] = SampleBicubic<TImage, TCalc>(
+            src, src_u, src_v, sw, sh, c, nchan);
+        }
+      }
+    }
+  }
 
-    for(i=0; i<dh; i++) {
-      for(j=0; j<dw; j++) {
-        x = (int)(tx*j);
-        y = (int)(ty*i);
+  // FracUpsampleImageLanczos 
+  // --> Just a nieve lanczos interpolated upsample from here:
+  //     http://en.wikipedia.org/wiki/Lanczos_resampling
+  // --> It is actually quite slow, but it gives the best quality results.
+  //     Note: when resampling on a regular grid we could speed this up 
+  //     considerably by seperating out filter kernels.  However, this version
+  //     is good enough and is likely not going to be used for realtime apps
+  //     anyway.
+  // --> It is likely not as fast as it could be, nor do I gaurentee that the 
+  //     finite precision roundoff is optimal.  For this reason I define 
+  //     TCalculation which is the internal datatype used to perform the 
+  //     interpolation (and in general requires more precision that TImage), so
+  //     a common use case would be TImage=uint8_t & TCalc=float
+  template <class TImage, class TCalc>
+  void FracUpsampleImageLanczos(const TImage* src, const int32_t sw, 
+    const int32_t sh, TImage* dst, const int32_t dw, const int32_t dh, 
+    const int32_t nchan) {
 
-        dx= tx*j-x;
-        dy=ty*i -y;
+    TCalc texel_size_dst_v = (TCalc)1.0 / (TCalc)(dw);
+    TCalc texel_size_dst_u = (TCalc)1.0 / (TCalc)(dh);
+    TCalc texel_size_src_v = (TCalc)1.0 / (TCalc)(sw);
+    TCalc texel_size_src_u = (TCalc)1.0 / (TCalc)(sh);
 
-        index = y*width_step + x*nchan;
-        a = y*width_step + (x+1)*nchan;
-        b = (y+1)*width_step + x*nchan;
-        c = (y+1)*width_step + (x+1)*nchan;
-
-        for(k=0;k<3;k++) {
-          for(jj=0;jj<=3;jj++) {
-            const int z = y - 1 + jj;
-            a0 = GetPixel(src, sw, sh, z, x, k, nchan);
-            d0 = GetPixel(src, sw, sh, z, x - 1, k, nchan) - a0;
-            d2 = GetPixel(src, sw, sh, z, x + 1, k, nchan) - a0;
-            d3 = GetPixel(src, sw, sh, z, x + 2, k, nchan) - a0;
-
-            /*d0 = src[(y-1+jj)*width_step + (x-1)*nchan +k] - src[(y-1+jj)*width_step + (x)*nchan +k];
-            d2 = src[(y-1+jj)*width_step + (x+1)*nchan +k] - src[(y-1+jj)*width_step + (x)*nchan +k];
-            d3 = src[(y-1+jj)*width_step + (x+2)*nchan +k] - src[(y-1+jj)*width_step + (x)*nchan +k];
-            a0 = src[(y-1+jj)*width_step + (x)*nchan +k];*/
-            a1 =  -1.0/3*d0 + d2 -1.0/6*d3;
-            a2 = 1.0/2*d0 + 1.0/2*d2;
-            a3 = -1.0/6*d0 - 1.0/2*d2 + 1.0/6*d3;
-            C[jj] = a0 + a1*dx + a2*dx*dx + a3*dx*dx*dx;
-          }
-
-          d0 = C[0]-C[1];
-          d2 = C[2]-C[1];
-          d3 = C[3]-C[1];
-          a0 = C[1];
-          a1 = -1.0/3*d0 + d2 -1.0/6*d3;
-          a2 = 1.0/2*d0 + 1.0/2*d2;
-          a3 = -1.0/6*d0 - 1.0/2*d2 + 1.0/6*d3;
-          Cc = a0 + a1*dy + a2*dy*dy + a3*dy*dy*dy;
-          dst[i*dst_width_step +j*nchan +k ] = Cc;
+    for (int32_t v = 0; v < dh; v++) {
+      for (int32_t u = 0; u < dw; u++) {
+        for (int32_t c = 0; c < nchan; c++) {
+          // vu_frac is the 0 to 1 texel center of the destination pixel
+          TCalc v_frac = ((TCalc)v + (TCalc)0.5) * texel_size_dst_v;
+          TCalc u_frac = ((TCalc)u + (TCalc)0.5) * texel_size_dst_u;
+          // Sample using bilinear interpolation
+          TCalc src_v = (v_frac) / texel_size_src_v - (TCalc)0.5;
+          TCalc src_u = (u_frac) / texel_size_src_u - (TCalc)0.5;
+          dst[(v * dw + u) * nchan + c] = SampleLanczos<TImage, TCalc>(
+            src, src_u, src_v, sw, sh, c, nchan);
         }
       }
     }
