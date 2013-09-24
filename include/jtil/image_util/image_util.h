@@ -688,7 +688,7 @@ namespace image_util {
     TCalc dx = px - (TCalc)x;
     TCalc dy = py - (TCalc)y;
 
-    TCalc C[5];
+    TCalc C[4];
     for (int32_t jj = 0; jj <= 3; jj++) {
       const int32_t z = y - 1 + jj;
       TCalc a0 = (TCalc)GetPixelSafe<TImage>(src, sw, sh, z, x, channel, n_channels);
@@ -739,6 +739,8 @@ namespace image_util {
   // y re-sampling if the sampling is on a regular grid.  However, when 
   // performing non-uniform resamplings (like rotations), we need to use this
   // version.
+  // TODO: We can AT LEAST precompute the kernel for each pixel (and avoid
+  // computing it for every chanel)
   template <class TImage, class TCalc>
   TImage SampleLanczos(const TImage* src, const TCalc px, const TCalc py, 
     const int32_t sw, const int32_t sh, const int32_t channel = 1, 
@@ -767,7 +769,7 @@ namespace image_util {
 
     return (TImage)res;
   }
-
+  
   // MipMapImage
   // - Produce n mip map levels (including the origional image level)
   //   so if you want mips of (1/2x1/2, 1/4x1/4, 1/8x1/8), then n_levels = 4
