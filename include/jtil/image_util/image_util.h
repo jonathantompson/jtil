@@ -595,8 +595,8 @@ namespace image_util {
   
   // Bilinear interpolation that returns a higher precision value.  This is
   // used as a special case for calculating integral images.
-  template <class TImage>
-  double SampleBilerpSAT(const TImage* a, const double px, const double py, 
+  template <class TImage, class TCalc>
+  TCalc SampleBilerpSAT(const TImage* a, const TCalc px, const TCalc py, 
     const int32_t stride) {
     // px and py can be -1 --> We assume a clamped 0 border
     int32_t fpx = (int32_t)floor(px);
@@ -607,20 +607,20 @@ namespace image_util {
     double u = px - (double)fpx;
     double v = py - (double)fpy;
 
-    double value = 0;
+    TCalc value = 0;
     if (!(fpx < 0 || fpy < 0)) {
-      value += ((double)a[fpx + fpy * stride] * ((double)1 - u) * ((double)1 - v));
+      value += ((TCalc)a[fpx + fpy * stride] * ((TCalc)1 - u) * ((TCalc)1 - v));
     }
     if (!(cpx < 0 || fpy < 0)) {
-      value += ((double)a[cpx + fpy * stride] * u * ((double)1 - v));
+      value += ((TCalc)a[cpx + fpy * stride] * u * ((TCalc)1 - v));
     }
 
     if (!(fpx < 0 || cpy < 0)) {
-      value += ((double)a[fpx + cpy * stride] * ((double)1 - u) * v);
+      value += ((TCalc)a[fpx + cpy * stride] * ((TCalc)1 - u) * v);
     }
 
     if (!(cpx < 0 || cpy < 0)) {
-      value += ((double)a[cpx + cpy * stride] * u * v);
+      value += ((TCalc)a[cpx + cpy * stride] * u * v);
     }
 
     return value;
@@ -670,14 +670,13 @@ namespace image_util {
   };
 
   template <class T>
-  T GetPixelSafe(const T* src, const int32_t src_width, 
-    const int32_t src_height, int32_t y, int32_t x, const int32_t channel, 
-    const int32_t n_channels) {
+  T GetPixelSafe(const T* src, const int32_t srcw, const int32_t srch, 
+    int32_t y, int32_t x, const int32_t channel, const int32_t n_channels) {
     // Clamp the pixel to the boundry
-    x = std::max<int32_t>(std::min<int32_t>(x, src_width - 1), 0);
-    y = std::max<int32_t>(std::min<int32_t>(y, src_height - 1), 0);
-    return src[(y * src_width + x) * n_channels + channel];
-  }
+    x = std::max<int32_t>(std::min<int32_t>(x, srcw - 1), 0);
+    y = std::max<int32_t>(std::min<int32_t>(y, srch - 1), 0);
+    return src[(y * srcw + x) * n_channels + channel];
+  };
 
   template <class TImage, class TCalc>
   TImage SampleBicubic(const TImage* src, const TCalc px, const TCalc py, 
@@ -719,7 +718,7 @@ namespace image_util {
     Cc = std::max<TCalc>(Cc, (TCalc)0);
 
     return (TImage)Cc;
-  }
+  };
 
   // Calculate the Lanczos kernel function at the x value
   template <class T>
@@ -733,7 +732,7 @@ namespace image_util {
       return (rad * sin((T)M_PI * x) * sin((T)M_PI * x / rad)) / 
         ((T)(M_PI * M_PI) * x * x);
     }
-  }
+  };
 
   // Lanczos radius is typically between 2 and 3
   // Note: This could be MUCH faster --> We could separate out the x and
@@ -769,7 +768,7 @@ namespace image_util {
     res = std::max<TCalc>(res, (TCalc)0);
 
     return (TImage)res;
-  }
+  };
   
   // MipMapImage
   // - Produce n mip map levels (including the origional image level)
@@ -806,32 +805,33 @@ namespace image_util {
   // ds = destination stride (usually just width)
   // s* <-- Same but the source
   // stotalh <-- Total height of the image
-  template <class T>
+  // TCalc should almost always be double!  It prevents overflow
+  template <class T, class TCalc>
   void FracDownsampleImageSAT(T* dst, const int32_t dx, const int32_t dy, 
     const int32_t dw, const int32_t dh, const int32_t ds, T* src, 
     const int32_t sx, const int32_t sy, const int32_t sw, const int32_t sh, 
     const int32_t ss, const int32_t stotalh) {
 
     // EPSILON - Important for rounding integer downsample values?
-    double upScaleX = ((double)sw) / ((double)dw);
-		double upScaleY = ((double)sh) / ((double)dh); 
+    T upScaleX = ((T)sw) / ((T)dw);
+		T upScaleY = ((T)sh) / ((T)dh); 
 
     IntegralImage<T>(src, ss, stotalh);
 
     for (int32_t x = dx; x < dx + dw; x++) {
-      double sl = static_cast<double>(x - dx) * upScaleX + (double)sx - 1;
-      double sr = static_cast<double>(x + 1 - dx) * upScaleX + (double)sx - 1;
+      T sl = static_cast<T>(x - dx) * upScaleX + (T)sx - 1;
+      T sr = static_cast<T>(x + 1 - dx) * upScaleX + (T)sx - 1;
       if (sl >= -1 && sr < ss) {
         for (int32_t y = dy; y < dy + dh; y++) {
-          double st = (y - dy) * upScaleY + sy - 1;
-          double sb = (y + 1 - dy) * upScaleY + sy - 1;
+          T st = (y - dy) * upScaleY + sy - 1;
+          T sb = (y + 1 - dy) * upScaleY + sy - 1;
           int di = x + y * ds;
           if (st >= -1 && sb < stotalh) {
 
-            double A = SampleBilerpSAT(src, sl, st, ss);
-            double B = SampleBilerpSAT(src, sr, st, ss);
-            double C = SampleBilerpSAT(src, sl, sb, ss);
-            double D = SampleBilerpSAT(src, sr, sb, ss);
+            T A = SampleBilerpSAT<T, T>(src, sl, st, ss);
+            T B = SampleBilerpSAT<T, T>(src, sr, st, ss);
+            T C = SampleBilerpSAT<T, T>(src, sl, sb, ss);
+            T D = SampleBilerpSAT<T, T>(src, sr, sb, ss);
 
             //  0  1  2  3
             //  4  5  6  7 
@@ -841,8 +841,8 @@ namespace image_util {
             // rectangle sum rooted at (sb, sr) to (sl+1, st+1)
             // which is 10 + 6 + 9 + 5 in the above example.
 
-            double sum = (A + D) - (B + C);
-            double area = std::max<double>((sr - sl) * (sb - st), EPSILON); 
+            T sum = (A + D) - (B + C);
+            T area = std::max<T>((sr - sl) * (sb - st), EPSILON); 
             dst[di] = (T)(sum / area);  // EDIT: used to be sum * area!
           } else {
             dst[di] = 0;						
@@ -859,8 +859,9 @@ namespace image_util {
 
   // FracDownsampleImageSAT
   // --> This is the same as the version above, but will create an integral
-  //     image with double precision from the input data.
+  //     image with from the input data at double precision.
   // --> Requires a preallocated temporary array same size as the source
+  // TODO - This REALLY needs cleaning up.  There should be ONE function
   template <class T>
   void FracDownsampleImageSAT(T* dst, const int32_t dx, const int32_t dy, 
     const int32_t dw, const int32_t dh, const int32_t ds, T* src, 
@@ -885,10 +886,10 @@ namespace image_util {
           double sr = (double)(x + 1 - dx) * upScaleX + (double)sx - 1.0;
           int di = x + y * ds;
           if (sl >= -1 && sr < ss) {
-            double A = SampleBilerpSAT<double>(tmp_array, sl, st, ss);
-            double B = SampleBilerpSAT<double>(tmp_array, sr, st, ss);
-            double C = SampleBilerpSAT<double>(tmp_array, sl, sb, ss);
-            double D = SampleBilerpSAT<double>(tmp_array, sr, sb, ss);
+            double A = SampleBilerpSAT<double, double>(tmp_array, sl, st, ss);
+            double B = SampleBilerpSAT<double, double>(tmp_array, sr, st, ss);
+            double C = SampleBilerpSAT<double, double>(tmp_array, sl, sb, ss);
+            double D = SampleBilerpSAT<double, double>(tmp_array, sr, sb, ss);
 
             //  0  1  2  3
             //  4  5  6  7 
