@@ -31,6 +31,7 @@ namespace marching_squares {
    
    // Now heapify from the bottom up
    // Note: the first non-leaf is capacity / 2
+   // TODO: This could be wrong!
    for (int i = pvec_.capacity()/2; i != MAX_UINT32; i--) {  // Assume wrapping
      // Reheapify the subtree starting from i:
      uint32_t old_pos = MAX_UINT32;

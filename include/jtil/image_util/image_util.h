@@ -12,6 +12,7 @@
 #if defined(__GNUC__)
   #include <string.h>
   #include <iostream>
+  #include <cmath>
 #endif
 #include <string>
 #include <limits>
@@ -603,8 +604,8 @@ namespace image_util {
     int32_t fpy = (int32_t)floor(py);
     int32_t cpy = (int32_t)ceil(py);
 
-    TCalc u = px - (TCalc)fpx;
-    TCalc v = py - (TCalc)fpy;
+    double u = px - (double)fpx;
+    double v = py - (double)fpy;
 
     double value = 0;
     if (!(fpx < 0 || fpy < 0)) {
@@ -683,8 +684,8 @@ namespace image_util {
     const int32_t sw, const int32_t sh, const int32_t channel = 1, 
     const int32_t n_channels = 1) {
     // Calculate fractional and integer component
-    int32_t x = (int32_t)std::floorf(px);
-    int32_t y = (int32_t)std::floorf(py);
+    int32_t x = (int32_t)floorf(px);
+    int32_t y = (int32_t)floorf(py);
     TCalc dx = px - (TCalc)x;
     TCalc dy = py - (TCalc)y;
 
@@ -748,8 +749,8 @@ namespace image_util {
     TCalc res = 0;
     TCalc sum_weights = 0;
 
-    int32_t x = (int32_t)std::floorf(px);
-    int32_t y = (int32_t)std::floorf(py);
+    int32_t x = (int32_t)floorf(px);
+    int32_t y = (int32_t)floorf(py);
 
     for (int32_t i = x - radius + 1; i <= x + radius; i++) {
       for (int32_t j = y - radius + 1; j <= y + radius; j++) {
