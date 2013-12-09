@@ -121,7 +121,7 @@ TEST(HashMapManagedPtr, CreationAndInsertion) {
     EXPECT_EQ(ht.insert(i, cur_val), true);  
   }
   // Now check that they're all there
-  uint32_t* val;
+  uint32_t* val = NULL;
   for (uint32_t i = 0; i < TEST_HMM_NUM_VALUES; i += 1) {
     EXPECT_TRUE(ht.lookup(i, val));  // find key = i (value = i)
     EXPECT_EQ(i*2, *val);
@@ -182,7 +182,7 @@ TEST(HashMapManagedPtr, CreationAndClear) {
   EXPECT_EQ(ht.count(), 0);
 
   // Now check that they're all not there  (TEST 1, ensures that they were)
-  uint32_t* val;
+  uint32_t* val = NULL;
   for (uint32_t i = 0; i < 2*TEST_HMM_NUM_VALUES; i += 1) {
     EXPECT_FALSE(ht.lookup(i, val));  // find key = i (value = i)
   }
@@ -208,7 +208,7 @@ TEST(HashMapManagedPtr, StringCreationAndInsertion) {
     EXPECT_EQ(ht.insert(ss.str().c_str(), cur_val), true);  
   }
   // Now check that they're all there
-  uint32_t* val;
+  uint32_t* val = NULL;
   for (uint32_t i = 0; i < TEST_HMM_NUM_VALUES; i += 1) {
     ss.str("");
     ss << i;
