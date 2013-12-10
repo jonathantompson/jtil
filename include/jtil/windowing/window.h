@@ -90,6 +90,10 @@ namespace windowing {
     virtual void setDoubleBuffering(const bool double_buffer);
 
     // A helper function to turn enumerated resolutions into width and height
+    // NOTE: This should only be called ONCE on startup (or on screen resize) 
+    // to get the desired w and h from the settings enum.  You should call
+    // width() and height() methods to get the actual resolution as it may
+    // differ.
     static void windowResEnumToInt(const int res, int& w, int& h);
     
     // Add callback functions to get imediate updates on a mouse or key event
@@ -99,6 +103,8 @@ namespace windowing {
     virtual void registerMouseWheelCB(MouseWheelCBFuncPtr callback);
     // virtual void registerCharInputCB(CharInputCBFuncPtr callback);
     virtual void registerCloseWndCB(CloseWndCBFuncPtr callback);
+
+    static const Window* g_window() { return g_window_; }
 
   private:
     WindowSettings settings_;

@@ -329,6 +329,10 @@ namespace windowing {
   }
 
   void Window::windowResEnumToInt(const int res, int& w, int& h) {
+    // NOTE: This should only be called ONCE on startup (or on screen resize) 
+    // to get the desired w and h from the settings enum.  You should call
+    // width() and height() methods to get the actual resolution as it may
+    // differ.
     w = (res >> 16) & 0x0000ffff;
     h = (res & 0x0000ffff);
   }

@@ -554,12 +554,8 @@ namespace renderer {
   }
   
   void Renderer::updateCameraFOVScreenSize() {
-    int screen_resolution, screen_width, screen_height;
-    GET_SETTING("screen_resolution", int, screen_resolution);
-    windowing::Window::windowResEnumToInt(screen_resolution, screen_width, 
-      screen_height);
-    camera_->screen_size().set(static_cast<float>(screen_width), 
-      static_cast<float>(screen_height));
+    camera_->screen_size().set(static_cast<float>(wnd_->width()), 
+      static_cast<float>(wnd_->height()));
     float fov_deg;
     GET_SETTING("fov_deg", float, fov_deg);
     camera_->fov_deg() = fov_deg;
