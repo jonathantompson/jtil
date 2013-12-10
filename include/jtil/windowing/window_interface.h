@@ -31,6 +31,13 @@ namespace windowing {
     virtual const bool isOpen() const = 0;
     virtual const bool getDoubleBuffering() const = 0;
     virtual void setDoubleBuffering(const bool double_buffer) = 0;
+
+    // Because on Mac OS X the actual viewport wh may differ from the true
+    // wh that we asked for, we need to store the actual value after opening.
+    // This should only be of concern to the renderer when setting the last
+    // viewport (when it is time to render to the screen).
+    virtual const int viewport_width() const = 0;
+    virtual const int viewport_height() const = 0;
     
     // Add callback functions to get imediate updates on a mouse or key event
     virtual void registerKeyboardCB(KeyboardCBFuncPtr callback) = 0;

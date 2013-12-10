@@ -79,6 +79,8 @@ namespace renderer {
     virtual const bool getMouseButtonStateMiddle() const;
     virtual const int width() const;
     virtual const int height() const;
+    virtual const int viewport_width() const;
+    virtual const int viewport_height() const;
     virtual const bool fullscreen() const;
     virtual const bool isOpen() const;
     virtual const bool getDoubleBuffering() const;

@@ -89,6 +89,13 @@ namespace windowing {
     virtual const bool getDoubleBuffering() const;
     virtual void setDoubleBuffering(const bool double_buffer);
 
+    // Because on Mac OS X the actual viewport wh may differ from the true
+    // wh that we asked for, we need to store the actual value after opening.
+    // This should only be of concern to the renderer when setting the last
+    // viewport (when it is time to render to the screen).
+    virtual const int viewport_width() const;
+    virtual const int viewport_height() const;
+
     // A helper function to turn enumerated resolutions into width and height
     // NOTE: This should only be called ONCE on startup (or on screen resize) 
     // to get the desired w and h from the settings enum.  You should call

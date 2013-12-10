@@ -20,6 +20,9 @@ namespace windowing {
     bool fullscreen;
     bool double_buffering;
     int samples;
+
+    int viewport_width;
+    int viewport_height;
     
     // Back buffer format
     int num_depth_bits;

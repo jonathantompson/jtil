@@ -214,8 +214,8 @@ namespace renderer {
     const uint32_t texture_index) const {
     // Render to the default framebuffer (back buffer)
     GLState::glsBindFramebuffer(GL_FRAMEBUFFER, 0);
-    GLState::glsViewport(0, 0, renderer_->width(), 
-      renderer_->height());  
+    GLState::glsViewport(0, 0, renderer_->viewport_width(), 
+      renderer_->viewport_height());  
     useFullscreenQuadSP(tex->format());
     tex->bind(texture_index, GL_TEXTURE0, "f_texture_sampler");
     GLState::setupQuadRendering();
@@ -232,8 +232,8 @@ namespace renderer {
   void PostProcessing::renderFullscreenQuad(Texture* tex) {
     // Render to the default framebuffer (back buffer)
     GLState::glsBindFramebuffer(GL_FRAMEBUFFER, 0);
-    GLState::glsViewport(0, 0, renderer_->width(), 
-      renderer_->height());  
+    GLState::glsViewport(0, 0, renderer_->viewport_width(), 
+      renderer_->viewport_height());  
     useFullscreenQuadSP(tex->format());
     tex->bind(GL_TEXTURE0, "f_texture_sampler");
     GLState::setupQuadRendering();
@@ -243,8 +243,8 @@ namespace renderer {
   void PostProcessing::renderFullscreenQuad(const GLuint h_texture) const {
     // Render to the default framebuffer (back buffer)
     GLState::glsBindFramebuffer(GL_FRAMEBUFFER, 0);
-    GLState::glsViewport(0, 0, renderer_->width(), 
-      renderer_->height());  
+    GLState::glsViewport(0, 0, renderer_->viewport_width(), 
+      renderer_->viewport_height());  
     // Assume RGBA
     ShaderProgram::useShaderProgram(FULLSCREEN_QUAD_V_SHADER, 
       FULLSCREEN_QUAD_F_SHADER);

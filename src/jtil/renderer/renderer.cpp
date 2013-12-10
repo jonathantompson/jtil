@@ -269,7 +269,8 @@ namespace renderer {
     // Render final result to screen
     GLState::glsBindFramebuffer(GL_FRAMEBUFFER, 0);
     GLState::glsDrawBuffer(GL_BACK);
-    GLState::glsViewport(0, 0, wnd_->width(), wnd_->height());  
+    GLState::glsViewport(0, 0, wnd_->viewport_width(), 
+      wnd_->viewport_height());  
 
     switch (render_output) {
     case RenderOutput::FULL_SCENE:
@@ -657,6 +658,14 @@ namespace renderer {
 
   const int Renderer::height() const {
     return wnd_->height();
+  }
+
+  const int Renderer::viewport_width() const {
+    return wnd_->viewport_width();
+  }
+
+  const int Renderer::viewport_height() const {
+    return wnd_->viewport_height();
   }
 
   const bool Renderer::fullscreen() const {

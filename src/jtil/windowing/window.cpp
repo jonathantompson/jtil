@@ -164,7 +164,8 @@ namespace windowing {
 		// To fix a bug on Mac OS X with high DPI displays...  The actual 
     // resolution Might not match what we asked for.  So we must always 
     // reference this width and height from now on.
-    glfwGetFramebufferSize(glfw_window_, &settings_.width, &settings_.height);
+    glfwGetFramebufferSize(glfw_window_, &settings_.viewport_width, 
+      &settings_.viewport_height);
 
     num_windows_++;
   }
@@ -314,6 +315,14 @@ namespace windowing {
 
   const int Window::height() const { 
     return settings_.height; 
+  }
+
+  const int Window::viewport_width() const { 
+    return settings_.viewport_width; 
+  }
+
+  const int Window::viewport_height() const { 
+    return settings_.viewport_height; 
   }
 
   const bool Window::fullscreen() const { 
