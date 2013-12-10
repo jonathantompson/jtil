@@ -129,6 +129,8 @@ namespace windowing {
       rev_window = glfwGetWindowAttrib(glfw_window_, GLFW_CONTEXT_REVISION);
       if ( major_window != settings.gl_major_version ||
            minor_window != settings.gl_minor_version ) {
+	std::cout << "ERROR: OpenGL context isnt the requested Vers." << std::endl;
+	std::cout << "major vers: " << major_window << ", minor vers: " << minor_window << std::endl;
         throw wruntime_error(L"ERROR: OpenGL context isnt the requested Vers.");
       }
     }
