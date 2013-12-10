@@ -14,8 +14,8 @@ Dependancies and notes:
  - The results are in: glfw-3.x.x\build\src\Release and src\Debug
  - Now we need to take out the GLFW definitions.  See jtil\windowing\glfw_keys.h for an example.
 1.2 Mac OS X:
- - Download source archive from: http://www.glfw.org/download.html
- - cd glfw-3.0.1
+ - Get the latest source from github https://github.com/glfw/glfw
+ - cd glfw-master
  - mkdir build
  - cd build
  - export CC=clang
@@ -23,7 +23,7 @@ Dependancies and notes:
  - <make sure you update and install the latest Xcode command line tools (I had to restart after as well).
  - cmake ..
  - copy include/ to the correct prenderer include directory.  copy build/src/libglfw3.a to the correct prenderer lib directory.
- - make cocoa
+ - make
  - copy glfw-2.x.x/lib/cocoa/libglfw.a to the local prenderer directories
 
 2. LibRocket

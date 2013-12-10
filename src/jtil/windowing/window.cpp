@@ -160,6 +160,15 @@ namespace windowing {
     setDoubleBuffering(settings.double_buffering);
 
     renderer::GLState::initGLState();
+		
+		int width;
+		int height;
+		// To fix a bug on Mac OS X with high DPI displays...  The actual resolution
+		// Might not match what we asked for.  So we must always reference this
+		// width and height from now on.
+		glfwGetFramebufferSize(glfw_window_, &width, &height);
+		std::cout << "width = " << width << std::endl;
+		std::cout << "height = " << height << std::endl;
 
     num_windows_++;
   }
