@@ -191,7 +191,7 @@ namespace renderer {
   void PostProcessing::useFullscreenQuadSP(const GLint format) const {
     uint32_t num_chan = NumElementsOfGLFormat(format);
     switch (num_chan) {
-    case 1:
+      case 1:
       ShaderProgram::useShaderProgram(FULLSCREEN_QUAD_V_SHADER, 
         FULLSCREEN_R_QUAD_F_SHADER);
       break;

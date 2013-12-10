@@ -337,6 +337,18 @@ namespace ui {
     int width, int height) {
     int scissor_left = x;
     int scissor_bottom = wnd_->height() - (y+ height);
+
+    // Unfortunately, the output viewport might not be the same size as the
+    // actual UI (and renderer resolution).  An example of when this happens is
+    // on Mac OS X when using a retina display.  So we need to adjust for it.
+    float viewport_scale_w = (float)wnd_->viewport_width() / 
+      (float)wnd_->width();
+    float viewport_scale_h = (float)wnd_->viewport_height() / 
+      (float)wnd_->height();
+    scissor_left = (int)((float)scissor_left * viewport_scale_w);
+    width = (int)((float)width * viewport_scale_w);
+    scissor_bottom = (int)((float)scissor_bottom * viewport_scale_h);
+    height = (int)((float)height * viewport_scale_h);
     GLState::glsScissor(scissor_left, scissor_bottom, width, height);
   }
 

@@ -722,6 +722,7 @@ namespace ui {
     if (!ui_running_) {
       return;
     }
+
     bool ui_render_crosshairs = true;
     GET_SETTING("ui_render_crosshairs", bool, ui_render_crosshairs);
     if (ui_render_crosshairs) {
@@ -795,10 +796,15 @@ namespace ui {
   }
 
   void UI::update(const double dt) {
+    if (context_) {
+      context_->Update();
+    }
+
     bool render_ui_fps = true;
     GET_SETTING("render_ui_fps", bool, render_ui_fps);
     setVisibility(render_ui_fps, fps_doc_);
     if (render_ui_fps) {
+      fps_doc_->PushToBack();
       // Update the framerate counter
       frame_time_accum_ += dt;
       frame_count_++;
@@ -821,10 +827,6 @@ namespace ui {
         frame_count_ = 0;
         frame_time_accum_ = 0;
       }
-    }
-
-    if (context_) {
-      context_->Update();
     }
   }
 

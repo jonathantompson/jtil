@@ -21,6 +21,7 @@ namespace windowing {
     bool double_buffering;
     int samples;
 
+    // To be set by the window class (internal use only)
     int viewport_width;
     int viewport_height;
     
