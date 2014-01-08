@@ -660,7 +660,7 @@ namespace image_util {
   };
 
   template <class T>
-  void FlipImage(T* dst, const T* src, const int32_t srcw, 
+  void FlipImageVert(T* dst, const T* src, const int32_t srcw, 
     const int32_t srch, int32_t n_elems = 1) {
     for (int32_t v = 0; v < srch; v++) {
       int32_t dst_v = srch - v - 1;
@@ -668,6 +668,46 @@ namespace image_util {
         sizeof(dst[0]) * srcw * n_elems);
     }
   };
+
+  template <class T>
+  void FlipImageVertInPlace(T* im, const int32_t w, const int32_t h, 
+    const int32_t n_elems = 1) {
+    T tmp;
+    for (int32_t vsrc = 0; vsrc < (h / 2); vsrc++) {
+      for (int32_t u = 0; u < w; u++) {
+        int32_t vdst = h - vsrc - 1;
+        int32_t isrc = (vsrc * w + u) * n_elems;
+        int32_t idst = (vdst * w + u) * n_elems;
+        for (int32_t c = 0; c < n_elems; c++) {
+          tmp = im[isrc];
+          im[isrc] = im[idst];
+          im[idst] = tmp;
+          isrc++;
+          idst++;
+        }
+      }
+    }
+  }
+
+  template <class T>
+  void FlipImageHorzInPlace(T* im, const int32_t w, const int32_t h, 
+    const int32_t n_elems = 1) {
+    T tmp;
+    for (int32_t usrc = 0; usrc < (w / 2); usrc++) {
+      for (int32_t v = 0; v < h; v++) {
+        int32_t udst = w - usrc - 1;
+        int32_t isrc = (v * w + usrc) * n_elems;
+        int32_t idst = (v * w + udst) * n_elems;
+        for (int32_t c = 0; c < n_elems; c++) {
+          tmp = im[isrc];
+          im[isrc] = im[idst];
+          im[idst] = tmp;
+          isrc++;
+          idst++;
+        }
+      }
+    }
+  }
 
   template <class T>
   T GetPixelSafe(const T* src, const int32_t srcw, const int32_t srch, 
