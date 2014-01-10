@@ -52,6 +52,7 @@ namespace renderer {
     inline GeometryInstance* getChild(uint32_t i) const {return children_[i];}
     inline objects::AABBox* aabbox() { return aabbox_; }
     inline const Geometry* geom() const { return geom_; }
+    inline Geometry* geom() { return const_cast<Geometry*>(geom_); }  // TODO: fix this
     inline Material& mtrl() { return mtrl_; }
     inline std::string& name() { return name_; }
     inline const std::string& name() const { return name_; }

@@ -70,7 +70,7 @@ namespace renderer {
   class Geometry {
   public:
     // Constructor / Destructor
-    Geometry(const std::string& name);
+    Geometry(const std::string& name, const bool dynamic = false);
     ~Geometry();
     void draw() const;
 
@@ -152,7 +152,8 @@ namespace renderer {
     Texture* rgb_tex_;  // Not owned here
     Texture* bump_tex_;  // Not owned here
     Texture* disp_tex_;  // Not owned here
-    data_str::VectorManaged<char*> bone_names_;  
+    data_str::VectorManaged<char*> bone_names_;
+    bool dynamic_;  // By default geometry is NOT dynamic
 
     // Bind the buffers with OpenGL
     void syncVAO();  // At startup

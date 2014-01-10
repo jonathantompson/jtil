@@ -391,7 +391,8 @@ namespace renderer {
       pitch, bpp, red_mask, blue_mask, green_mask, save_flipped);
     bool ret = false;
     if (fi_bit_map) {
-      ret = (bool)FreeImage_Save(fif, fi_bit_map, filename.c_str(), 0);
+      ret = (bool)FreeImage_Save(fif, fi_bit_map, filename.c_str(), 
+        JPEG_QUALITYSUPERB);
     }
 
     SAFE_DELETE_ARR(im_rev);

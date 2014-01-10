@@ -368,6 +368,7 @@ namespace renderer {
     // Load the jbin version
     flashlight_model_ = gm_->loadModelFromJBinFile(FLASHLIGHT_MODEL_PATH, 
       FLASHLIGHT_MODEL_JBIN);
+    gm_->scene_root()->addChild(flashlight_model_);
 #endif
 
     ui_ = new ui::UI();
@@ -376,6 +377,10 @@ namespace renderer {
 
   const double Renderer::getTime() {
     return g_renderer_->clk_->getTime();
+  }
+
+  GeometryInstance* Renderer::scene_root() { 
+    return g_renderer_->gm_->scene_root(); 
   }
 
   void Renderer::addLight(Light* light) {

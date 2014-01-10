@@ -18,7 +18,7 @@ uniform vec3 f_clear_color;
 void main(void) {
   vec3 clear_color;
   vec2 tex_coords = f_texture;
-  if (f_strech_tex != 0) {
+  if (f_strech_tex != 0 || f_tex_aspect == f_screen_aspect) {
     clear_color = vec3(texture(f_texture_sampler, tex_coords).xyz);
   } else {
     if (f_tex_aspect >= f_screen_aspect) {

@@ -55,14 +55,15 @@ namespace renderer {
     ~GeometryManager();
 
     // Unlocked data access
-    inline GeometryInstance* scene_graph_root() { return root_; }
+    inline GeometryInstance* scene_root() { return scene_root_; }
 
     // synchronization
     void lockData();
     void unlockData();
 
     // loadModelFromFile - Slow.  Uses ASSIMP library to parse many format 
-    // types.  This Loads the geometry and creates an instance.
+    // types.  This Loads the geometry and creates an instance.  IT DOES NOT
+    // ADD IT TO THE SCENE GRAPH.
     GeometryInstance* loadModelFromFile(const std::string& path, 
       const std::string& filename, const bool smooth_normals = false,
       const bool mesh_optimiation = false, const bool flip_uv_coords = true);
@@ -85,6 +86,9 @@ namespace renderer {
     // Returns the first instance reached by DFS
     static GeometryInstance* findGeometryInstanceByName(const std::string& name,
       GeometryInstance* root);
+
+    // To create custom geometry use createDynamicGeometry
+    GeometryInstance* createDynamicGeometry(const std::string& name);
 
     // Render Stack inteface methods --> NONE OF THESE ARE THREAD SAFE!
     void renderStackReset();  // NOT THREAD SAFE!
@@ -158,7 +162,7 @@ namespace renderer {
     static const math::Float3 pos_quad_[6];  // Non-IBuffer version
 
     // The global scene graph and geometry pool used by the renderer
-    GeometryInstance* root_;
+    GeometryInstance* scene_root_;
     data_str::HashMapManaged<std::string, Geometry*>* geom_;
     data_str::HashMap<std::string, uint32_t>* bone_name_to_index_;
     data_str::VectorManaged<Bone*>* bones_;

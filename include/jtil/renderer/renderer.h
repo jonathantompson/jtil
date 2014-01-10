@@ -95,6 +95,7 @@ namespace renderer {
     // Common getter methods
     inline static Renderer* g_renderer() { return g_renderer_; }
     static inline GeometryManager* geometry_manager() { return g_renderer_->gm_; }
+    static GeometryInstance* scene_root();
     static inline ui::UI* ui() { return g_renderer_->ui_; }
     static inline Camera* camera() { return g_renderer_->camera_; }
     static const double getTime();

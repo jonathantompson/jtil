@@ -52,7 +52,7 @@ namespace renderer {
     return static_cast<GeometryType>((int)lhs | (int)rhs);
   }
 
-  Geometry::Geometry(const std::string& name) {
+  Geometry::Geometry(const std::string& name, const bool dynamic) {
     name_ = name;
     type_ = GEOMETRY_BASE;
     vao_ = MAX_UINT32;
@@ -65,6 +65,7 @@ namespace renderer {
     num_synced_vert_ = 0;
     num_synced_ind_ = 0;
     primative_type_ = VERT_TRIANGLES;
+    dynamic_ = dynamic;
   }
 
   Geometry::~Geometry() {

@@ -76,7 +76,7 @@ namespace renderer {
       &data_str::HashString);
     bones_ = new VectorManaged<Bone*>();
     render_stack_ = new Vector<GeometryInstance*>();
-    root_ = new GeometryInstance;
+    scene_root_ = new GeometryInstance;
     
     addGeometry(makeCubeGeometry(AABBOX_CUBE_NAME));
 
@@ -94,7 +94,7 @@ namespace renderer {
     SAFE_DELETE(render_stack_);
 
     // recursively delete the scene graph:
-    SAFE_DELETE(root_);
+    SAFE_DELETE(scene_root_);
     data_lock_.unlock();
   }
 
@@ -124,8 +124,6 @@ namespace renderer {
 
     // Connect the Bone nodes to the GeometryInstance nodes that use them.
     associateBoneTransforms(model_root);
-
-    root_->addChild(model_root);
     
     // Clean up the assimp structures.
     delete importer;
@@ -746,7 +744,7 @@ void GeometryManager::createAssimpImporter(Assimp::Importer*& importer,
   void GeometryManager::renderStackReset() {  // NOT THREAD SAFE!
     render_stack_->resize(0);  // empty the stack (without deallocating)
     // Seed the render stack with the root node
-    render_stack_->pushBack(root_);
+    render_stack_->pushBack(scene_root_);
   }
 
   GeometryInstance* GeometryManager::renderStackPop() {  // NOT THREAD SAFE!
@@ -1838,7 +1836,6 @@ void GeometryManager::createAssimpImporter(Assimp::Importer*& importer,
 
   GeometryInstance* GeometryManager::createNewInstance(const Geometry* geom) {
     GeometryInstance* ret = new GeometryInstance(geom);
-    root_->addChild(ret);
     return ret;
   }
 
@@ -2068,8 +2065,6 @@ void GeometryManager::createAssimpImporter(Assimp::Importer*& importer,
     associateBoneTransforms(model_root);
 
     file.close();
-
-    root_->addChild(model_root);
 
     cout << "Finished loading model from " << path_filename << endl;
 
@@ -2328,6 +2323,17 @@ void GeometryManager::createAssimpImporter(Assimp::Importer*& importer,
 
   Bone* GeometryManager::findBoneByIndex(const uint32_t index) {
     return (*bones_)[index];
+  }
+
+  GeometryInstance* GeometryManager::createDynamicGeometry(
+    const std::string& name) {
+    Geometry* geom = findGeometryByName(name);
+    if (geom != NULL) {
+      throw std::wruntime_error("GeometryManager::createDynamicGeometry() - "
+        "ERROR: Geometry name already exists!");
+    }
+    geom = new Geometry(name, true);  // Geometry is dynamic
+    GeometryInstance* instance = createNewInstance(geom);
   }
   
 }  // namespace renderer
