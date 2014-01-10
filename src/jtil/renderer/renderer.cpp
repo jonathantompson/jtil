@@ -120,6 +120,7 @@ namespace renderer {
 
     frame_counter_ = 0;
     reload_renderer_ = false;
+    stretch_background_tex_ = true;
   }
 
   Renderer::~Renderer() {
@@ -383,6 +384,10 @@ namespace renderer {
 
   void Renderer::setBackgroundTexture(Texture* tex) {
     background_tex_ = tex;
+  }
+
+  void Renderer::setBackgroundTextureStrech(const bool stretch) {
+    stretch_background_tex_ = stretch;
   }
 
   const data_str::VectorManaged<Light*>& Renderer::lights() const {

@@ -290,6 +290,16 @@ namespace renderer {
       ShaderProgram::useShaderProgram(FULLSCREEN_QUAD_V_SHADER, 
         CLEAR_TEX_F_SHADER);
       tex->bind(GL_TEXTURE0, "f_texture_sampler");
+      int32_t stretch = renderer_->stretch_background_tex() ? 1 : 0;
+      BIND_UNIFORM("f_strech_tex", &stretch);
+      GLfloat tex_aspect = (float)tex->w() / (float)tex->h();
+      BIND_UNIFORM("f_tex_aspect", &tex_aspect);
+      GLfloat screen_aspect = (float)g_buffer_texture_->w() / 
+        (float)g_buffer_texture_->h();
+      BIND_UNIFORM("f_screen_aspect", &screen_aspect);
+      Float3 clear_color;
+      GET_SETTING("clear_color", Float3, clear_color);
+      BIND_UNIFORM("f_clear_color", clear_color.m);
     }
     GLState::setupQuadRendering();
     renderer_->post_processing()->quad()->draw();

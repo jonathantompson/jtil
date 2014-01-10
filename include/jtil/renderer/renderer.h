@@ -112,7 +112,9 @@ namespace renderer {
 
     // Background / Skybox functions
     void setBackgroundTexture(Texture* tex);  // Transfers Ownership
+    void setBackgroundTextureStrech(const bool stretch);
     Texture* background_tex() { return background_tex_; }
+    const bool stretch_background_tex() { return stretch_background_tex_; }
 
     // TO DO: MOVE THIS SOMEWHERE ELSE (or make it private)
     // Used to fit the camera near and far planes tightly (to make best use of
@@ -139,6 +141,7 @@ namespace renderer {
     LightSpotCVSM* flashlight_;  // Not owned here
     GeometryInstance* flashlight_model_;  // Not owned here
     Texture* background_tex_;
+    bool stretch_background_tex_;
 
     // Some renderer states, including request flags
     bool reload_renderer_;

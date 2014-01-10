@@ -19,6 +19,8 @@ namespace renderer {
     static_cast<void>(dummy_float);
     GLdouble dummy_double;
     static_cast<void>(dummy_double);
+    GLboolean dummy_bool;
+    static_cast<void>(dummy_bool);
 
     // This code is borrowed and adapted from:
     // https://github.com/sgothel/jogl/blob/master/src/jogl/classes/com/jogamp/opengl/util/GLBuffers.java
@@ -90,6 +92,10 @@ namespace renderer {
 
     case GL_DOUBLE:
       return static_cast<uint32_t>(sizeof(dummy_double));
+
+    case GL_BOOL:
+      return static_cast<uint32_t>(sizeof(dummy_bool));
+
     }
     std::stringstream ss;
     ss << "ElementSizeOfGLType() - ERROR: type not recognized (or just not ";

@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
@@ -90,6 +86,43 @@
     <Filter Include="Header Files\jtil\math">
       <UniqueIdentifier>{99bf5932-564a-4583-8516-0816befbccde}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\jtil\ucl\acc\acclib">
+      <UniqueIdentifier>{dd9ab114-2faa-46b9-ba56-bc0ad61a00af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\glew">
+      <UniqueIdentifier>{04fcb36c-5b36-48b0-bc40-6f62adc3e58a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{8d1dd358-251e-4641-a8c3-5ea9d32f26f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\lighting">
+      <UniqueIdentifier>{ab105836-f07c-4633-9bd9-c544846553ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\post_processing">
+      <UniqueIdentifier>{aad48cdc-5d80-4f2c-9a2b-7e5fcab59bc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\ui">
+      <UniqueIdentifier>{55d7f644-5181-43c1-868b-07419bf13347}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\g_buffer">
+      <UniqueIdentifier>{0048323a-6adc-4a86-bf13-6e49626b02a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\image_util">
+      <UniqueIdentifier>{b11d38e9-bdaa-42f8-9718-a324660a808b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\video">
+      <UniqueIdentifier>{353f19f2-b768-4ab0-a7f2-8cc5ba415d5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\test_unit">
+      <UniqueIdentifier>{7a3b8362-f462-478f-97ff-1c2b90a522da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jtil\image_util\marching_squares">
+      <UniqueIdentifier>{7f2b150a-d65e-482d-b49b-19b9cbccdafc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
     <Filter Include="Source Files\jtil">
       <UniqueIdentifier>{693f1d01-679b-4f5b-9270-943fffb65f09}</UniqueIdentifier>
     </Filter>
@@ -104,6 +137,9 @@
     </Filter>
     <Filter Include="Source Files\jtil\renderer\geometry">
       <UniqueIdentifier>{1299a742-57c2-40ed-a78c-d1e1755d64ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jtil\renderer\geometry\mesh_simplification">
+      <UniqueIdentifier>{40c5825b-fd8c-4767-8f0c-7225cbee3927}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\jtil\renderer\lights">
       <UniqueIdentifier>{0e8d82e3-21bf-4d28-965f-43beda7ccdcf}</UniqueIdentifier>
@@ -156,35 +192,8 @@
     <Filter Include="Source Files\jtil\file_io">
       <UniqueIdentifier>{1041db97-270b-45ae-8805-42ceb4d3178d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\jtil\renderer\geometry\mesh_simplification">
-      <UniqueIdentifier>{40c5825b-fd8c-4767-8f0c-7225cbee3927}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\jtil\ucl\acc\acclib">
-      <UniqueIdentifier>{dd9ab114-2faa-46b9-ba56-bc0ad61a00af}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\jtil\glew">
-      <UniqueIdentifier>{04fcb36c-5b36-48b0-bc40-6f62adc3e58a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\jtil\glew">
       <UniqueIdentifier>{cbb6ce46-a1aa-4f9c-8b8e-a9d8f3a6acd4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="shaders">
-      <UniqueIdentifier>{8d1dd358-251e-4641-a8c3-5ea9d32f26f5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="shaders\lighting">
-      <UniqueIdentifier>{ab105836-f07c-4633-9bd9-c544846553ae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="shaders\post_processing">
-      <UniqueIdentifier>{aad48cdc-5d80-4f2c-9a2b-7e5fcab59bc5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="shaders\ui">
-      <UniqueIdentifier>{55d7f644-5181-43c1-868b-07419bf13347}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="shaders\g_buffer">
-      <UniqueIdentifier>{0048323a-6adc-4a86-bf13-6e49626b02a9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\jtil\image_util">
-      <UniqueIdentifier>{b11d38e9-bdaa-42f8-9718-a324660a808b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\jtil\math">
       <UniqueIdentifier>{0759f2c4-0a8a-4a12-9d81-cefaa5b07c74}</UniqueIdentifier>
@@ -192,23 +201,14 @@
     <Filter Include="Source Files\jtil\image_util">
       <UniqueIdentifier>{ebd50b9b-3b75-4b66-9be1-0aeb9b731806}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\jtil\video">
-      <UniqueIdentifier>{353f19f2-b768-4ab0-a7f2-8cc5ba415d5c}</UniqueIdentifier>
+    <Filter Include="Source Files\jtil\image_util\marching_squares">
+      <UniqueIdentifier>{8b528800-f5d5-443d-af35-2a4cafe86ac4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\jtil\video">
       <UniqueIdentifier>{7dead909-5939-4d9d-9cf3-f6d3bcd81166}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\test_unit">
       <UniqueIdentifier>{dd1169d0-3f8b-4cf5-b8b3-516ffccc384c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\test_unit">
-      <UniqueIdentifier>{7a3b8362-f462-478f-97ff-1c2b90a522da}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\jtil\image_util\marching_squares">
-      <UniqueIdentifier>{7f2b150a-d65e-482d-b49b-19b9cbccdafc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\jtil\image_util\marching_squares">
-      <UniqueIdentifier>{8b528800-f5d5-443d-af35-2a4cafe86ac4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -918,11 +918,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\README.txt" />
-    <Text Include="..\TO_BE_DONE.txt" />
-    <Text Include="..\COMPILE_NOTES.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="include\jtil\ucl\ucl_swd.ch">
       <Filter>Header Files\jtil\ucl</Filter>
     </None>
@@ -995,284 +990,284 @@
     <None Include="include\jtil\ucl\acc\acclib\hmemcpy.ch">
       <Filter>Header Files\jtil\ucl\acc\acclib</Filter>
     </None>
-    <None Include="..\shaders\lighting\lighting_light_volume_spot_vsm_accum.frag">
-      <Filter>shaders\lighting</Filter>
+    <None Include="shaders\g_buffer\g_buffer_colr_mesh_vel.vert">
+      <Filter>shaders\g_buffer</Filter>
     </None>
-    <None Include="..\shaders\lighting\lighting_light_volume_stencil.frag">
-      <Filter>shaders\lighting</Filter>
+    <None Include="shaders\g_buffer\g_buffer_const_colr_boned_mesh.vert">
+      <Filter>shaders\g_buffer</Filter>
     </None>
-    <None Include="..\shaders\lighting\lighting_visualize_csm_split.frag">
-      <Filter>shaders\lighting</Filter>
+    <None Include="shaders\g_buffer\g_buffer_const_colr_boned_mesh_vel.vert">
+      <Filter>shaders\g_buffer</Filter>
     </None>
-    <None Include="..\shaders\lighting\lighting_vsm_colr_mesh.vert">
-      <Filter>shaders\lighting</Filter>
+    <None Include="shaders\g_buffer\g_buffer_const_colr_boned_mesh_vel_hq.vert">
+      <Filter>shaders\g_buffer</Filter>
     </None>
-    <None Include="..\shaders\lighting\lighting_vsm_const_colr_mesh.vert">
-      <Filter>shaders\lighting</Filter>
+    <None Include="shaders\g_buffer\g_buffer_const_colr_mesh.frag">
+      <Filter>shaders\g_buffer</Filter>
     </None>
-    <None Include="..\shaders\lighting\lighting_vsm_mesh.frag">
-      <Filter>shaders\lighting</Filter>
+    <None Include="shaders\g_buffer\g_buffer_const_colr_mesh.vert">
+      <Filter>shaders\g_buffer</Filter>
     </None>
-    <None Include="..\shaders\lighting\lighting_vsm_text_disp_mesh.tessc.geom">
-      <Filter>shaders\lighting</Filter>
+    <None Include="shaders\g_buffer\g_buffer_const_colr_mesh_vel.frag">
+      <Filter>shaders\g_buffer</Filter>
     </None>
-    <None Include="..\shaders\lighting\lighting_vsm_text_disp_mesh.tesse.geom">
-      <Filter>shaders\lighting</Filter>
+    <None Include="shaders\g_buffer\g_buffer_const_colr_mesh_vel.vert">
+      <Filter>shaders\g_buffer</Filter>
     </None>
-    <None Include="..\shaders\lighting\lighting_vsm_text_disp_mesh.vert">
-      <Filter>shaders\lighting</Filter>
+    <None Include="shaders\g_buffer\g_buffer_empty.vert">
+      <Filter>shaders\g_buffer</Filter>
     </None>
-    <None Include="..\shaders\lighting\lighting_vsm_text_mesh.vert">
-      <Filter>shaders\lighting</Filter>
+    <None Include="shaders\g_buffer\g_buffer_include.frag">
+      <Filter>shaders\g_buffer</Filter>
     </None>
-    <None Include="..\shaders\lighting\lighting_ambient_occlusion.frag">
-      <Filter>shaders\lighting</Filter>
+    <None Include="shaders\g_buffer\g_buffer_norm_vis.frag">
+      <Filter>shaders\g_buffer</Filter>
     </None>
-    <None Include="..\shaders\lighting\lighting_ambient_occlusion_blur.frag">
-      <Filter>shaders\lighting</Filter>
+    <None Include="shaders\g_buffer\g_buffer_norm_vis.geom">
+      <Filter>shaders\g_buffer</Filter>
     </None>
-    <None Include="..\shaders\lighting\lighting_calc_csm_split.frag">
-      <Filter>shaders\lighting</Filter>
+    <None Include="shaders\g_buffer\g_buffer_norm_vis_screennorm.geom">
+      <Filter>shaders\g_buffer</Filter>
     </None>
-    <None Include="..\shaders\lighting\lighting_final.frag">
-      <Filter>shaders\lighting</Filter>
+    <None Include="shaders\g_buffer\g_buffer_text_boned_mesh.vert">
+      <Filter>shaders\g_buffer</Filter>
     </None>
-    <None Include="..\shaders\lighting\lighting_include.frag">
-      <Filter>shaders\lighting</Filter>
+    <None Include="shaders\g_buffer\g_buffer_text_boned_mesh_vel.vert">
+      <Filter>shaders\g_buffer</Filter>
     </None>
-    <None Include="..\shaders\lighting\lighting_light_dir_accum.frag">
-      <Filter>shaders\lighting</Filter>
+    <None Include="shaders\g_buffer\g_buffer_text_boned_mesh_vel_hq.vert">
+      <Filter>shaders\g_buffer</Filter>
     </None>
-    <None Include="..\shaders\lighting\lighting_light_volume.vert">
-      <Filter>shaders\lighting</Filter>
+    <None Include="shaders\g_buffer\g_buffer_text_disp_mesh.frag">
+      <Filter>shaders\g_buffer</Filter>
     </None>
-    <None Include="..\shaders\lighting\lighting_light_volume_point_accum.frag">
-      <Filter>shaders\lighting</Filter>
+    <None Include="shaders\g_buffer\g_buffer_text_disp_mesh.tessc.geom">
+      <Filter>shaders\g_buffer</Filter>
     </None>
-    <None Include="..\shaders\lighting\lighting_light_volume_spot_accum.frag">
-      <Filter>shaders\lighting</Filter>
+    <None Include="shaders\g_buffer\g_buffer_text_disp_mesh.tesse.geom">
+      <Filter>shaders\g_buffer</Filter>
     </None>
-    <None Include="..\shaders\lighting\lighting_light_volume_spot_cvsm_accum.frag">
-      <Filter>shaders\lighting</Filter>
+    <None Include="shaders\g_buffer\g_buffer_text_disp_mesh.vert">
+      <Filter>shaders\g_buffer</Filter>
     </None>
-    <None Include="..\shaders\post_processing\post_processing_fxaa_hq_edge_aware.frag">
+    <None Include="shaders\g_buffer\g_buffer_text_disp_mesh_vel.tessc.geom">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="shaders\g_buffer\g_buffer_text_disp_mesh_vel.tesse.geom">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="shaders\g_buffer\g_buffer_text_disp_mesh_vel.vert">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="shaders\g_buffer\g_buffer_text_mesh.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="shaders\g_buffer\g_buffer_text_mesh.vert">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="shaders\g_buffer\g_buffer_text_mesh_vel.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="shaders\g_buffer\g_buffer_text_mesh_vel.vert">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="shaders\g_buffer\g_buffer_visualize_albedo.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="shaders\g_buffer\g_buffer_visualize_depth.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="shaders\g_buffer\g_buffer_visualize_light_accum_diffuse.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="shaders\g_buffer\g_buffer_visualize_light_accum_specular.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="shaders\g_buffer\g_buffer_visualize_lighting_stencil.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="shaders\g_buffer\g_buffer_visualize_normal.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="shaders\g_buffer\g_buffer_visualize_pos.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="shaders\g_buffer\g_buffer_visualize_vel.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="shaders\g_buffer\g_buffer_clear.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="shaders\g_buffer\g_buffer_clear_tex.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="shaders\g_buffer\g_buffer_colr_boned_mesh.vert">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="shaders\g_buffer\g_buffer_colr_boned_mesh_vel.vert">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="shaders\g_buffer\g_buffer_colr_boned_mesh_vel_hq.vert">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="shaders\g_buffer\g_buffer_colr_mesh.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="shaders\g_buffer\g_buffer_colr_mesh.vert">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="shaders\g_buffer\g_buffer_colr_mesh_vel.frag">
+      <Filter>shaders\g_buffer</Filter>
+    </None>
+    <None Include="shaders\post_processing\post_processing_motion_blur.frag">
       <Filter>shaders\post_processing</Filter>
     </None>
-    <None Include="..\shaders\post_processing\post_processing_fxaa_lq.frag">
+    <None Include="shaders\post_processing\post_processing_rect_blur.frag">
       <Filter>shaders\post_processing</Filter>
     </None>
-    <None Include="..\shaders\post_processing\post_processing_fxaa_lq_edge_aware.frag">
+    <None Include="shaders\post_processing\post_processing_rect_blur_array.frag">
       <Filter>shaders\post_processing</Filter>
     </None>
-    <None Include="..\shaders\post_processing\post_processing_luma.frag">
+    <None Include="shaders\post_processing\fullscreen_null.frag">
       <Filter>shaders\post_processing</Filter>
     </None>
-    <None Include="..\shaders\post_processing\post_processing_motion_blur.frag">
+    <None Include="shaders\post_processing\fullscreen_ones.frag">
       <Filter>shaders\post_processing</Filter>
     </None>
-    <None Include="..\shaders\post_processing\post_processing_rect_blur.frag">
+    <None Include="shaders\post_processing\fullscreen_quad.frag">
       <Filter>shaders\post_processing</Filter>
     </None>
-    <None Include="..\shaders\post_processing\post_processing_rect_blur_array.frag">
+    <None Include="shaders\post_processing\fullscreen_quad.vert">
       <Filter>shaders\post_processing</Filter>
     </None>
-    <None Include="..\shaders\post_processing\fullscreen_null.frag">
+    <None Include="shaders\post_processing\fullscreen_r_quad.frag">
       <Filter>shaders\post_processing</Filter>
     </None>
-    <None Include="..\shaders\post_processing\fullscreen_ones.frag">
+    <None Include="shaders\post_processing\fullscreen_rg_quad.frag">
       <Filter>shaders\post_processing</Filter>
     </None>
-    <None Include="..\shaders\post_processing\fullscreen_quad.frag">
+    <None Include="shaders\post_processing\fullscreen_rgb_quad.frag">
       <Filter>shaders\post_processing</Filter>
     </None>
-    <None Include="..\shaders\post_processing\fullscreen_quad.vert">
+    <None Include="shaders\post_processing\fxaa3_11.frag">
       <Filter>shaders\post_processing</Filter>
     </None>
-    <None Include="..\shaders\post_processing\fullscreen_r_quad.frag">
+    <None Include="shaders\post_processing\post_processing_dof.frag">
       <Filter>shaders\post_processing</Filter>
     </None>
-    <None Include="..\shaders\post_processing\fullscreen_rg_quad.frag">
+    <None Include="shaders\post_processing\post_processing_dof.vert">
       <Filter>shaders\post_processing</Filter>
     </None>
-    <None Include="..\shaders\post_processing\fullscreen_rgb_quad.frag">
+    <None Include="shaders\post_processing\post_processing_fxaa_hq.frag">
       <Filter>shaders\post_processing</Filter>
     </None>
-    <None Include="..\shaders\post_processing\fxaa3_11.frag">
+    <None Include="shaders\post_processing\post_processing_fxaa_hq_edge_aware.frag">
       <Filter>shaders\post_processing</Filter>
     </None>
-    <None Include="..\shaders\post_processing\post_processing_dof.frag">
+    <None Include="shaders\post_processing\post_processing_fxaa_lq.frag">
       <Filter>shaders\post_processing</Filter>
     </None>
-    <None Include="..\shaders\post_processing\post_processing_dof.vert">
+    <None Include="shaders\post_processing\post_processing_fxaa_lq_edge_aware.frag">
       <Filter>shaders\post_processing</Filter>
     </None>
-    <None Include="..\shaders\post_processing\post_processing_fxaa_hq.frag">
+    <None Include="shaders\post_processing\post_processing_luma.frag">
       <Filter>shaders\post_processing</Filter>
     </None>
-    <None Include="..\shaders\ui\librocket_with_texture.vert">
+    <None Include="shaders\lighting\lighting_vsm_colr_mesh.vert">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="shaders\lighting\lighting_vsm_const_colr_boned_mesh.vert">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="shaders\lighting\lighting_vsm_const_colr_mesh.vert">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="shaders\lighting\lighting_vsm_mesh.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="shaders\lighting\lighting_vsm_text_boned_mesh.vert">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="shaders\lighting\lighting_vsm_text_disp_mesh.tessc.geom">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="shaders\lighting\lighting_vsm_text_disp_mesh.tesse.geom">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="shaders\lighting\lighting_vsm_text_disp_mesh.vert">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="shaders\lighting\lighting_vsm_text_mesh.vert">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="shaders\lighting\lighting_ambient_occlusion.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="shaders\lighting\lighting_ambient_occlusion_blur.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="shaders\lighting\lighting_calc_csm_split.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="shaders\lighting\lighting_draw_cvsm.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="shaders\lighting\lighting_draw_vsm.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="shaders\lighting\lighting_final.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="shaders\lighting\lighting_include.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="shaders\lighting\lighting_light_dir_accum.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="shaders\lighting\lighting_light_volume.vert">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="shaders\lighting\lighting_light_volume_point_accum.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="shaders\lighting\lighting_light_volume_spot_accum.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="shaders\lighting\lighting_light_volume_spot_cvsm_accum.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="shaders\lighting\lighting_light_volume_spot_cvsm_cnt1_accum.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="shaders\lighting\lighting_light_volume_spot_vsm_accum.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="shaders\lighting\lighting_light_volume_stencil.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="shaders\lighting\lighting_visualize_csm_split.frag">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="shaders\lighting\lighting_vsm_colr_boned_mesh.vert">
+      <Filter>shaders\lighting</Filter>
+    </None>
+    <None Include="shaders\ui\librocket_with_texture.vert">
       <Filter>shaders\ui</Filter>
     </None>
-    <None Include="..\shaders\ui\textured_quad.frag">
+    <None Include="shaders\ui\textured_quad.frag">
       <Filter>shaders\ui</Filter>
     </None>
-    <None Include="..\shaders\ui\textured_quad.vert">
+    <None Include="shaders\ui\textured_quad.vert">
       <Filter>shaders\ui</Filter>
     </None>
-    <None Include="..\shaders\ui\librocket_no_texture.frag">
+    <None Include="shaders\ui\librocket_no_texture.frag">
       <Filter>shaders\ui</Filter>
     </None>
-    <None Include="..\shaders\ui\librocket_no_texture.vert">
+    <None Include="shaders\ui\librocket_no_texture.vert">
       <Filter>shaders\ui</Filter>
     </None>
-    <None Include="..\shaders\ui\librocket_with_texture.frag">
+    <None Include="shaders\ui\librocket_with_texture.frag">
       <Filter>shaders\ui</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_empty.vert">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_include.frag">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_norm_vis.frag">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_norm_vis.geom">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_norm_vis_screennorm.geom">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_text_disp_mesh.frag">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_text_disp_mesh.tessc.geom">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_text_disp_mesh.tesse.geom">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_text_disp_mesh.vert">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_text_disp_mesh_vel.tessc.geom">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_text_disp_mesh_vel.tesse.geom">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_text_disp_mesh_vel.vert">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_text_mesh.frag">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_text_mesh.vert">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_text_mesh_vel.frag">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_text_mesh_vel.vert">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_clear.frag">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_colr_mesh.frag">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_colr_mesh.vert">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_colr_mesh_vel.frag">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_colr_mesh_vel.vert">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_const_colr_mesh.frag">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_const_colr_mesh.vert">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_const_colr_mesh_vel.frag">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_const_colr_mesh_vel.vert">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_clear_tex.frag">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_visualize_depth.frag">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_visualize_light_accum_diffuse.frag">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_visualize_light_accum_specular.frag">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_visualize_lighting_stencil.frag">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_visualize_normal.frag">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_visualize_pos.frag">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_visualize_vel.frag">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_visualize_albedo.frag">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_text_boned_mesh.vert">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\lighting\lighting_vsm_text_boned_mesh.vert">
-      <Filter>shaders\lighting</Filter>
-    </None>
-    <None Include="..\shaders\lighting\lighting_vsm_colr_boned_mesh.vert">
-      <Filter>shaders\lighting</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_colr_boned_mesh.vert">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_colr_boned_mesh_vel.vert">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_text_boned_mesh_vel.vert">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_text_boned_mesh_vel_hq.vert">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_colr_boned_mesh_vel_hq.vert">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_const_colr_boned_mesh_vel.vert">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_const_colr_boned_mesh_vel_hq.vert">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\g_buffer\g_buffer_const_colr_boned_mesh.vert">
-      <Filter>shaders\g_buffer</Filter>
-    </None>
-    <None Include="..\shaders\lighting\lighting_vsm_const_colr_boned_mesh.vert">
-      <Filter>shaders\lighting</Filter>
-    </None>
-    <None Include="..\shaders\lighting\lighting_draw_cvsm.frag">
-      <Filter>shaders\lighting</Filter>
-    </None>
-    <None Include="..\shaders\lighting\lighting_draw_vsm.frag">
-      <Filter>shaders\lighting</Filter>
-    </None>
-    <None Include="..\shaders\lighting\lighting_light_volume_spot_cvsm_cnt1_accum.frag">
-      <Filter>shaders\lighting</Filter>
     </None>
   </ItemGroup>
 </Project>
