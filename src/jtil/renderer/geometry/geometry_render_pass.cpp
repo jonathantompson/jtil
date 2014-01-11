@@ -31,16 +31,27 @@ namespace renderer {
     frustum_ = NULL;
     renderer_ = renderer;
 
-    v_shaders_.capacity(NUM_GEOMETRY_TYPES_SUPORTED);
-    v_shaders_.resize(NUM_GEOMETRY_TYPES_SUPORTED);
-    f_shaders_.capacity(NUM_GEOMETRY_TYPES_SUPORTED);
-    f_shaders_.resize(NUM_GEOMETRY_TYPES_SUPORTED);
-    g_shaders_.capacity(NUM_GEOMETRY_TYPES_SUPORTED);
-    g_shaders_.resize(NUM_GEOMETRY_TYPES_SUPORTED);
-    tcs_shaders_.capacity(NUM_GEOMETRY_TYPES_SUPORTED);
-    tcs_shaders_.resize(NUM_GEOMETRY_TYPES_SUPORTED);
-    tes_shaders_.capacity(NUM_GEOMETRY_TYPES_SUPORTED);
-    tes_shaders_.resize(NUM_GEOMETRY_TYPES_SUPORTED);
+    mesh_v_shaders_.capacity(NUM_GEOMETRY_TYPES_SUPORTED);
+    mesh_v_shaders_.resize(NUM_GEOMETRY_TYPES_SUPORTED);
+    mesh_f_shaders_.capacity(NUM_GEOMETRY_TYPES_SUPORTED);
+    mesh_f_shaders_.resize(NUM_GEOMETRY_TYPES_SUPORTED);
+    mesh_g_shaders_.capacity(NUM_GEOMETRY_TYPES_SUPORTED);
+    mesh_g_shaders_.resize(NUM_GEOMETRY_TYPES_SUPORTED);
+    mesh_tcs_shaders_.capacity(NUM_GEOMETRY_TYPES_SUPORTED);
+    mesh_tcs_shaders_.resize(NUM_GEOMETRY_TYPES_SUPORTED);
+    mesh_tes_shaders_.capacity(NUM_GEOMETRY_TYPES_SUPORTED);
+    mesh_tes_shaders_.resize(NUM_GEOMETRY_TYPES_SUPORTED);
+
+    points_v_shaders_.capacity(NUM_GEOMETRY_TYPES_SUPORTED);
+    points_v_shaders_.resize(NUM_GEOMETRY_TYPES_SUPORTED);
+    points_f_shaders_.capacity(NUM_GEOMETRY_TYPES_SUPORTED);
+    points_f_shaders_.resize(NUM_GEOMETRY_TYPES_SUPORTED);
+    points_g_shaders_.capacity(NUM_GEOMETRY_TYPES_SUPORTED);
+    points_g_shaders_.resize(NUM_GEOMETRY_TYPES_SUPORTED);
+    points_tcs_shaders_.capacity(NUM_GEOMETRY_TYPES_SUPORTED);
+    points_tcs_shaders_.resize(NUM_GEOMETRY_TYPES_SUPORTED);
+    points_tes_shaders_.capacity(NUM_GEOMETRY_TYPES_SUPORTED);
+    points_tes_shaders_.resize(NUM_GEOMETRY_TYPES_SUPORTED);
 
     render_aabboxes_ = false;
     render_light_volumes_ = true;
@@ -60,20 +71,20 @@ namespace renderer {
   GeometryRenderPass::GeometryTypeIndex 
     GeometryRenderPass::getGeometryTypeIndex(const GeometryType type) const {
     switch (type) {
-    case GEOMETRY_COLR_MESH:
-      return INDEX_COLR_MESH;
-    case GEOMETRY_COLR_BONED_MESH:
-      return INDEX_COLR_BONED_MESH;
-    case GEOMETRY_CONST_COLR_MESH:
-      return INDEX_CONST_COLR_MESH;
-    case GEOMETRY_CONST_COLR_BONED_MESH:
-      return INDEX_CONST_COLR_BONED_MESH;
-    case GEOMETRY_TEXT_MESH:
-      return INDEX_TEXT_MESH;
-    case GEOMETRY_TEXT_BONED_MESH:
-      return INDEX_TEXT_BONED_MESH;
-    case GEOMETRY_TEXT_DISP_MESH:
-      return INDEX_TEXT_DISP_MESH;
+    case GEOMETRY_NORM_COLR:
+      return INDEX_NORM_COLR;
+    case GEOMETRY_NORM_COLR_BONED:
+      return INDEX_NORM_COLR_BONED;
+    case GEOMETRY_NORM_CONST_COLR:
+      return INDEX_NORM_CONST_COLR;
+    case GEOMETRY_NORM_CONST_COLR_BONED:
+      return INDEX_NORM_CONST_COLR_BONED;
+    case GEOMETRY_NORM_TEXT:
+      return INDEX_NORM_TEXT;
+    case GEOMETRY_NORM_TEXT_BONED:
+      return INDEX_NORM_TEXT_BONED;
+    case GEOMETRY_NORM_TEXT_DISP:
+      return INDEX_NORM_TEXT_DISP;
     default:
       throw std::wruntime_error(L"GeometryRenderPass::getGeometryTypeIndex()"
         L" - ERROR: index not recognized or not supported.");
@@ -83,20 +94,20 @@ namespace renderer {
   GeometryType GeometryRenderPass::getGeometryType(
     const GeometryRenderPass::GeometryTypeIndex index) const {
     switch (index) {
-    case INDEX_COLR_MESH:
-      return GEOMETRY_COLR_MESH;
-    case INDEX_COLR_BONED_MESH:
-      return GEOMETRY_COLR_BONED_MESH;
-    case INDEX_CONST_COLR_MESH:
-      return GEOMETRY_CONST_COLR_MESH;
-    case INDEX_CONST_COLR_BONED_MESH:
-      return GEOMETRY_CONST_COLR_BONED_MESH;
-    case INDEX_TEXT_MESH:
-      return GEOMETRY_TEXT_MESH;
-    case INDEX_TEXT_BONED_MESH:
-      return GEOMETRY_TEXT_BONED_MESH;
-    case INDEX_TEXT_DISP_MESH:
-      return GEOMETRY_TEXT_DISP_MESH;
+    case INDEX_NORM_COLR:
+      return GEOMETRY_NORM_COLR;
+    case INDEX_NORM_COLR_BONED:
+      return GEOMETRY_NORM_COLR_BONED;
+    case INDEX_NORM_CONST_COLR:
+      return GEOMETRY_NORM_CONST_COLR;
+    case INDEX_NORM_CONST_COLR_BONED:
+      return GEOMETRY_NORM_CONST_COLR_BONED;
+    case INDEX_NORM_TEXT:
+      return GEOMETRY_NORM_TEXT;
+    case INDEX_NORM_TEXT_BONED:
+      return GEOMETRY_NORM_TEXT_BONED;
+    case INDEX_NORM_TEXT_DISP:
+      return GEOMETRY_NORM_TEXT_DISP;
     default:
       throw std::wruntime_error(L"GeometryRenderPass::getGeometryType() - "
         L"ERROR: index not recognized or not supported.");
@@ -112,9 +123,9 @@ namespace renderer {
     return ret_val;
   }
 
-  void GeometryRenderPass::setShader(const GeometryType geom_type, 
-    const char* vshader, const char* fshader, const char* gshader, 
-    const char* tcsshader, const char* tesshader) {
+  void GeometryRenderPass::setShader(const VertexPrimative primative, 
+    const GeometryType geom_type, const char* vshader, const char* fshader, 
+    const char* gshader, const char* tcsshader, const char* tesshader) {
     // Make a copy of the input char*
     char* vshader_cpy = copyStrSafe(vshader);
     char* fshader_cpy = copyStrSafe(fshader);
@@ -122,17 +133,35 @@ namespace renderer {
     char* tcsshader_cpy = copyStrSafe(tcsshader);
     char* tesshader_cpy = copyStrSafe(tesshader);
     GeometryTypeIndex index = getGeometryTypeIndex(geom_type);
-    v_shaders_.deleteAt(index);
-    f_shaders_.deleteAt(index);
-    g_shaders_.deleteAt(index);
-    tcs_shaders_.deleteAt(index);
-    tes_shaders_.deleteAt(index);
 
-    v_shaders_.set(index, vshader_cpy);
-    f_shaders_.set(index, fshader_cpy);
-    g_shaders_.set(index, gshader_cpy);
-    tcs_shaders_.set(index, tcsshader_cpy);
-    tes_shaders_.set(index, tesshader_cpy);
+    if (primative == VERT_TRIANGLES) {
+      mesh_v_shaders_.deleteAt(index);
+      mesh_f_shaders_.deleteAt(index);
+      mesh_g_shaders_.deleteAt(index);
+      mesh_tcs_shaders_.deleteAt(index);
+      mesh_tes_shaders_.deleteAt(index);
+
+      mesh_v_shaders_.set(index, vshader_cpy);
+      mesh_f_shaders_.set(index, fshader_cpy);
+      mesh_g_shaders_.set(index, gshader_cpy);
+      mesh_tcs_shaders_.set(index, tcsshader_cpy);
+      mesh_tes_shaders_.set(index, tesshader_cpy);
+    } else if (primative == VERT_POINTS) {
+      points_v_shaders_.deleteAt(index);
+      points_f_shaders_.deleteAt(index);
+      points_g_shaders_.deleteAt(index);
+      points_tcs_shaders_.deleteAt(index);
+      points_tes_shaders_.deleteAt(index);
+
+      points_v_shaders_.set(index, vshader_cpy);
+      points_f_shaders_.set(index, fshader_cpy);
+      points_g_shaders_.set(index, gshader_cpy);
+      points_tcs_shaders_.set(index, tcsshader_cpy);
+      points_tes_shaders_.set(index, tesshader_cpy);
+    } else {
+      throw std::wruntime_error("GeometryRenderPass::setShader() - ERROR: "
+        "Primative not yet supported!");
+    }
   }
 
   void GeometryRenderPass::render() {
@@ -156,10 +185,11 @@ namespace renderer {
     // ********************************************
     // Render all the mesh types, but batch render them (so all geometry of
     // a type are rendered together).
+    VertexPrimative cur_primative = VERT_TRIANGLES;
     for (uint32_t i = 0; i < NUM_GEOMETRY_TYPES_SUPORTED; i++) {
       GeometryType cur_type = getGeometryType((GeometryTypeIndex)i);
-      ShaderProgram::useShaderProgram(v_shaders_[i], f_shaders_[i], 
-        g_shaders_[i], tcs_shaders_[i], tes_shaders_[i]);
+      ShaderProgram::useShaderProgram(mesh_v_shaders_[i], mesh_f_shaders_[i], 
+        mesh_g_shaders_[i], mesh_tcs_shaders_[i], mesh_tes_shaders_[i]);
 
       if (shader_uniform_cb_) {
         shader_uniform_cb_();
@@ -180,7 +210,8 @@ namespace renderer {
       renderer_->geometry_manager()->renderStackReset();
       while (!renderer_->geometry_manager()->renderStackEmpty()) {
         GeometryInstance* cur_geom = renderer_->geometry_manager()->renderStackPop();
-        if (cur_geom->render() && cur_geom->type() == cur_type) {
+        if (cur_geom->render() && cur_geom->type() == cur_type && 
+          cur_primative == cur_geom->geom()->primative_type()) {  // TODO: This is messy!
           // HACK! AABBOX for boned meshes is broken, so pretend it always 
           // passes frustum culling.
           bool boned_mesh = false;
@@ -253,9 +284,9 @@ namespace renderer {
 
     if (render_light_volumes_) {
       if (spot_lights || point_lights) {
-        uint32_t i = INDEX_CONST_COLR_MESH;
-        ShaderProgram::useShaderProgram(v_shaders_[i], f_shaders_[i], 
-          g_shaders_[i], tcs_shaders_[i], tes_shaders_[i]);
+        uint32_t i = INDEX_NORM_CONST_COLR;
+        ShaderProgram::useShaderProgram(mesh_v_shaders_[i], mesh_f_shaders_[i], 
+          mesh_g_shaders_[i], mesh_tcs_shaders_[i], mesh_tes_shaders_[i]);
 
         if (shader_uniform_cb_) {
           shader_uniform_cb_();
@@ -298,9 +329,9 @@ namespace renderer {
 
     if (render_light_sources_) {
       if (spot_lights || point_lights) {
-        uint32_t i = INDEX_CONST_COLR_MESH;
-        ShaderProgram::useShaderProgram(v_shaders_[i], f_shaders_[i], 
-          g_shaders_[i], tcs_shaders_[i], tes_shaders_[i]);
+        uint32_t i = INDEX_NORM_CONST_COLR;
+        ShaderProgram::useShaderProgram(mesh_v_shaders_[i], mesh_f_shaders_[i], 
+          mesh_g_shaders_[i], mesh_tcs_shaders_[i], mesh_tes_shaders_[i]);
 
         if (shader_uniform_cb_) {
           shader_uniform_cb_();
@@ -356,9 +387,9 @@ namespace renderer {
     // ********************************************
     // Render all the AABBoxes
     if (render_aabboxes_) {
-      uint32_t i = INDEX_CONST_COLR_MESH;
-      ShaderProgram::useShaderProgram(v_shaders_[i], f_shaders_[i], 
-        g_shaders_[i], tcs_shaders_[i], tes_shaders_[i]);
+      uint32_t i = INDEX_NORM_CONST_COLR;
+      ShaderProgram::useShaderProgram(mesh_v_shaders_[i], mesh_f_shaders_[i], 
+        mesh_g_shaders_[i], mesh_tcs_shaders_[i], mesh_tes_shaders_[i]);
 
       if (shader_uniform_cb_) {
         shader_uniform_cb_();

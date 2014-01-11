@@ -51,21 +51,21 @@ namespace renderer {
 
   typedef enum {
     GEOMETRY_BASE = 0,  // Empty but often useful node in hierachy
-    GEOMETRY_VERT_MESH = VERTATTR_POS,
-    GEOMETRY_COLR_MESH = (VERTATTR_POS | VERTATTR_NOR | VERTATTR_COL),
-    GEOMETRY_COLR_BONED_MESH = (VERTATTR_POS | VERTATTR_NOR | VERTATTR_COL |
+    GEOMETRY_VERT = VERTATTR_POS,
+    GEOMETRY_NORM_COLR = (VERTATTR_POS | VERTATTR_NOR | VERTATTR_COL),
+    GEOMETRY_NORM_COLR_BONED = (VERTATTR_POS | VERTATTR_NOR | VERTATTR_COL |
       VERTATTR_BONEI | VERTATTR_BONEW),
-    GEOMETRY_CONST_COLR_MESH = (VERTATTR_POS | VERTATTR_NOR),
-    GEOMETRY_CONST_COLR_BONED_MESH = (VERTATTR_POS | VERTATTR_NOR | 
+    GEOMETRY_NORM_CONST_COLR = (VERTATTR_POS | VERTATTR_NOR),
+    GEOMETRY_NORM_CONST_COLR_BONED = (VERTATTR_POS | VERTATTR_NOR | 
       VERTATTR_BONEI | VERTATTR_BONEW),
-    GEOMETRY_TEXT_MESH = (VERTATTR_POS | VERTATTR_NOR | VERTATTR_TEX_COORD | 
+    GEOMETRY_NORM_TEXT = (VERTATTR_POS | VERTATTR_NOR | VERTATTR_TEX_COORD | 
       VERTATTR_RGB_TEX),
-    GEOMETRY_TEXT_BONED_MESH = (VERTATTR_POS | VERTATTR_NOR | 
+    GEOMETRY_NORM_TEXT_BONED = (VERTATTR_POS | VERTATTR_NOR | 
       VERTATTR_TEX_COORD | VERTATTR_RGB_TEX | VERTATTR_BONEI | VERTATTR_BONEW),
-    GEOMETRY_TEXT_DISP_MESH = (VERTATTR_POS | VERTATTR_NOR | 
+    GEOMETRY_NORM_TEXT_DISP = (VERTATTR_POS | VERTATTR_NOR | 
       VERTATTR_TEX_COORD | VERTATTR_RGB_TEX | VERTATTR_DISP_TEX |
       VERTATTR_TANGENT),
-  } GeometryType;
+  } GeometryType;  // Escentially what attributes are in the vertices
 
   class Geometry {
   public:
@@ -93,6 +93,7 @@ namespace renderer {
     void addTriangle(int i0, int i1, int i2, const math::Float3* pos);
     void sync();  // Lastly, sync the Geometry with OpenGL
     void unsync();  // This is slow and should NOT be used to update geom in realitme
+    void resync();  // Should only be used if dynamic_ == true
 
     // Accessors to internal data
     data_str::Vector<math::Float3>& pos() { return pos_; }
@@ -109,6 +110,7 @@ namespace renderer {
     const std::string& name() const { return name_; }
     VertexPrimative& primative_type() { return primative_type_; }
     const VertexPrimative& primative_type() const { return primative_type_; }
+    float& point_size() { return point_size_; }
 
     const data_str::Vector<math::Float3>& pos() const { return pos_; }
     const data_str::Vector<math::Float3>& nor() const { return nor_; }
@@ -120,6 +122,7 @@ namespace renderer {
     const data_str::VectorManaged<char*>& bone_names() const { 
       return bone_names_; }
     const data_str::Vector<uint32_t>& ind() const { return ind_; }
+    const bool dynamic() const { return dynamic_; }
 
     // Methods for saving to and from file
     data_str::Pair<uint8_t*,uint32_t> saveToArray() const;
@@ -134,6 +137,7 @@ namespace renderer {
     // Geometry data
     std::string name_;
     GeometryType type_;
+    bool dynamic_;  // By default geometry is NOT dynamic
     data_str::Vector<math::Float3> pos_;
     data_str::Vector<math::Float3> nor_;
     data_str::Vector<math::Float3> col_;
@@ -153,10 +157,13 @@ namespace renderer {
     Texture* bump_tex_;  // Not owned here
     Texture* disp_tex_;  // Not owned here
     data_str::VectorManaged<char*> bone_names_;
-    bool dynamic_;  // By default geometry is NOT dynamic
+    uint32_t vert_buffer_size_;
+    uint32_t ind_buffer_size_;
+    float point_size_;  // default = 1
 
     // Bind the buffers with OpenGL
     void syncVAO();  // At startup
+    void resyncVAO();
     void bindVAO() const;  // For rendering
     void unbindVAO() const;
 

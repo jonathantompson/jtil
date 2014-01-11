@@ -40,7 +40,19 @@ namespace renderer {
     geom_ = geom;
     if (geom_) {
       aabbox_ = new AABBox();
-      aabbox_->init(geom->pos());
+      if (!geom_->dynamic()) {
+        aabbox_->init(geom->pos());
+      } else {
+        // TODO: Fix this hack... I just pretend they're infinite in size
+        // but dynamic objects should change their aabbox size each frame.
+        // (or maybe this is OK, I can't
+        aabbox_->init(Float3(-std::numeric_limits<float>::infinity(),
+                             -std::numeric_limits<float>::infinity(),
+                             -std::numeric_limits<float>::infinity()),
+                      Float3(std::numeric_limits<float>::infinity(),
+                             std::numeric_limits<float>::infinity(),
+                             std::numeric_limits<float>::infinity()));
+      }
     }
     render_ = true;
     bone_ = NULL;

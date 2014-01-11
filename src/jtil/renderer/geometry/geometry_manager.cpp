@@ -677,13 +677,13 @@ void GeometryManager::createAssimpImporter(Assimp::Importer*& importer,
   }
 
   bool GeometryManager::getGeometryTypeSupport(const GeometryType type) {
-    return type == GEOMETRY_COLR_MESH || 
-           type == GEOMETRY_COLR_BONED_MESH || 
-           type == GEOMETRY_CONST_COLR_MESH ||
-           type == GEOMETRY_CONST_COLR_BONED_MESH ||
-           type == GEOMETRY_TEXT_MESH || 
-           type == GEOMETRY_TEXT_BONED_MESH ||
-           type == GEOMETRY_TEXT_DISP_MESH;
+    return type == GEOMETRY_NORM_COLR || 
+           type == GEOMETRY_NORM_COLR_BONED || 
+           type == GEOMETRY_NORM_CONST_COLR ||
+           type == GEOMETRY_NORM_CONST_COLR_BONED ||
+           type == GEOMETRY_NORM_TEXT || 
+           type == GEOMETRY_NORM_TEXT_BONED ||
+           type == GEOMETRY_NORM_TEXT_DISP;
   }
 
   GeometryType GeometryManager::calcAssimpMeshGeometryType(
@@ -922,7 +922,7 @@ void GeometryManager::createAssimpImporter(Assimp::Importer*& importer,
 
     ret->calcTangentVectors();
 
-    if (ret->type() != GEOMETRY_TEXT_DISP_MESH) {
+    if (ret->type() != GEOMETRY_NORM_TEXT_DISP) {
       throw wruntime_error("GeometryManager::makeDispQuadGeometry() - Error:"
         " ret->type() != GEOMETRY_TEXT_DISP_MESH!");
     }

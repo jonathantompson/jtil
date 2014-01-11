@@ -27,6 +27,9 @@ using math::Float3;
 using math::Float2;
 using data_str::Pair;
 
+#define COLR_POINTS_V_SHADER "./shaders/g_buffer/g_buffer_points_colr.vert"
+#define COLR_POINTS_F_SHADER "./shaders/g_buffer/g_buffer_points_colr.frag"
+
 #define COLR_MESH_V_SHADER "./shaders/g_buffer/g_buffer_colr_mesh.vert"
 #define COLR_MESH_VEL_V_SHADER "./shaders/g_buffer/g_buffer_colr_mesh_vel.vert"
 #define COLR_MESH_F_SHADER "./shaders/g_buffer/g_buffer_colr_mesh.frag"
@@ -152,57 +155,59 @@ namespace renderer {
     // shader!
 
     if (!motion_blur_on) {
-      render_pass_->setShader(GEOMETRY_COLR_MESH, COLR_MESH_V_SHADER, 
-        COLR_MESH_F_SHADER);
-      render_pass_->setShader(GEOMETRY_COLR_BONED_MESH, 
+      render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_COLR, 
+        COLR_MESH_V_SHADER, COLR_MESH_F_SHADER);
+      render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_COLR_BONED, 
         COLR_BONED_MESH_V_SHADER, COLR_MESH_F_SHADER);
-      render_pass_->setShader(GEOMETRY_CONST_COLR_MESH, 
+      render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_CONST_COLR, 
         CONST_COLR_MESH_V_SHADER, CONST_COLR_MESH_F_SHADER);
-      render_pass_->setShader(GEOMETRY_CONST_COLR_BONED_MESH, 
+      render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_CONST_COLR_BONED, 
         CONST_COLR_BONED_MESH_V_SHADER, CONST_COLR_MESH_F_SHADER);
-      render_pass_->setShader(GEOMETRY_TEXT_MESH, TEXT_MESH_V_SHADER, 
-        TEXT_MESH_F_SHADER);
-      render_pass_->setShader(GEOMETRY_TEXT_BONED_MESH, 
+      render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_TEXT, 
+        TEXT_MESH_V_SHADER, TEXT_MESH_F_SHADER);
+      render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_TEXT_BONED, 
         TEXT_BONED_MESH_V_SHADER, TEXT_MESH_F_SHADER);
       if (tess_on) {
-        render_pass_->setShader(GEOMETRY_TEXT_DISP_MESH, 
+        render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_TEXT_DISP, 
           TEXT_DISP_MESH_V_SHADER, TEXT_MESH_F_SHADER, NULL, 
           TEXT_DISP_MESH_TC_SHADER, TEXT_DISP_MESH_TE_SHADER);
       } else {
-        render_pass_->setShader(GEOMETRY_TEXT_DISP_MESH, TEXT_MESH_V_SHADER, 
-          TEXT_MESH_F_SHADER);
+        render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_TEXT_DISP, 
+          TEXT_MESH_V_SHADER, TEXT_MESH_F_SHADER);
       }
+      //render_pass_->setShader(VERT_POINTS, GEOMETRY_COLR, 
+      //  COLR_POINTS_V_SHADER, COLR_POINTS_F_SHADER);
     } else {
       bool motion_blur_hq_boned;
       GET_SETTING("motion_blur_hq_boned", bool, motion_blur_hq_boned);
 
-      render_pass_->setShader(GEOMETRY_COLR_MESH, COLR_MESH_VEL_V_SHADER, 
-        COLR_MESH_VEL_F_SHADER);
-      render_pass_->setShader(GEOMETRY_CONST_COLR_MESH, 
+      render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_COLR, 
+        COLR_MESH_VEL_V_SHADER, COLR_MESH_VEL_F_SHADER);
+      render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_CONST_COLR, 
         CONST_COLR_MESH_VEL_V_SHADER, CONST_COLR_MESH_VEL_F_SHADER);
-      render_pass_->setShader(GEOMETRY_TEXT_MESH, TEXT_MESH_VEL_V_SHADER, 
-        TEXT_MESH_VEL_F_SHADER);
+      render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_TEXT, 
+        TEXT_MESH_VEL_V_SHADER, TEXT_MESH_VEL_F_SHADER);
       if (motion_blur_hq_boned) {
-        render_pass_->setShader(GEOMETRY_CONST_COLR_BONED_MESH, 
+        render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_CONST_COLR_BONED, 
           CONST_COLR_BONED_MESH_VEL_HQ_V_SHADER, CONST_COLR_MESH_VEL_F_SHADER);
-        render_pass_->setShader(GEOMETRY_COLR_BONED_MESH, 
+        render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_COLR_BONED, 
           COLR_BONED_MESH_VEL_HQ_V_SHADER, COLR_MESH_VEL_F_SHADER);
-        render_pass_->setShader(GEOMETRY_TEXT_BONED_MESH, 
+        render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_TEXT_BONED, 
           TEXT_BONED_MESH_VEL_HQ_V_SHADER, TEXT_MESH_VEL_F_SHADER);
       } else {
-        render_pass_->setShader(GEOMETRY_CONST_COLR_BONED_MESH, 
+        render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_CONST_COLR_BONED, 
           CONST_COLR_BONED_MESH_VEL_V_SHADER, CONST_COLR_MESH_VEL_F_SHADER);
-        render_pass_->setShader(GEOMETRY_COLR_BONED_MESH, 
+        render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_COLR_BONED, 
           COLR_BONED_MESH_VEL_V_SHADER, COLR_MESH_VEL_F_SHADER);
-        render_pass_->setShader(GEOMETRY_TEXT_BONED_MESH, 
+        render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_TEXT_BONED, 
           TEXT_BONED_MESH_VEL_V_SHADER, TEXT_MESH_VEL_F_SHADER);
       }
       if (tess_on) {
-        render_pass_->setShader(GEOMETRY_TEXT_DISP_MESH, 
+        render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_TEXT_DISP, 
           TEXT_DISP_MESH_VEL_V_SHADER, TEXT_MESH_VEL_F_SHADER, NULL, 
           TEXT_DISP_MESH_VEL_TC_SHADER, TEXT_DISP_MESH_VEL_TE_SHADER);
       } else {
-        render_pass_->setShader(GEOMETRY_TEXT_DISP_MESH, 
+        render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_TEXT_DISP, 
           TEXT_MESH_VEL_V_SHADER, TEXT_MESH_VEL_F_SHADER);
       }
     }
@@ -222,21 +227,21 @@ namespace renderer {
       render_pass_->render_aabboxes() = false;
       render_pass_->render_light_sources() = false;
       render_pass_->render_light_volumes() = false;
-      render_pass_->setShader(GEOMETRY_COLR_MESH, COLR_MESH_V_SHADER, 
+      render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_COLR, COLR_MESH_V_SHADER, 
         NORM_F_SHADER, NORM_G_SHADER);
-      render_pass_->setShader(GEOMETRY_COLR_BONED_MESH, 
+      render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_COLR_BONED, 
         COLR_BONED_MESH_V_SHADER, NORM_F_SHADER, NORM_G_SHADER);
-      render_pass_->setShader(GEOMETRY_CONST_COLR_MESH, 
+      render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_CONST_COLR, 
         CONST_COLR_MESH_V_SHADER, NORM_F_SHADER, NORM_G_SHADER);
-      render_pass_->setShader(GEOMETRY_CONST_COLR_BONED_MESH, 
+      render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_CONST_COLR_BONED, 
         CONST_COLR_BONED_MESH_V_SHADER, NORM_F_SHADER, NORM_G_SHADER);
-      render_pass_->setShader(GEOMETRY_TEXT_MESH, TEXT_MESH_V_SHADER, 
-        NORM_F_SHADER, NORM_G_SHADER);
-      render_pass_->setShader(GEOMETRY_TEXT_BONED_MESH, 
+      render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_TEXT, 
+        TEXT_MESH_V_SHADER, NORM_F_SHADER, NORM_G_SHADER);
+      render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_TEXT_BONED, 
         TEXT_BONED_MESH_V_SHADER, NORM_F_SHADER, NORM_G_SHADER);
-      render_pass_->setShader(GEOMETRY_TEXT_DISP_MESH, TEXT_DISP_MESH_V_SHADER, 
-        NORM_F_SHADER, NORM_G_SHADER, TEXT_DISP_MESH_TC_SHADER,
-        TEXT_DISP_MESH_TE_SHADER);
+      render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_TEXT_DISP, 
+        TEXT_DISP_MESH_V_SHADER, NORM_F_SHADER, NORM_G_SHADER, 
+        TEXT_DISP_MESH_TC_SHADER, TEXT_DISP_MESH_TE_SHADER);
       render_pass_->render();
       render_pass_->shader_uniform_cb() = NULL;
     }
@@ -246,32 +251,6 @@ namespace renderer {
     // Set the depth mask to false to prevent anyone else from writing to it.
     GLState::glsDepthMask(GL_FALSE);
   } 
-
-  // DOESN'T WORK WELL --> NOT VERY USEFUL
-  //void GBuffer::visualizeScreenNormalsToScene() const {
-  //  ShaderProgram::useShaderProgram(EMPTY_V_SHADER, NORM_F_SHADER, 
-  //    SCREEN_NORM_G_SHADER);
-  //  glProgramParameteri(ShaderProgram::cur_shader_program()->shader_program(), 
-  //    GL_GEOMETRY_INPUT_TYPE, GL_POINTS);
-  //  glProgramParameteri(ShaderProgram::cur_shader_program()->shader_program(), 
-  //    GL_GEOMETRY_OUTPUT_TYPE, GL_LINE_STRIP);
-  //  final_scene_->begin();
-  //  GLState::glsDisable(GL_DEPTH_TEST);
-  //  GLState::glsDepthFunc(GL_LESS);
-  //  GLState::glsDisable(GL_CULL_FACE);
-  //  GLState::glsDisable(GL_BLEND);
-  //  GLState::glsPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-  //  g_buffer_texture_->bindDepthNormalViewTex(GL_TEXTURE1, 
-  //    "f_depth_normal_view_stencil");
-  //  Float2 pixel_size(1.0f / g_buffer_texture_->screen_size()[0],
-  //    1.0f / g_buffer_texture_->screen_size()[1]);
-  //  BIND_UNIFORM("pixel_size", pixel_size.m);
-  //  BIND_UNIFORM("p_mat", renderer_->camera()->proj().m);
-  //  BIND_UNIFORM("f_inv_focal_length", 
-  //    renderer_->camera()->inv_focal_length().m);
-  //  single_pt_->draw();
-  //  final_scene_->end();
-  //}
 
   void GBuffer::visualizeNormalsUniformCB() {
     float visualize_normals_length;

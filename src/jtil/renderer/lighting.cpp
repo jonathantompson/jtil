@@ -145,17 +145,17 @@ namespace renderer {
     ambient_cleared_ = false;
 
     vsm_render_pass_ = new GeometryRenderPass(renderer);
-    vsm_render_pass_->setShader(GEOMETRY_COLR_MESH, VSM_COLR_MESH_V_SHADER, 
-      VSM_MESH_F_SHADER);
-    vsm_render_pass_->setShader(GEOMETRY_COLR_BONED_MESH, 
+    vsm_render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_COLR, 
+      VSM_COLR_MESH_V_SHADER, VSM_MESH_F_SHADER);
+    vsm_render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_COLR_BONED, 
       VSM_COLR_BONED_MESH_V_SHADER, VSM_MESH_F_SHADER);
-    vsm_render_pass_->setShader(GEOMETRY_CONST_COLR_MESH, 
+    vsm_render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_CONST_COLR, 
       VSM_CONST_COLR_MESH_V_SHADER, VSM_MESH_F_SHADER);
-    vsm_render_pass_->setShader(GEOMETRY_CONST_COLR_BONED_MESH, 
+    vsm_render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_CONST_COLR_BONED, 
       VSM_CONST_COLR_BONED_MESH_V_SHADER, VSM_MESH_F_SHADER);
-    vsm_render_pass_->setShader(GEOMETRY_TEXT_MESH, VSM_TEXT_MESH_V_SHADER, 
-      VSM_MESH_F_SHADER);
-    vsm_render_pass_->setShader(GEOMETRY_TEXT_BONED_MESH, 
+    vsm_render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_TEXT, 
+      VSM_TEXT_MESH_V_SHADER, VSM_MESH_F_SHADER);
+    vsm_render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_TEXT_BONED, 
       VSM_TEXT_BONED_MESH_V_SHADER, VSM_MESH_F_SHADER);
 
     vsm_render_pass_->render_light_sources() = false;
@@ -257,11 +257,11 @@ namespace renderer {
         bool tess_on;
         GET_SETTING("tess_on", bool, tess_on);
         if (tess_on) {
-          vsm_render_pass_->setShader(GEOMETRY_TEXT_DISP_MESH, 
+          vsm_render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_TEXT_DISP, 
             VSM_TEXT_DISP_MESH_V_SHADER, VSM_MESH_F_SHADER, NULL,
             VSM_TEXT_DISP_MESH_TC_SHADER, VSM_TEXT_DISP_MESH_TE_SHADER);
         } else {
-          vsm_render_pass_->setShader(GEOMETRY_TEXT_DISP_MESH, 
+          vsm_render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_TEXT_DISP, 
             VSM_TEXT_MESH_V_SHADER, VSM_MESH_F_SHADER);
         }
         bool cascaded_sm_disabled = shadow_map_->type() == 

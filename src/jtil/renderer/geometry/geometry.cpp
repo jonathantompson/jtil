@@ -66,6 +66,7 @@ namespace renderer {
     num_synced_ind_ = 0;
     primative_type_ = VERT_TRIANGLES;
     dynamic_ = dynamic;
+    point_size_ = 1.0f;
   }
 
   Geometry::~Geometry() {
@@ -127,11 +128,18 @@ namespace renderer {
 
   void Geometry::sync() {
     if (synced_) {
-      throw wruntime_error(L"sync() - ERROR: dynamic VBOs not yet supported");
+      throw wruntime_error("sync() - ERROR: Call reSync if you want to update"
+        " data");
     }
     syncVAO();
-
     synced_ = true;
+  }
+
+  void Geometry::resync() {
+    if (!synced_) {
+      throw wruntime_error(L"sync() - ERROR: dynamic VBOs not yet supported");
+    }
+    resyncVAO();
   }
 
   void Geometry::unsync() {
@@ -147,9 +155,52 @@ namespace renderer {
   }
 
   void Geometry::syncVAO() {
-    if (synced_) {
-      throw wruntime_error(L"sync() - ERROR: dynamic VBOs not yet supported");
+    // Allocate a VAO
+    GLState::glsGenVertexArrays(1, &vao_);
+
+    // Bind our Vertex Array Object as the current used object
+    GLState::glsBindVertexArray(0);  // Forces a rebinding in the GLState
+    GLState::glsBindVertexArray(vao_);
+
+    // Allocate and assign two Vertex Buffer Objects to our handle
+    GLState::glsGenBuffers(1, &vbo_);
+
+    // Bind our first VBO as being the active buffer and storing vertex 
+    // attributes (coordinates)
+    GLState::glsBindBuffer(GL_ARRAY_BUFFER, vbo_);
+
+    // Allocate a vertex buffer
+    uint32_t vert_size = vertexSize();
+    uint32_t num_elements = vert_size / 4;
+    vert_buffer_size_ = pos_.size() * vert_size;
+    
+    GLState::glsBufferData(GL_ARRAY_BUFFER, vert_buffer_size_, NULL, 
+      GL_STATIC_DRAW);
+    ERROR_CHECK;
+
+    uint32_t dummy_int;
+    static_cast<void>(dummy_int);
+    ind_buffer_size_ = ind_.size() * sizeof(dummy_int);
+    if (ind_.size() != 0) {
+      GLState::glsGenBuffers(1, &ibo_);
+      GLState::glsBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_);
+
+      // Allocate the space for the index buffer
+      GLState::glsBufferData(GL_ELEMENT_ARRAY_BUFFER, 
+        ind_buffer_size_, ind_.at(0), GL_STATIC_DRAW);
+    } else {
+      ibo_ = 0;
     }
+
+    resyncVAO();  // Copys over the data and sets vertex attributes
+
+    // Unbind VAO so no one accidently makes changes to it.
+    GLState::glsBindVertexArray(0);
+
+    synced_ = true;
+  }
+
+  void Geometry::resyncVAO() {
     // Check the data sizes first
     bool has_pos = hasVertexAttribute(VERTATTR_POS);
     if (!has_pos) {
@@ -215,27 +266,19 @@ namespace renderer {
         "there are no tangent vectors!");
     }
 
-    // Allocate a VAO
-    GLState::glsGenVertexArrays(1, &vao_);
-
-    // Bind our Vertex Array Object as the current used object
-    GLState::glsBindVertexArray(0);  // Forces a rebinding in the GLState
-    GLState::glsBindVertexArray(vao_);
-
-    // Allocate and assign two Vertex Buffer Objects to our handle
-    GLState::glsGenBuffers(1, &vbo_);
-
     // Bind our first VBO as being the active buffer and storing vertex 
     // attributes (coordinates)
     GLState::glsBindBuffer(GL_ARRAY_BUFFER, vbo_);
 
-    // Allocate a vertex buffer
     uint32_t vert_size = vertexSize();
     uint32_t num_elements = vert_size / 4;
-    
-    GLState::glsBufferData(GL_ARRAY_BUFFER, pos_.size() * vert_size, NULL,
-      GL_STATIC_DRAW);
-    ERROR_CHECK;
+   
+    // Make sure the array size hasn't changed!
+    uint32_t cur_vert_buffer_size = pos_.size() * vert_size;
+    if (cur_vert_buffer_size != vert_buffer_size_) {
+      throw std::wruntime_error("Geometry::reSyncVAO() - ERROR: dynamic "
+        "geometry buffer sizes must not change!");
+    }
 
     // Copy the data into the vertex buffer
     uint32_t* ptr = (uint32_t*)(GLState::glsMapBuffer(GL_ARRAY_BUFFER, 
@@ -338,16 +381,23 @@ namespace renderer {
     }
     num_synced_vert_ = pos_.size();
 
-    // Allocate an index buffer if we're using it
-    if (ind_.size() != 0) {
-      GLState::glsGenBuffers(1, &ibo_);
+    // Make sure the index array size hasn't changed!
+    uint32_t dummy_int;
+    static_cast<void>(dummy_int);
+    uint32_t cur_ind_buffer_size = ind_.size() * sizeof(dummy_int);
+    if (cur_ind_buffer_size != ind_buffer_size_) {
+      throw std::wruntime_error("Geometry::reSyncVAO() - ERROR: dynamic "
+        "geometry buffer sizes must not change!");
+    }
+
+    // Copy over the index array
+    if (cur_ind_buffer_size > 0) {
       GLState::glsBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_);
 
-      // Allocate the space for the index buffer
-      GLState::glsBufferData(GL_ELEMENT_ARRAY_BUFFER, 
-        ind_.size()*sizeof(ind_[0]), ind_.at(0), GL_STATIC_DRAW);
-    } else {
-      ibo_ = 0;
+      uint32_t* ptr = (uint32_t*)(GLState::glsMapBuffer(GL_ELEMENT_ARRAY_BUFFER, 
+        GL_WRITE_ONLY));
+      memcpy(ptr, ind_.at(0), cur_ind_buffer_size);
+      GLState::glsUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
     }
     num_synced_ind_ = ind_.size();
 
@@ -356,7 +406,6 @@ namespace renderer {
 
     synced_ = true;
   }
-
     
   void Geometry::setVertexAttribPointerF(const int id, const int size,
     const int type, const bool normalized, const int stride, 
@@ -365,10 +414,6 @@ namespace renderer {
       type == GL_UNSIGNED_SHORT || type == GL_INT || type == GL_UNSIGNED_INT) {
       throw wruntime_error(L"setVertexAttribIPointerF() - "
        L"ERROR: input type is not float.");
-    }
-    if (synced_) {
-      throw wruntime_error("setVertexAttribPointerF() - ERROR: Trying to "
-        "change attributes after sync");
     }
     GLState::glsVertexAttribPointer(id, size, type, normalized, stride, 
       pointer);
@@ -575,6 +620,8 @@ namespace renderer {
     switch (primative_type_) {
     case VERT_POINTS:
       type = GL_POINTS;
+      GLState::glsEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
+      BIND_UNIFORM("v_point_size", &point_size_);
       break;
     case VERT_TRIANGLES:
       type = GL_TRIANGLES;

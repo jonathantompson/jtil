@@ -33,7 +33,8 @@ namespace renderer {
     GeometryRenderPass(Renderer* renderer);
     ~GeometryRenderPass();
 
-    void setShader(const GeometryType geom_type, const char* vshader, 
+    void setShader(const VertexPrimative primative, 
+      const GeometryType geom_type, const char* vshader, 
       const char* fshader, const char* gshader = NULL, 
       const char* tcsshader = NULL, const char* tesshader = NULL);
 
@@ -51,13 +52,13 @@ namespace renderer {
 
   private:
     typedef enum {
-      INDEX_COLR_MESH = 0,
-      INDEX_COLR_BONED_MESH = 1,
-      INDEX_CONST_COLR_MESH = 2,
-      INDEX_CONST_COLR_BONED_MESH = 3,
-      INDEX_TEXT_MESH = 4,
-      INDEX_TEXT_BONED_MESH = 5,
-      INDEX_TEXT_DISP_MESH = 6,
+      INDEX_NORM_COLR = 0,
+      INDEX_NORM_COLR_BONED = 1,
+      INDEX_NORM_CONST_COLR = 2,
+      INDEX_NORM_CONST_COLR_BONED = 3,
+      INDEX_NORM_TEXT = 4,
+      INDEX_NORM_TEXT_BONED = 5,
+      INDEX_NORM_TEXT_DISP = 6,
       NUM_GEOMETRY_TYPES_SUPORTED = 7,
     } GeometryTypeIndex;
 
@@ -65,11 +66,17 @@ namespace renderer {
     ShaderUniformCBFunc shader_uniform_cb_;
 
     // Buffer of shaders to use for each of the geometry types
-    data_str::VectorManaged<const char*> v_shaders_;
-    data_str::VectorManaged<const char*> f_shaders_;
-    data_str::VectorManaged<const char*> g_shaders_;
-    data_str::VectorManaged<const char*> tcs_shaders_;  // tes. control shader
-    data_str::VectorManaged<const char*> tes_shaders_;  // tes. eval. shader
+    data_str::VectorManaged<const char*> mesh_v_shaders_;
+    data_str::VectorManaged<const char*> mesh_f_shaders_;
+    data_str::VectorManaged<const char*> mesh_g_shaders_;
+    data_str::VectorManaged<const char*> mesh_tcs_shaders_;  // tes. control shader
+    data_str::VectorManaged<const char*> mesh_tes_shaders_;  // tes. eval. shader
+
+    data_str::VectorManaged<const char*> points_v_shaders_;
+    data_str::VectorManaged<const char*> points_f_shaders_;
+    data_str::VectorManaged<const char*> points_g_shaders_;
+    data_str::VectorManaged<const char*> points_tcs_shaders_;  // tes. control shader
+    data_str::VectorManaged<const char*> points_tes_shaders_;  // tes. eval. shader
 
     bool render_aabboxes_;  // Render AABBox objects in wireframe
     bool render_light_volumes_;  // Render light volumes in wireframe
