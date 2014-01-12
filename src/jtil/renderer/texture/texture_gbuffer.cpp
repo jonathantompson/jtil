@@ -156,8 +156,9 @@ namespace renderer {
   }
 
   void TextureGBuffer::beginLightFinalPass() const {
-    bindAlbedoSpecIntensityTex(GL_TEXTURE0, "f_albedo_spec_intensity");
-    bindLightAccumulationTex(GL_TEXTURE1, "f_accumulation_tex");
+    bindDepthNormalViewTex(GL_TEXTURE0, "f_depth_normal_view_stencil");
+    bindAlbedoSpecIntensityTex(GL_TEXTURE1, "f_albedo_spec_intensity");
+    bindLightAccumulationTex(GL_TEXTURE2, "f_accumulation_tex");
   }
 
   void TextureGBuffer::endLightFinalPass() const {

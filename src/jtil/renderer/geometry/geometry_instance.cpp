@@ -55,6 +55,8 @@ namespace renderer {
       }
     }
     render_ = true;
+    apply_lighting_ = true;
+    point_size_ = 10.0f;
     bone_ = NULL;
     bone_root_node_ = NULL;
     mat_hierarchy_inv_ = NULL;

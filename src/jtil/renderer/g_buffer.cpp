@@ -27,8 +27,8 @@ using math::Float3;
 using math::Float2;
 using data_str::Pair;
 
-#define COLR_POINTS_V_SHADER "./shaders/g_buffer/g_buffer_points_colr.vert"
-#define COLR_POINTS_F_SHADER "./shaders/g_buffer/g_buffer_points_colr.frag"
+#define COLR_POINTS_V_SHADER "./shaders/g_buffer/g_buffer_colr_points.vert"
+#define COLR_POINTS_F_SHADER "./shaders/g_buffer/g_buffer_colr_points.frag"
 
 #define COLR_MESH_V_SHADER "./shaders/g_buffer/g_buffer_colr_mesh.vert"
 #define COLR_MESH_VEL_V_SHADER "./shaders/g_buffer/g_buffer_colr_mesh_vel.vert"
@@ -175,8 +175,8 @@ namespace renderer {
         render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_TEXT_DISP, 
           TEXT_MESH_V_SHADER, TEXT_MESH_F_SHADER);
       }
-      //render_pass_->setShader(VERT_POINTS, GEOMETRY_COLR, 
-      //  COLR_POINTS_V_SHADER, COLR_POINTS_F_SHADER);
+      render_pass_->setShader(VERT_POINTS, GEOMETRY_COLR, 
+        COLR_POINTS_V_SHADER, COLR_POINTS_F_SHADER);
     } else {
       bool motion_blur_hq_boned;
       GET_SETTING("motion_blur_hq_boned", bool, motion_blur_hq_boned);
@@ -210,6 +210,10 @@ namespace renderer {
         render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_TEXT_DISP, 
           TEXT_MESH_VEL_V_SHADER, TEXT_MESH_VEL_F_SHADER);
       }
+      std::cout << "TODO: Create a velocity version of the colored points." <<
+        std::endl;
+      render_pass_->setShader(VERT_POINTS, GEOMETRY_COLR, 
+        COLR_POINTS_V_SHADER, COLR_POINTS_F_SHADER);
     }
 
     render_pass_->render_aabboxes() = render_aabboxes;
@@ -222,13 +226,14 @@ namespace renderer {
     bool visualize_normals;
     GET_SETTING("visualize_normals", bool, visualize_normals);
     if (visualize_normals) {
-      // Normal visualization pass:
+      render_pass_->unsetShaders();
+      // Normal visualization pass:  It is slow but it's just for debugging
       render_pass_->shader_uniform_cb() = visualizeNormalsUniformCB;
       render_pass_->render_aabboxes() = false;
       render_pass_->render_light_sources() = false;
       render_pass_->render_light_volumes() = false;
-      render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_COLR, COLR_MESH_V_SHADER, 
-        NORM_F_SHADER, NORM_G_SHADER);
+      render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_COLR, 
+        COLR_MESH_V_SHADER, NORM_F_SHADER, NORM_G_SHADER);
       render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_COLR_BONED, 
         COLR_BONED_MESH_V_SHADER, NORM_F_SHADER, NORM_G_SHADER);
       render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_CONST_COLR, 
@@ -239,11 +244,16 @@ namespace renderer {
         TEXT_MESH_V_SHADER, NORM_F_SHADER, NORM_G_SHADER);
       render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_TEXT_BONED, 
         TEXT_BONED_MESH_V_SHADER, NORM_F_SHADER, NORM_G_SHADER);
-      render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_TEXT_DISP, 
-        TEXT_DISP_MESH_V_SHADER, NORM_F_SHADER, NORM_G_SHADER, 
-        TEXT_DISP_MESH_TC_SHADER, TEXT_DISP_MESH_TE_SHADER);
+      // TODO: Fix this!!! This geometry type throws invalid operation
+      //render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_TEXT_DISP, 
+      //  TEXT_DISP_MESH_V_SHADER, NORM_F_SHADER, NORM_G_SHADER, 
+      //  TEXT_DISP_MESH_TC_SHADER, TEXT_DISP_MESH_TE_SHADER);
+      // TODO: Fix this!!! This geometry type throws invalid operation
+      //render_pass_->setShader(VERT_POINTS, GEOMETRY_COLR, 
+      //  COLR_POINTS_V_SHADER, NORM_F_SHADER, NORM_G_SHADER);
       render_pass_->render();
       render_pass_->shader_uniform_cb() = NULL;
+      render_pass_->unsetShaders();
     }
 
     g_buffer_texture_->endGeometryPass();
@@ -253,9 +263,11 @@ namespace renderer {
   } 
 
   void GBuffer::visualizeNormalsUniformCB() {
-    float visualize_normals_length;
-    GET_SETTING("visualize_normals_length", float, visualize_normals_length);
-    BIND_UNIFORM("normal_length", &visualize_normals_length);
+    if (QUERY_UNIFORM("normal_length")) {
+      float visualize_normals_length;
+      GET_SETTING("visualize_normals_length", float, visualize_normals_length);
+      BIND_UNIFORM("normal_length", &visualize_normals_length);
+    }
   }
 
   void GBuffer::clearGBuffer(Texture* tex) {

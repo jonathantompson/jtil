@@ -31,27 +31,29 @@ namespace renderer {
     frustum_ = NULL;
     renderer_ = renderer;
 
-    mesh_v_shaders_.capacity(NUM_GEOMETRY_TYPES_SUPORTED);
-    mesh_v_shaders_.resize(NUM_GEOMETRY_TYPES_SUPORTED);
-    mesh_f_shaders_.capacity(NUM_GEOMETRY_TYPES_SUPORTED);
-    mesh_f_shaders_.resize(NUM_GEOMETRY_TYPES_SUPORTED);
-    mesh_g_shaders_.capacity(NUM_GEOMETRY_TYPES_SUPORTED);
-    mesh_g_shaders_.resize(NUM_GEOMETRY_TYPES_SUPORTED);
-    mesh_tcs_shaders_.capacity(NUM_GEOMETRY_TYPES_SUPORTED);
-    mesh_tcs_shaders_.resize(NUM_GEOMETRY_TYPES_SUPORTED);
-    mesh_tes_shaders_.capacity(NUM_GEOMETRY_TYPES_SUPORTED);
-    mesh_tes_shaders_.resize(NUM_GEOMETRY_TYPES_SUPORTED);
-
-    points_v_shaders_.capacity(NUM_GEOMETRY_TYPES_SUPORTED);
-    points_v_shaders_.resize(NUM_GEOMETRY_TYPES_SUPORTED);
-    points_f_shaders_.capacity(NUM_GEOMETRY_TYPES_SUPORTED);
-    points_f_shaders_.resize(NUM_GEOMETRY_TYPES_SUPORTED);
-    points_g_shaders_.capacity(NUM_GEOMETRY_TYPES_SUPORTED);
-    points_g_shaders_.resize(NUM_GEOMETRY_TYPES_SUPORTED);
-    points_tcs_shaders_.capacity(NUM_GEOMETRY_TYPES_SUPORTED);
-    points_tcs_shaders_.resize(NUM_GEOMETRY_TYPES_SUPORTED);
-    points_tes_shaders_.capacity(NUM_GEOMETRY_TYPES_SUPORTED);
-    points_tes_shaders_.resize(NUM_GEOMETRY_TYPES_SUPORTED);
+    // Initialize space for all the shaders and set them to NULL
+    for (uint32_t i = 0; i < NUM_VERTEX_PRIMATIVES_SUPORTED; i++) {
+      v_shaders_[i].capacity(NUM_GEOMETRY_TYPES_SUPORTED);
+      v_shaders_[i].resize(NUM_GEOMETRY_TYPES_SUPORTED);
+      memset(v_shaders_[i].at(0), NULL, sizeof(v_shaders_[i].at(0)) * 
+        NUM_GEOMETRY_TYPES_SUPORTED);
+      f_shaders_[i].capacity(NUM_GEOMETRY_TYPES_SUPORTED);
+      f_shaders_[i].resize(NUM_GEOMETRY_TYPES_SUPORTED);
+      memset(f_shaders_[i].at(0), NULL, sizeof(f_shaders_[i].at(0)) * 
+        NUM_GEOMETRY_TYPES_SUPORTED);
+      g_shaders_[i].capacity(NUM_GEOMETRY_TYPES_SUPORTED);
+      g_shaders_[i].resize(NUM_GEOMETRY_TYPES_SUPORTED);
+      memset(g_shaders_[i].at(0), NULL, sizeof(g_shaders_[i].at(0)) * 
+        NUM_GEOMETRY_TYPES_SUPORTED);
+      tcs_shaders_[i].capacity(NUM_GEOMETRY_TYPES_SUPORTED);
+      tcs_shaders_[i].resize(NUM_GEOMETRY_TYPES_SUPORTED);
+      memset(tcs_shaders_[i].at(0), NULL, sizeof(tcs_shaders_[i].at(0)) * 
+        NUM_GEOMETRY_TYPES_SUPORTED);
+      tes_shaders_[i].capacity(NUM_GEOMETRY_TYPES_SUPORTED);
+      tes_shaders_[i].resize(NUM_GEOMETRY_TYPES_SUPORTED);
+      memset(tes_shaders_[i].at(0), NULL, sizeof(tes_shaders_[i].at(0)) * 
+        NUM_GEOMETRY_TYPES_SUPORTED);
+    }
 
     render_aabboxes_ = false;
     render_light_volumes_ = true;
@@ -66,11 +68,22 @@ namespace renderer {
   }
 
   GeometryRenderPass::~GeometryRenderPass() {
+    // Explicitly clear out the strings
+    for (uint32_t i = 0; i < NUM_VERTEX_PRIMATIVES_SUPORTED; i++) {
+      v_shaders_[i].clear();
+      f_shaders_[i].clear();
+      g_shaders_[i].clear();
+      tcs_shaders_[i].clear();
+      tes_shaders_[i].clear();
+    }
   }
 
+  // TODO: Get rid of this function!  Maybe use a hash map
   GeometryRenderPass::GeometryTypeIndex 
     GeometryRenderPass::getGeometryTypeIndex(const GeometryType type) const {
     switch (type) {
+    case GEOMETRY_COLR:
+      return INDEX_COLR;
     case GEOMETRY_NORM_COLR:
       return INDEX_NORM_COLR;
     case GEOMETRY_NORM_COLR_BONED:
@@ -86,16 +99,19 @@ namespace renderer {
     case GEOMETRY_NORM_TEXT_DISP:
       return INDEX_NORM_TEXT_DISP;
     default:
-      throw std::wruntime_error(L"GeometryRenderPass::getGeometryTypeIndex()"
-        L" - ERROR: index not recognized or not supported.");
+      throw std::wruntime_error("GeometryRenderPass::getGeometryTypeIndex()"
+        " - ERROR: index not recognized or not supported.");
     }
   }
 
+  // TODO: Get rid of this function!  Maybe use a hash map
   GeometryType GeometryRenderPass::getGeometryType(
     const GeometryRenderPass::GeometryTypeIndex index) const {
     switch (index) {
     case INDEX_NORM_COLR:
       return GEOMETRY_NORM_COLR;
+    case INDEX_COLR:
+      return GEOMETRY_COLR;
     case INDEX_NORM_COLR_BONED:
       return GEOMETRY_NORM_COLR_BONED;
     case INDEX_NORM_CONST_COLR:
@@ -109,8 +125,44 @@ namespace renderer {
     case INDEX_NORM_TEXT_DISP:
       return GEOMETRY_NORM_TEXT_DISP;
     default:
-      throw std::wruntime_error(L"GeometryRenderPass::getGeometryType() - "
-        L"ERROR: index not recognized or not supported.");
+      throw std::wruntime_error("GeometryRenderPass::getGeometryType() - "
+        "ERROR: index not recognized or not supported.");
+    }
+  }
+
+  // TODO: Get rid of this function!  Maybe use a hash map
+  GeometryRenderPass::VertexPrimativeIndex 
+    GeometryRenderPass::getVertexPrimativeIndex(const VertexPrimative type) const {
+    switch (type) {
+    case VERT_POINTS:
+      return INDEX_VERT_POINTS;
+    case VERT_LINES:
+      return INDEX_VERT_LINES;
+    case VERT_TRIANGLES:
+      return INDEX_VERT_TRIANGLES;
+    case VERT_QUADS:
+      return INDEX_VERT_QUADS;
+    default:
+      throw std::wruntime_error("GeometryRenderPass::getVertexPrimativeIndex()"
+        " - ERROR: index not recognized or not supported.");
+    }
+  }
+
+  // TODO: Get rid of this function!  Maybe use a hash map
+  VertexPrimative GeometryRenderPass::getVertexPrimative(
+    const GeometryRenderPass::VertexPrimativeIndex index) const {
+    switch (index) {
+    case INDEX_VERT_POINTS:
+      return VERT_POINTS;
+    case INDEX_VERT_LINES:
+      return VERT_LINES;
+    case INDEX_VERT_TRIANGLES:
+      return VERT_TRIANGLES;
+    case INDEX_VERT_QUADS:
+      return VERT_QUADS;
+    default:
+      throw std::wruntime_error("GeometryRenderPass::getVertexPrimative() - "
+        "ERROR: index not recognized or not supported.");
     }
   }
 
@@ -134,33 +186,37 @@ namespace renderer {
     char* tesshader_cpy = copyStrSafe(tesshader);
     GeometryTypeIndex index = getGeometryTypeIndex(geom_type);
 
-    if (primative == VERT_TRIANGLES) {
-      mesh_v_shaders_.deleteAt(index);
-      mesh_f_shaders_.deleteAt(index);
-      mesh_g_shaders_.deleteAt(index);
-      mesh_tcs_shaders_.deleteAt(index);
-      mesh_tes_shaders_.deleteAt(index);
+#if defined(DEBUG) || defined(_DEBUG)
+    if (primative >= NUM_VERTEX_PRIMATIVES_SUPORTED) {
+      throw std::wruntime_error("primative >= NUM_VERTEX_PRIMATIVES_SUPORTED");
+    }
+    if (primative >= NUM_VERTEX_PRIMATIVES_SUPORTED) {
+      throw std::wruntime_error("geom_type >= NUM_GEOMETRY_TYPES_SUPORTED");
+    }
+#endif
 
-      mesh_v_shaders_.set(index, vshader_cpy);
-      mesh_f_shaders_.set(index, fshader_cpy);
-      mesh_g_shaders_.set(index, gshader_cpy);
-      mesh_tcs_shaders_.set(index, tcsshader_cpy);
-      mesh_tes_shaders_.set(index, tesshader_cpy);
-    } else if (primative == VERT_POINTS) {
-      points_v_shaders_.deleteAt(index);
-      points_f_shaders_.deleteAt(index);
-      points_g_shaders_.deleteAt(index);
-      points_tcs_shaders_.deleteAt(index);
-      points_tes_shaders_.deleteAt(index);
+    v_shaders_[primative].deleteAt(index);
+    f_shaders_[primative].deleteAt(index);
+    g_shaders_[primative].deleteAt(index);
+    tcs_shaders_[primative].deleteAt(index);
+    tes_shaders_[primative].deleteAt(index);
 
-      points_v_shaders_.set(index, vshader_cpy);
-      points_f_shaders_.set(index, fshader_cpy);
-      points_g_shaders_.set(index, gshader_cpy);
-      points_tcs_shaders_.set(index, tcsshader_cpy);
-      points_tes_shaders_.set(index, tesshader_cpy);
-    } else {
-      throw std::wruntime_error("GeometryRenderPass::setShader() - ERROR: "
-        "Primative not yet supported!");
+    v_shaders_[primative].set(index, vshader_cpy);
+    f_shaders_[primative].set(index, fshader_cpy);
+    g_shaders_[primative].set(index, gshader_cpy);
+    tcs_shaders_[primative].set(index, tcsshader_cpy);
+    tes_shaders_[primative].set(index, tesshader_cpy);
+  }
+
+  void GeometryRenderPass::unsetShaders() {
+    for (uint32_t p = 0; p < NUM_VERTEX_PRIMATIVES_SUPORTED; p++) {
+      for (uint32_t g = 0; g < NUM_GEOMETRY_TYPES_SUPORTED; g++) {
+        v_shaders_[p].deleteAt(g);
+        f_shaders_[p].deleteAt(g);
+        g_shaders_[p].deleteAt(g);
+        tcs_shaders_[p].deleteAt(g);
+        tes_shaders_[p].deleteAt(g);
+      }
     }
   }
 
@@ -183,97 +239,120 @@ namespace renderer {
     }
 
     // ********************************************
-    // Render all the mesh types, but batch render them (so all geometry of
-    // a type are rendered together).
-    VertexPrimative cur_primative = VERT_TRIANGLES;
-    for (uint32_t i = 0; i < NUM_GEOMETRY_TYPES_SUPORTED; i++) {
-      GeometryType cur_type = getGeometryType((GeometryTypeIndex)i);
-      ShaderProgram::useShaderProgram(mesh_v_shaders_[i], mesh_f_shaders_[i], 
-        mesh_g_shaders_[i], mesh_tcs_shaders_[i], mesh_tes_shaders_[i]);
+    // Render all the types, but batch render them (so all geometry of
+    // a primative and type are rendered together)...  This avoids context
+    // switching the shader.
+    for (uint32_t p = 0; p < NUM_VERTEX_PRIMATIVES_SUPORTED; p++) {
+      for (uint32_t g = 0; g < NUM_GEOMETRY_TYPES_SUPORTED; g++) {
+        GeometryType cur_type = getGeometryType((GeometryTypeIndex)g);
+        VertexPrimative cur_prim = getVertexPrimative((VertexPrimativeIndex)p);
 
-      if (shader_uniform_cb_) {
-        shader_uniform_cb_();
-      }
-
-      if (QUERY_UNIFORM("f_lighting_stencil")) {
-        const float stencil_val = 1.0f;
-        BIND_UNIFORM("f_lighting_stencil", &stencil_val);
-      }
-
-      if (QUERY_UNIFORM("tc_tess_factor")) {
-        int tess_factor;
-        GET_SETTING("tess_factor", int, tess_factor);
-        float ftess_factor = (float)tess_factor;
-        BIND_UNIFORM("tc_tess_factor", &ftess_factor);
-      }
-
-      renderer_->geometry_manager()->renderStackReset();
-      while (!renderer_->geometry_manager()->renderStackEmpty()) {
-        GeometryInstance* cur_geom = renderer_->geometry_manager()->renderStackPop();
-        if (cur_geom->render() && cur_geom->type() == cur_type && 
-          cur_primative == cur_geom->geom()->primative_type()) {  // TODO: This is messy!
-          // HACK! AABBOX for boned meshes is broken, so pretend it always 
-          // passes frustum culling.
-          bool boned_mesh = false;
-          if (cur_geom->geom() && cur_geom->geom()->bone_names().size() > 0) {
-            boned_mesh = true;
-          }
-          if (boned_mesh || (cur_geom->aabbox() && 
-            cur_geom->aabbox()->frustumCullTest(frustum_))) {
-
-            // Calculate model view matrix and bind it to the shader
-            if (QUERY_UNIFORM("vw_mat")) {
-              Float4x4::multSIMD(vw_mat_, *view_, cur_geom->mat_hierarchy());
-              BIND_UNIFORM("vw_mat", vw_mat_.m);
-            }
-
-            // Calculate model view normal matrix and bind it to the shader
-            // Normal matrix is the (M_modelview^-1)^T:
-            // --> http://www.songho.ca/opengl/gl_transform.html
-            if (QUERY_UNIFORM("normal_mat")) {
-              Float4x4::affineInverse(normal_mat_, vw_mat_);
-              normal_mat_.transpose();
-              BIND_UNIFORM("normal_mat", normal_mat_.m);
-            }
-
-            if (QUERY_UNIFORM("p_mat")) {
-              // Plane projection matrix used in tessellation shader
-              BIND_UNIFORM("p_mat", proj_->m);
-            }
-
-            if (QUERY_UNIFORM("pvw_mat")) {
-              // Calculate model view projection matrix and bind it
-              Float4x4::multSIMD(pvw_mat_, *proj_, vw_mat_ );
-              BIND_UNIFORM("pvw_mat", pvw_mat_.m);
-            }
-
-            if (QUERY_UNIFORM("pvw_mat_prev_frame")) {
-              if (wireframe) {
-                // Escentially no motion blur when rendering wireframe!
-                BIND_UNIFORM("pvw_mat_prev_frame", pvw_mat_.m);
-              } else {
-                BIND_UNIFORM("pvw_mat_prev_frame", 
-                  cur_geom->pvm_prev_frame().m);
-              }
-              cur_geom->pvm_prev_frame().set(pvw_mat_);
-            }
-
-            cur_geom->mtrl().setUniforms();
-            cur_geom->bindRGBTexture(GL_TEXTURE0);
-            cur_geom->bindBumpTexture(GL_TEXTURE1);
-            cur_geom->bindDispTexture(GL_TEXTURE2);
-            cur_geom->bindBoneMatrices(motion_blur_hq_boned);
-
-            // Draw the current geometry
-            cur_geom->draw();
-          }
+        if (!isShaderSet((VertexPrimativeIndex)p, (GeometryTypeIndex)g)) {
+          // No shader for this geometry primative and type has been set
+          continue;
         }
-      }  // while
-    }
+
+        ShaderProgram::useShaderProgram(v_shaders_[p][g], f_shaders_[p][g], 
+          g_shaders_[p][g], tcs_shaders_[p][g], tes_shaders_[p][g]);
+
+        if (shader_uniform_cb_) {
+          shader_uniform_cb_();
+        }
+
+        if (QUERY_UNIFORM("tc_tess_factor")) {
+          int tess_factor;
+          GET_SETTING("tess_factor", int, tess_factor);
+          float ftess_factor = (float)tess_factor;
+          BIND_UNIFORM("tc_tess_factor", &ftess_factor);
+        }
+
+        renderer_->geometry_manager()->renderStackReset();
+        while (!renderer_->geometry_manager()->renderStackEmpty()) {
+          GeometryInstance* cur_geom = renderer_->geometry_manager()->renderStackPop();
+          if (cur_geom->render() && 
+              cur_geom->type() == cur_type && 
+              cur_prim == cur_geom->geom()->primative_type()) {
+            // HACK! AABBOX for boned meshes is broken, so pretend it always 
+            // passes frustum culling.
+            bool boned_mesh = false;
+            if (cur_geom->geom() && cur_geom->geom()->bone_names().size() > 0) {
+              boned_mesh = true;
+            }
+            if (boned_mesh || (cur_geom->aabbox() && 
+              cur_geom->aabbox()->frustumCullTest(frustum_))) {
+
+              // Calculate model view matrix and bind it to the shader
+              if (QUERY_UNIFORM("vw_mat")) {
+                Float4x4::multSIMD(vw_mat_, *view_, cur_geom->mat_hierarchy());
+                BIND_UNIFORM("vw_mat", vw_mat_.m);
+              }
+
+              // Calculate model view normal matrix and bind it to the shader
+              // Normal matrix is the (M_modelview^-1)^T:
+              // --> http://www.songho.ca/opengl/gl_transform.html
+              if (QUERY_UNIFORM("normal_mat")) {
+                Float4x4::affineInverse(normal_mat_, vw_mat_);
+                normal_mat_.transpose();
+                BIND_UNIFORM("normal_mat", normal_mat_.m);
+              }
+
+              if (QUERY_UNIFORM("p_mat")) {
+                // Plane projection matrix used in tessellation shader
+                BIND_UNIFORM("p_mat", proj_->m);
+              }
+
+              if (QUERY_UNIFORM("pvw_mat")) {
+                // Calculate model view projection matrix and bind it
+                Float4x4::multSIMD(pvw_mat_, *proj_, vw_mat_ );
+                BIND_UNIFORM("pvw_mat", pvw_mat_.m);
+              }
+
+              if (QUERY_UNIFORM("pvw_mat_prev_frame")) {
+                if (wireframe) {
+                  // Escentially no motion blur when rendering wireframe!
+                  BIND_UNIFORM("pvw_mat_prev_frame", pvw_mat_.m);
+                } else {
+                  BIND_UNIFORM("pvw_mat_prev_frame", 
+                    cur_geom->pvm_prev_frame().m);
+                }
+                cur_geom->pvm_prev_frame().set(pvw_mat_);
+              }
+
+              if (QUERY_UNIFORM("v_point_size")) {
+                GLState::glsEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
+                BIND_UNIFORM("v_point_size", &cur_geom->point_size());
+              } else {
+                GLState::glsDisable(GL_VERTEX_PROGRAM_POINT_SIZE);
+              }
+
+              if (QUERY_UNIFORM("f_lighting_stencil")) {
+                const float stencil_value = 
+                  cur_geom->apply_lighting() ? 1.0f : 0.0f;
+                BIND_UNIFORM("f_lighting_stencil", &stencil_value);
+const float spec_power = 0;
+const float spec_intensity = 0;
+BIND_UNIFORM("f_spec_power", &spec_power);
+BIND_UNIFORM("f_spec_intensity", &spec_intensity);
+              }
+
+              cur_geom->mtrl().setUniforms();
+              cur_geom->bindRGBTexture(GL_TEXTURE0);
+              cur_geom->bindBumpTexture(GL_TEXTURE1);
+              cur_geom->bindDispTexture(GL_TEXTURE2);
+              cur_geom->bindBoneMatrices(motion_blur_hq_boned);
+
+              // Draw the current geometry
+              cur_geom->draw();
+            }
+          }
+        }  // while
+      }  // for (uint32_t g = 0; g < NUM_GEOMETRY_TYPES_SUPORTED; g++)
+    }  // for (uint32_t p = 0; p < NUM_VERTEX_PRIMATIVES_SUPORTED; p++)
 
     // ********************************************
     // Render all the light objects --> these are flagged as non-lightable in
     // the gbuffer (just like the skybox)
+    // TODO: PUT ALL THESE IN THE SCENE GRAPH!
     bool spot_lights = false;
     GET_SETTING("spot_lights", bool, spot_lights);
     bool point_lights = false;
@@ -284,9 +363,15 @@ namespace renderer {
 
     if (render_light_volumes_) {
       if (spot_lights || point_lights) {
-        uint32_t i = INDEX_NORM_CONST_COLR;
-        ShaderProgram::useShaderProgram(mesh_v_shaders_[i], mesh_f_shaders_[i], 
-          mesh_g_shaders_[i], mesh_tcs_shaders_[i], mesh_tes_shaders_[i]);
+        const uint32_t g = INDEX_NORM_CONST_COLR;
+        const uint32_t p = INDEX_VERT_TRIANGLES;
+        if (!isShaderSet((VertexPrimativeIndex)p, (GeometryTypeIndex)g)) {
+          // No shader for this geometry primative and type has been set
+          throw std::wruntime_error("Trying to render light volumes without "
+            "a corresponding shader set.");
+        }
+        ShaderProgram::useShaderProgram(v_shaders_[p][g], f_shaders_[p][g], 
+          g_shaders_[p][g], tcs_shaders_[p][g], tes_shaders_[p][g]);
 
         if (shader_uniform_cb_) {
           shader_uniform_cb_();
@@ -329,9 +414,15 @@ namespace renderer {
 
     if (render_light_sources_) {
       if (spot_lights || point_lights) {
-        uint32_t i = INDEX_NORM_CONST_COLR;
-        ShaderProgram::useShaderProgram(mesh_v_shaders_[i], mesh_f_shaders_[i], 
-          mesh_g_shaders_[i], mesh_tcs_shaders_[i], mesh_tes_shaders_[i]);
+        const uint32_t g = INDEX_NORM_CONST_COLR;
+        const uint32_t p = INDEX_VERT_TRIANGLES;
+        if (!isShaderSet((VertexPrimativeIndex)p, (GeometryTypeIndex)g)) {
+          // No shader for this geometry primative and type has been set
+          throw std::wruntime_error("Trying to render light sources without "
+            "a corresponding shader set.");
+        }
+        ShaderProgram::useShaderProgram(v_shaders_[p][g], f_shaders_[p][g], 
+          g_shaders_[p][g], tcs_shaders_[p][g], tes_shaders_[p][g]);
 
         if (shader_uniform_cb_) {
           shader_uniform_cb_();
@@ -386,10 +477,17 @@ namespace renderer {
 
     // ********************************************
     // Render all the AABBoxes
+    // TODO: PUT ALL THESE IN THE SCENE GRAPH!
     if (render_aabboxes_) {
-      uint32_t i = INDEX_NORM_CONST_COLR;
-      ShaderProgram::useShaderProgram(mesh_v_shaders_[i], mesh_f_shaders_[i], 
-        mesh_g_shaders_[i], mesh_tcs_shaders_[i], mesh_tes_shaders_[i]);
+      const uint32_t g = INDEX_NORM_CONST_COLR;
+      const uint32_t p = INDEX_VERT_TRIANGLES;
+      if (!isShaderSet((VertexPrimativeIndex)p, (GeometryTypeIndex)g)) {
+        // No shader for this geometry primative and type has been set
+        throw std::wruntime_error("Trying to render AABBOXes without "
+          "a corresponding shader set.");
+      }
+      ShaderProgram::useShaderProgram(v_shaders_[p][g], f_shaders_[p][g], 
+        g_shaders_[p][g], tcs_shaders_[p][g], tes_shaders_[p][g]);
 
       if (shader_uniform_cb_) {
         shader_uniform_cb_();
@@ -528,6 +626,16 @@ namespace renderer {
     BIND_UNIFORM("f_spec_intensity", &spec_intensity);
 
     renderer_->lighting()->light_geom_point()->draw();
+  }
+
+  const bool GeometryRenderPass::isShaderSet(const VertexPrimativeIndex p, 
+    const GeometryTypeIndex g) const {
+    if (v_shaders_[p][g] == NULL && f_shaders_[p][g] == NULL && 
+      g_shaders_[p][g] == NULL && tcs_shaders_[p][g] == NULL && 
+      tes_shaders_[p][g] == NULL) {
+      return false;
+    }
+    return true;
   }
 
 }  // namespace renderer

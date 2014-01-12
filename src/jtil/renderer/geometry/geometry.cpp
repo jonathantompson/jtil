@@ -66,7 +66,6 @@ namespace renderer {
     num_synced_ind_ = 0;
     primative_type_ = VERT_TRIANGLES;
     dynamic_ = dynamic;
-    point_size_ = 1.0f;
   }
 
   Geometry::~Geometry() {
@@ -620,8 +619,6 @@ namespace renderer {
     switch (primative_type_) {
     case VERT_POINTS:
       type = GL_POINTS;
-      GLState::glsEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
-      BIND_UNIFORM("v_point_size", &point_size_);
       break;
     case VERT_TRIANGLES:
       type = GL_TRIANGLES;

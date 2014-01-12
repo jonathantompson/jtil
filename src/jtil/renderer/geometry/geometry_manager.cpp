@@ -2334,6 +2334,7 @@ void GeometryManager::createAssimpImporter(Assimp::Importer*& importer,
     }
     geom = new Geometry(name, true);  // Geometry is dynamic
     GeometryInstance* instance = createNewInstance(geom);
+    return instance;
   }
   
 }  // namespace renderer

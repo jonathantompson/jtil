@@ -582,13 +582,14 @@ namespace renderer {
     GLState::setupQuadRendering();
 
     renderer_->g_buffer()->final_scene()->begin();
+    // beginLightFinalPass sets textures 0 through 2
     renderer_->g_buffer()->g_buffer_texture()->beginLightFinalPass();
 
     float global_ambient;
     GET_SETTING("global_ambient", float, global_ambient);
     BIND_UNIFORM("f_global_ambient", &global_ambient);
 
-    ambient_->bind(0, GL_TEXTURE2, "f_ambient");
+    ambient_->bind(0, GL_TEXTURE3, "f_ambient_occ");
 
     renderer_->post_processing()->quad()->draw();
 

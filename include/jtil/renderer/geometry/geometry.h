@@ -52,6 +52,7 @@ namespace renderer {
   typedef enum {
     GEOMETRY_BASE = 0,  // Empty but often useful node in hierachy
     GEOMETRY_VERT = VERTATTR_POS,
+    GEOMETRY_COLR = (VERTATTR_POS | VERTATTR_COL),
     GEOMETRY_NORM_COLR = (VERTATTR_POS | VERTATTR_NOR | VERTATTR_COL),
     GEOMETRY_NORM_COLR_BONED = (VERTATTR_POS | VERTATTR_NOR | VERTATTR_COL |
       VERTATTR_BONEI | VERTATTR_BONEW),
@@ -110,7 +111,6 @@ namespace renderer {
     const std::string& name() const { return name_; }
     VertexPrimative& primative_type() { return primative_type_; }
     const VertexPrimative& primative_type() const { return primative_type_; }
-    float& point_size() { return point_size_; }
 
     const data_str::Vector<math::Float3>& pos() const { return pos_; }
     const data_str::Vector<math::Float3>& nor() const { return nor_; }
@@ -159,7 +159,6 @@ namespace renderer {
     data_str::VectorManaged<char*> bone_names_;
     uint32_t vert_buffer_size_;
     uint32_t ind_buffer_size_;
-    float point_size_;  // default = 1
 
     // Bind the buffers with OpenGL
     void syncVAO();  // At startup
