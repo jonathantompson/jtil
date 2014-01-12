@@ -200,6 +200,8 @@ namespace renderer {
   }
 
   void Geometry::resyncVAO() {
+    GLState::glsBindVertexArray(vao_);
+
     // Check the data sizes first
     bool has_pos = hasVertexAttribute(VERTATTR_POS);
     if (!has_pos) {
