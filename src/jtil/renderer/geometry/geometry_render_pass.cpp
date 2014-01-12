@@ -329,10 +329,13 @@ namespace renderer {
                 const float stencil_value = 
                   cur_geom->apply_lighting() ? 1.0f : 0.0f;
                 BIND_UNIFORM("f_lighting_stencil", &stencil_value);
-const float spec_power = 0;
-const float spec_intensity = 0;
-BIND_UNIFORM("f_spec_power", &spec_power);
-BIND_UNIFORM("f_spec_intensity", &spec_intensity);
+              }
+
+              if (QUERY_UNIFORM("f_vel_mul")) {
+                float motion_blur_intensity;
+                GET_SETTING("motion_blur_intensity", float, 
+                  motion_blur_intensity);
+                BIND_UNIFORM("f_vel_mul", &motion_blur_intensity);
               }
 
               cur_geom->mtrl().setUniforms();

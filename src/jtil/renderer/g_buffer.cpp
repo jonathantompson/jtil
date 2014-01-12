@@ -28,7 +28,9 @@ using math::Float2;
 using data_str::Pair;
 
 #define COLR_POINTS_V_SHADER "./shaders/g_buffer/g_buffer_colr_points.vert"
+#define COLR_POINTS_VEL_V_SHADER "./shaders/g_buffer/g_buffer_colr_points_vel.vert"
 #define COLR_POINTS_F_SHADER "./shaders/g_buffer/g_buffer_colr_points.frag"
+#define COLR_POINTS_VEL_F_SHADER "./shaders/g_buffer/g_buffer_colr_points_vel.frag"
 
 #define COLR_MESH_V_SHADER "./shaders/g_buffer/g_buffer_colr_mesh.vert"
 #define COLR_MESH_VEL_V_SHADER "./shaders/g_buffer/g_buffer_colr_mesh_vel.vert"
@@ -210,10 +212,8 @@ namespace renderer {
         render_pass_->setShader(VERT_TRIANGLES, GEOMETRY_NORM_TEXT_DISP, 
           TEXT_MESH_VEL_V_SHADER, TEXT_MESH_VEL_F_SHADER);
       }
-      std::cout << "TODO: Create a velocity version of the colored points." <<
-        std::endl;
       render_pass_->setShader(VERT_POINTS, GEOMETRY_COLR, 
-        COLR_POINTS_V_SHADER, COLR_POINTS_F_SHADER);
+        COLR_POINTS_VEL_V_SHADER, COLR_POINTS_VEL_F_SHADER);
     }
 
     render_pass_->render_aabboxes() = render_aabboxes;
