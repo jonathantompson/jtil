@@ -625,6 +625,9 @@ namespace renderer {
     case VERT_TRIANGLES:
       type = GL_TRIANGLES;
       break;
+    case VERT_LINES:
+      type = GL_LINES;
+      break;
     default:
       throw std::wruntime_error("Geometry::draw() - ERROR: Primative type not"
         "yet supported!");

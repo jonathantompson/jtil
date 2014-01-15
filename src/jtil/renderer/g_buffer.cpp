@@ -32,6 +32,11 @@ using data_str::Pair;
 #define COLR_POINTS_F_SHADER "./shaders/g_buffer/g_buffer_colr_points.frag"
 #define COLR_POINTS_VEL_F_SHADER "./shaders/g_buffer/g_buffer_colr_points_vel.frag"
 
+#define COLR_LINES_V_SHADER "./shaders/g_buffer/g_buffer_colr_lines.vert"
+#define COLR_LINES_VEL_V_SHADER "./shaders/g_buffer/g_buffer_colr_lines_vel.vert"
+#define COLR_LINES_F_SHADER "./shaders/g_buffer/g_buffer_colr_lines.frag"
+#define COLR_LINES_VEL_F_SHADER "./shaders/g_buffer/g_buffer_colr_lines_vel.frag"
+
 #define COLR_MESH_V_SHADER "./shaders/g_buffer/g_buffer_colr_mesh.vert"
 #define COLR_MESH_VEL_V_SHADER "./shaders/g_buffer/g_buffer_colr_mesh_vel.vert"
 #define COLR_MESH_F_SHADER "./shaders/g_buffer/g_buffer_colr_mesh.frag"
@@ -179,6 +184,8 @@ namespace renderer {
       }
       render_pass_->setShader(VERT_POINTS, GEOMETRY_COLR, 
         COLR_POINTS_V_SHADER, COLR_POINTS_F_SHADER);
+      render_pass_->setShader(VERT_LINES, GEOMETRY_COLR, 
+        COLR_LINES_V_SHADER, COLR_LINES_F_SHADER);
     } else {
       bool motion_blur_hq_boned;
       GET_SETTING("motion_blur_hq_boned", bool, motion_blur_hq_boned);
@@ -214,6 +221,8 @@ namespace renderer {
       }
       render_pass_->setShader(VERT_POINTS, GEOMETRY_COLR, 
         COLR_POINTS_VEL_V_SHADER, COLR_POINTS_VEL_F_SHADER);
+      render_pass_->setShader(VERT_LINES, GEOMETRY_COLR, 
+        COLR_LINES_VEL_V_SHADER, COLR_LINES_VEL_F_SHADER);
     }
 
     render_pass_->render_aabboxes() = render_aabboxes;

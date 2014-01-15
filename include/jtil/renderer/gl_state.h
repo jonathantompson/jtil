@@ -206,6 +206,7 @@ namespace renderer {
     static bool glsQueryIfTextureIsBound(const GLenum target, 
       const GLenum target_id, const GLuint texture);
     static void glsPatchParameteri(const GLenum pname, const GLint value);
+    static void glsLineWidth(const GLfloat width);
 
     // Functions that encapsulate a few state changes
     static void setupQuadRendering();

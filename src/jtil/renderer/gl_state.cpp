@@ -559,6 +559,13 @@ namespace renderer {
     }
   }
 
+  void GLState::glsLineWidth(const GLfloat width) {
+    if (setGLenum(GL_LINE_WIDTH, &width, GLTYPE_FLOAT_SIZE, GLTYPE_FLOAT)) {
+      glLineWidth(width);
+      ERROR_CHECK;
+    }
+  }
+
   GLStateTexture GLState::GLTarget2GLStateTexture(const GLenum target) {
     switch (target) {
     case GL_TEXTURE_1D:

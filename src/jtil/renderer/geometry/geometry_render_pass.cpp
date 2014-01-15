@@ -320,9 +320,13 @@ namespace renderer {
 
               if (QUERY_UNIFORM("v_point_size")) {
                 GLState::glsEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
-                BIND_UNIFORM("v_point_size", &cur_geom->point_size());
+                BIND_UNIFORM("v_point_size", &cur_geom->point_line_size());
               } else {
                 GLState::glsDisable(GL_VERTEX_PROGRAM_POINT_SIZE);
+              }
+
+              if (cur_geom->geom()->primative_type() == VERT_LINES) {
+                GLState::glsLineWidth(cur_geom->point_line_size());
               }
 
               if (QUERY_UNIFORM("f_lighting_stencil")) {

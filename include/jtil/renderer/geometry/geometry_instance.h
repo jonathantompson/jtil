@@ -63,7 +63,7 @@ namespace renderer {
     inline Bone*& bone() { return bone_; }
     inline GeometryInstance*& bone_root_node() { return bone_root_node_; }
     inline bool& apply_lighting() { return apply_lighting_; }
-    inline float& point_size() { return point_size_; }
+    inline float& point_line_size() { return point_line_size_; }
 
     void setRenderHierarchy(const bool render);
 
@@ -88,7 +88,7 @@ namespace renderer {
     math::Float4x4* mat_hierarchy_inv_;  // Only allocated if needed
     float* concat_bone_trans_prev_frame_;  // Only allocated if needed
     bool apply_lighting_;  // true by default
-    float point_size_;  // 10 by default (only applies to point primatives)
+    float point_line_size_;  // 10 by default (only applies to line and point primatives)
 
     static float concat_bone_trans_[MAX_BONE_COUNT * 16 * 4];
 

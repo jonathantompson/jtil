@@ -27,16 +27,20 @@ namespace renderer {
     void resize(const uint32_t screen_width, const uint32_t screen_height);
 
     // getter / setter methods
-    inline const math::Float4x4& view() { return view_; }
-    inline const math::Float4x4& view_inv() { return view_inv_; }
-    inline const math::Float4x4& proj() { return proj_; }
-    inline const math::Float4x4& proj_view() { return proj_view_; }
+    // Two set camera position and orientation, etc use these methods:
+    inline math::Float3& eye_pos_world() { return eye_pos_world_; }
+    inline const math::Float3& eye_pos_world() const { return eye_pos_world_; }
+    inline math::FloatQuat& eye_rot() { return eye_rot_; }
     inline math::Float2& near_far() { return near_far_; }
     inline const math::Float2& near_far() const { return near_far_; }
     inline math::Float2& screen_size() { return screen_size_; }
     inline float& fov_deg() { return fov_deg_; }
-    inline math::Float3& eye_pos_world() { return eye_pos_world_; }
-    inline const math::Float3& eye_pos_world() const { return eye_pos_world_; }
+
+    // These are mostly for internal usage only
+    inline const math::Float4x4& view() { return view_; }
+    inline const math::Float4x4& view_inv() { return view_inv_; }
+    inline const math::Float4x4& proj() { return proj_; }
+    inline const math::Float4x4& proj_view() { return proj_view_; }
     inline math::Float2& inv_focal_length() { return inv_focal_length_; }
     inline const Frustum* frustum() const { return frustum_; }
 
