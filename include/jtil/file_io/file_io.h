@@ -16,6 +16,12 @@
 namespace jtil {
 namespace file_io {
 
+  typedef enum {
+    DIRECTORY_PATH = 0,
+    FILE_PATH = 1,
+    UNKNOWN_PATH = 2,
+  } PathType;
+
   template <class T>
   void SaveArrayToFile(const T* arr, const uint32_t size, 
     const std::string& filename) {
@@ -51,6 +57,8 @@ namespace file_io {
   }
 
   bool fileExists(const std::string& filename);
+  PathType getPathType(const std::string& path);
+  
 
 };  // namespace file_io
 };  // namespace jtil
