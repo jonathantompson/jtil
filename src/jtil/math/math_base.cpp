@@ -9,7 +9,12 @@ namespace jtil {
 namespace math {
   bool seed = false;
 
+  // next PO2 will return the next higher power of 2, if val is a power of 2
+  // already, then it will return val.
   int32_t nextPO2(int32_t val) {
+    if (val == 0) {
+      throw std::runtime_error("invalid input");
+    }
     val--;
     val = (val >> 1) | val;
     val = (val >> 2) | val;

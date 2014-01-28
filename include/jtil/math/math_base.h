@@ -3,6 +3,8 @@
 //
 //  Created by Jonathan Tompson on 3/14/12.
 //
+//  This is where all the miscilaneous math functions go.  It's a little messy.
+//
 
 #pragma once
 
@@ -74,6 +76,8 @@ namespace math {
     const int32_t out_width, const int32_t out_height, 
     const int32_t kernel_size, const int32_t n_threads);
 
+  // next PO2 will return the next higher power of 2, if val is a power of 2
+  // already, then it will return val.
   int32_t nextPO2(int32_t val);
 
   // **************************************************************************

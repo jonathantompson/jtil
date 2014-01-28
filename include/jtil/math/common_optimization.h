@@ -11,6 +11,7 @@
 #include "jtil/math/math_types.h"
 #include "jtil/data_str/vector.h"
 
+// TODO: Move these to math_base (not common_optimization)
 #if defined(WIN32) || defined(_WIN32)
   #define UNIFORM_INT_DISTRIBUTION std::tr1::uniform_int_distribution<int>
   #define UNIFORM_REAL_DISTRIBUTION std::tr1::uniform_real_distribution<float>

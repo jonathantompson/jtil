@@ -10,9 +10,8 @@
 #pragma once
 
 // NTILES is the number of evaluations that we want to perform in parallel
-#define NTILES_X 8  // Don't change these --> If you do you'll have to change 
-#define NTILES_Y 8  //                        the downsample chain
-#define NTILES_DEFAULT (NTILES_X * NTILES_Y)
+#define NTILES_DIM 8  // Number of tiles in the x and y dimensions
+#define NTILES (NTILES_DIM * NTILES_DIM)  // Total number of tiles
 
 #include <random>
 #include "jtil/math/math_types.h"
@@ -35,7 +34,7 @@ namespace math {
     // Set population size (num_agents) to -1 to let the optimizer choose a
     // population size for you.
     PSOParallel(uint32_t num_coeffs, int swarm_size = -1, 
-      int ntiles = NTILES_DEFAULT);
+      int ntiles = NTILES);
     ~PSOParallel();
 
     // minimize():
