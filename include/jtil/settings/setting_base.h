@@ -74,6 +74,11 @@ namespace settings {
     static void formatInt(const int data, 
       data_str::VectorManaged<const char*>& cur_token, 
       const uint32_t data_elem_index);
+
+  private:
+    // Non-copyable, non-assignable.
+    SettingBase(SettingBase&);
+    SettingBase& operator=(const SettingBase&);
   };
 
 };  // namespace settings
