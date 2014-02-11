@@ -45,16 +45,33 @@ namespace settings {
     static void formatTokenFloat(
       data_str::VectorManaged<const char*>& cur_token, 
       file_io::CSVHandleWrite& writer, const std::string& filename);
+    static void formatTokenFloat2(
+      data_str::VectorManaged<const char*>& cur_token, 
+      file_io::CSVHandleWrite& writer, const std::string& filename);
     static void formatTokenFloat3(
       data_str::VectorManaged<const char*>& cur_token, 
       file_io::CSVHandleWrite& writer, const std::string& filename);
     static void formatTokenFloat4(
       data_str::VectorManaged<const char*>& cur_token, 
       file_io::CSVHandleWrite& writer, const std::string& filename);
+    static void formatTokenInt2(
+      data_str::VectorManaged<const char*>& cur_token, 
+      file_io::CSVHandleWrite& writer, const std::string& filename);
+    static void formatTokenInt3(
+      data_str::VectorManaged<const char*>& cur_token, 
+      file_io::CSVHandleWrite& writer, const std::string& filename);
+    static void formatTokenInt4(
+      data_str::VectorManaged<const char*>& cur_token, 
+      file_io::CSVHandleWrite& writer, const std::string& filename);
     static void formatTokenString(
       data_str::VectorManaged<const char*>& cur_token, 
       file_io::CSVHandleWrite& writer, const std::string& filename);
+
+
     static void formatFloat(const float data, 
+      data_str::VectorManaged<const char*>& cur_token, 
+      const uint32_t data_elem_index);
+    static void formatInt(const int data, 
       data_str::VectorManaged<const char*>& cur_token, 
       const uint32_t data_elem_index);
   };

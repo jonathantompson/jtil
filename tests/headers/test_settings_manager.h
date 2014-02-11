@@ -27,7 +27,12 @@ using jtil::settings::Setting;
 using std::string;
 using std::cout;
 using std::endl;
+using jtil::math::Float2;
 using jtil::math::Float3;
+using jtil::math::Float4;
+using jtil::math::Int2;
+using jtil::math::Int3;
+using jtil::math::Int4;
 
 // CRC Calculator: http://www.lammertbies.nl/comm/info/crc-calculation.html
 // This is the FNV-1a
@@ -81,6 +86,17 @@ TEST(SettingsManager, LoadingAndSetting) {
     EXPECT_EQ(appName, string("silly_string"));
     SET_SETTING("appName", string, string("PRenderer2")); 
 
+    // Test a Float2 value, get the value, then set the value
+    Float2 dummy_Float2;
+    Float2 dummy_Float2_correct(0.15f, 0.25f);
+    GET_SETTING("dummy_Float2", Float2, dummy_Float2);
+    EXPECT_TRUE(Float2::equal(dummy_Float2, dummy_Float2_correct));
+    Float2 dummy_Float2_wrong(-1, -1);
+    SET_SETTING("dummy_Float2", Float2, dummy_Float2_wrong);
+    GET_SETTING("dummy_Float2", Float2, dummy_Float2);
+    EXPECT_TRUE(Float2::equal(dummy_Float2, dummy_Float2_wrong));
+    SET_SETTING("dummy_Float2", Float2, dummy_Float2_correct);
+
     // Test a Float3 value, get the value, then set the value
     Float3 startingGravity;
     Float3 startingGravity_correct(0.0f, -9.8f, 0.0f);
@@ -91,6 +107,50 @@ TEST(SettingsManager, LoadingAndSetting) {
     GET_SETTING("startingGravity", Float3, startingGravity);
     EXPECT_TRUE(Float3::equal(startingGravity, startingGravity_wrong));
     SET_SETTING("startingGravity", Float3, startingGravity_correct);
+
+    // Test a Float4 value, get the value, then set the value
+    Float4 DOFBounds;
+    Float4 DOFBounds_correct(0.15f, 0.25f, 3.0f, 5.0f);
+    GET_SETTING("DOFBounds", Float4, DOFBounds);
+    EXPECT_TRUE(Float4::equal(DOFBounds, DOFBounds_correct));
+    Float4 DOFBounds_wrong(-1, -1, -1, -1);
+    SET_SETTING("DOFBounds", Float4, DOFBounds_wrong);
+    GET_SETTING("DOFBounds", Float4, DOFBounds);
+    EXPECT_TRUE(Float4::equal(DOFBounds, DOFBounds_wrong));
+    SET_SETTING("DOFBounds", Float4, DOFBounds_correct);
+
+    // Test a Int2 value, get the value, then set the value
+    Int2 dummy_Int2;
+    Int2 dummy_Int2_correct(0, 1);
+    GET_SETTING("dummy_Int2", Int2, dummy_Int2);
+    EXPECT_TRUE(Int2::equal(dummy_Int2, dummy_Int2_correct));
+    Int2 dummy_Int2_wrong(-1, -1);
+    SET_SETTING("dummy_Int2", Int2, dummy_Int2_wrong);
+    GET_SETTING("dummy_Int2", Int2, dummy_Int2);
+    EXPECT_TRUE(Int2::equal(dummy_Int2, dummy_Int2_wrong));
+    SET_SETTING("dummy_Int2", Int2, dummy_Int2_correct);
+
+    // Test a Int3 value, get the value, then set the value
+    Int3 dummy_Int3;
+    Int3 dummy_Int3_correct(0, 1, 2);
+    GET_SETTING("dummy_Int3", Int3, dummy_Int3);
+    EXPECT_TRUE(Int3::equal(dummy_Int3, dummy_Int3_correct));
+    Int3 dummy_Int3_wrong(-1, -1, -1);
+    SET_SETTING("dummy_Int3", Int3, dummy_Int3_wrong);
+    GET_SETTING("dummy_Int3", Int3, dummy_Int3);
+    EXPECT_TRUE(Int3::equal(dummy_Int3, dummy_Int3_wrong));
+    SET_SETTING("dummy_Int3", Int3, dummy_Int3_correct);
+
+    // Test a Int4 value, get the value, then set the value
+    Int4 dummy_Int4;
+    Int4 dummy_Int4_correct(0, 1, 2, 3);
+    GET_SETTING("dummy_Int4", Int4, dummy_Int4);
+    EXPECT_TRUE(Int4::equal(dummy_Int4, dummy_Int4_correct));
+    Int4 dummy_Int4_wrong(-1, -1, -1, -1);
+    SET_SETTING("dummy_Int4", Int4, dummy_Int4_wrong);
+    GET_SETTING("dummy_Int4", Int4, dummy_Int4);
+    EXPECT_TRUE(Int4::equal(dummy_Int4, dummy_Int4_wrong));
+    SET_SETTING("dummy_Int4", Int4, dummy_Int4_correct);
 
     SettingsManager::shutdownSettingsManager();
   } else {

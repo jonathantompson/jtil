@@ -102,3 +102,7 @@ checkByteAlignment,               bool,     0
 printSSEInfo,                     bool,     0
 appName,                          string,   PRenderer2
 appVersionNumber,                 float,    2.0
+dummy_Float2,                     Float2,   0.15, 0.25
+dummy_Int2,                       Int2,     0, 1
+dummy_Int3,                       Int3,     0, 1, 2
+dummy_Int4,                       Int4,     0, 1, 2, 3

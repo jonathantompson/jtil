@@ -23,9 +23,8 @@ namespace settings {
     data_str::VectorManaged<const char*>& cur_token, 
     const string& filename) {
     uint32_t token_size = cur_token.size();
-    if ((token_size != SETTINGS_SETTING_NUM_TOKENS) && 
-        (token_size != SETTINGS_SETTING_NUM_TOKENS+2) &&  // vector3
-        (token_size != SETTINGS_SETTING_NUM_TOKENS+3)) {  // vector4
+    if (token_size < SETTINGS_SETTING_NUM_TOKENS ||
+      token_size > SETTINGS_SETTING_NUM_TOKENS + 3) {  // vector4
         string error = string("SettingBase::parseToken "
           "- Incorrect # tokens: '") + 
           file_io::CSVHandle::flattenToken(cur_token) + 
@@ -53,6 +52,11 @@ namespace settings {
       new_obj = new Setting<float>();
       reinterpret_cast<Setting<float>*>(new_obj)->val(
         string_util::Str2Num<float>(string(cur_token[2])));
+    } else if (type == string("Float2")) {
+      new_obj = new Setting<math::Float2>();
+      reinterpret_cast<Setting<math::Float2>*>(new_obj)->val().set(
+        string_util::Str2Num<float>(string(cur_token[2])), 
+        string_util::Str2Num<float>(string(cur_token[3])));
     } else if (type == string("Float3")) {
       new_obj = new Setting<math::Float3>();
       reinterpret_cast<Setting<math::Float3>*>(new_obj)->val().set(
@@ -66,6 +70,24 @@ namespace settings {
         string_util::Str2Num<float>(string(cur_token[3])), 
         string_util::Str2Num<float>(string(cur_token[4])), 
         string_util::Str2Num<float>(string(cur_token[5])));
+    } else if (type == string("Int2")) {
+      new_obj = new Setting<math::Int2>();
+      reinterpret_cast<Setting<math::Int2>*>(new_obj)->val().set(
+        string_util::Str2Num<int>(string(cur_token[2])), 
+        string_util::Str2Num<int>(string(cur_token[3])));
+    } else if (type == string("Int3")) {
+      new_obj = new Setting<math::Int3>();
+      reinterpret_cast<Setting<math::Int3>*>(new_obj)->val().set(
+        string_util::Str2Num<int>(string(cur_token[2])), 
+        string_util::Str2Num<int>(string(cur_token[3])), 
+        string_util::Str2Num<int>(string(cur_token[4])));
+    } else if (type == string("Int4")) {
+      new_obj = new Setting<math::Int4>();
+      reinterpret_cast<Setting<math::Int4>*>(new_obj)->val().set(
+        string_util::Str2Num<int>(string(cur_token[2])), 
+        string_util::Str2Num<int>(string(cur_token[3])), 
+        string_util::Str2Num<int>(string(cur_token[4])), 
+        string_util::Str2Num<int>(string(cur_token[5])));
     } else if (type == string("FloatQuat")) {
       new_obj = new Setting<math::FloatQuat>();
       reinterpret_cast<Setting<math::FloatQuat>*>(new_obj)->val().set(
@@ -104,9 +126,8 @@ namespace settings {
     }
 
     uint32_t token_size = cur_token.size();
-    if ((token_size != SETTINGS_SETTING_NUM_TOKENS) && 
-        (token_size != SETTINGS_SETTING_NUM_TOKENS+2) &&  // vector3
-        (token_size != SETTINGS_SETTING_NUM_TOKENS+3)) {  // vector4
+    if (token_size < SETTINGS_SETTING_NUM_TOKENS ||
+      token_size > SETTINGS_SETTING_NUM_TOKENS + 3) {
         string error = string("Setting<T>::formatToken "
           "- Incorrect # tokens: '") + 
           CSVHandle::flattenToken(cur_token) + string("' in file: ") +
@@ -128,10 +149,18 @@ namespace settings {
       formatTokenString(cur_token, writer, filename);
     } else if (type == string("float")) {
       formatTokenFloat(cur_token, writer, filename);
+    } else if (type == string("Float2")) {
+      formatTokenFloat2(cur_token, writer, filename);
     } else if (type == string("Float3")) {
       formatTokenFloat3(cur_token, writer, filename);
     } else if (type == string("Float4")) {
       formatTokenFloat4(cur_token, writer, filename);
+    } else if (type == string("Int2")) {
+      formatTokenInt2(cur_token, writer, filename);
+    } else if (type == string("Int3")) {
+      formatTokenInt3(cur_token, writer, filename);
+    } else if (type == string("Int4")) {
+      formatTokenInt4(cur_token, writer, filename);
     } else if (type == string("FloatQuat")) {
       formatTokenFloat4(cur_token, writer, filename);
     } else {
@@ -146,22 +175,14 @@ namespace settings {
     writer.flush();
   }
 
-  void SettingBase::formatTokenInt(
-    data_str::VectorManaged<const char*>& cur_token, CSVHandleWrite& writer, 
-    const string& filename) {
-    static_cast<void>(filename);
-    static_cast<void>(writer);
-    string name = ExtractName(cur_token);
-
+  // FormatInt is shared by a few formatToken functions
+  void SettingBase::formatInt(const int data, 
+    data_str::VectorManaged<const char*>& cur_token, 
+    const uint32_t data_elem_index) {
     data_str::VectorManaged<const char*> cur_token_data;
-    file_io::CSVHandle::seperateWhiteSpace(cur_token[2], cur_token_data);
+    file_io::CSVHandle::seperateWhiteSpace(cur_token[data_elem_index], 
+      cur_token_data);
     char * data_str = NULL;
-
-    int data; 
-    if (!SettingsManager::getSetting<int>(name, data)) {
-      throw wruntime_error(string("SettingBase::formatTokenInt() - Can't "
-        "find setting ") + name);
-    }
 
     int new_strlen = 0;
     if (data != 0) {
@@ -184,8 +205,23 @@ namespace settings {
     cur_token_data.deleteAt(1);
     cur_token_data.set(1, data_str);
     char* cur_token_data_str = CSVHandle::joinWhiteSpace(cur_token_data);
-    cur_token.deleteAt(2);
-    cur_token.set(2, cur_token_data_str);
+    cur_token.deleteAt(data_elem_index);
+    cur_token.set(data_elem_index, cur_token_data_str);
+  }
+
+  void SettingBase::formatTokenInt(
+    data_str::VectorManaged<const char*>& cur_token, CSVHandleWrite& writer, 
+    const string& filename) {
+    static_cast<void>(filename);
+    static_cast<void>(writer);
+    string name = ExtractName(cur_token);
+
+    int data; 
+    if (!SettingsManager::getSetting<int>(name, data)) {
+      throw wruntime_error(string("SettingBase::formatTokenInt() - Can't "
+        "find setting ") + name);
+    }
+    formatInt(data, cur_token, 2);
   }
 
   void SettingBase::formatTokenBool(
@@ -270,6 +306,25 @@ namespace settings {
     formatFloat(data, cur_token, 2);
   }
 
+  void SettingBase::formatTokenFloat2(
+    data_str::VectorManaged<const char*>& cur_token,
+    CSVHandleWrite& writer, const string& filename) {
+    static_cast<void>(writer);
+    static_cast<void>(filename);
+    string name = ExtractName(cur_token);
+
+    math::Float2 data; 
+    if (!SettingsManager::getSetting<math::Float2>(name, data)) {
+      throw wruntime_error(string("SettingBase::formatTokenFloat2() - Can't "
+        "find setting ") + name);
+    }
+    // Process the X-axis data
+    formatFloat(data.m[0], cur_token, 2);
+
+    // Process the Y-axis data
+    formatFloat(data.m[1], cur_token, 3);
+  }
+
   void SettingBase::formatTokenFloat3(
     data_str::VectorManaged<const char*>& cur_token,
     CSVHandleWrite& writer, const string& filename) {
@@ -315,6 +370,72 @@ namespace settings {
 
     // Process the W-axis data
     formatFloat(data.m[3], cur_token, 5);
+  }
+
+  void SettingBase::formatTokenInt2(
+    data_str::VectorManaged<const char*>& cur_token,
+    CSVHandleWrite& writer, const string& filename) {
+    static_cast<void>(writer);
+    static_cast<void>(filename);
+    string name = ExtractName(cur_token);
+
+    math::Int2 data; 
+    if (!SettingsManager::getSetting<math::Int2>(name, data)) {
+      throw wruntime_error(string("SettingBase::formatTokenInt2() - Can't "
+        "find setting ") + name);
+    }
+    // Process the X-axis data
+    formatInt(data.m[0], cur_token, 2);
+
+    // Process the Y-axis data
+    formatInt(data.m[1], cur_token, 3);
+  }
+
+  void SettingBase::formatTokenInt3(
+    data_str::VectorManaged<const char*>& cur_token,
+    CSVHandleWrite& writer, const string& filename) {
+    static_cast<void>(writer);
+    static_cast<void>(filename);
+    string name = ExtractName(cur_token);
+
+    math::Int3 data; 
+    if (!SettingsManager::getSetting<math::Int3>(name, data)) {
+      throw wruntime_error(string("SettingBase::formatTokenFloat3() - Can't "
+        "find setting ") + name);
+    }
+    // Process the X-axis data
+    formatInt(data.m[0], cur_token, 2);
+
+    // Process the Y-axis data
+    formatInt(data.m[1], cur_token, 3);
+
+    // Process the Z-axis data
+    formatInt(data.m[2], cur_token, 4);
+  }
+
+  void SettingBase::formatTokenInt4(
+    data_str::VectorManaged<const char*>& cur_token,
+    CSVHandleWrite& writer, const string& filename) {
+    static_cast<void>(writer);
+    static_cast<void>(filename);
+    string name = ExtractName(cur_token);
+
+    math::Int4 data; 
+    if (!SettingsManager::getSetting<math::Int4>(name, data)) {
+      throw wruntime_error(string("SettingBase::formatTokenInt4() - Can't "
+        "find setting ") + name);
+    }
+    // Process the X-axis data
+    formatInt(data.m[0], cur_token, 2);
+
+    // Process the Y-axis data
+    formatInt(data.m[1], cur_token, 3);
+
+    // Process the Z-axis data
+    formatInt(data.m[2], cur_token, 4);
+
+    // Process the W-axis data
+    formatInt(data.m[3], cur_token, 5);
   }
 
   void SettingBase::formatTokenString(
