@@ -2333,6 +2333,7 @@ void GeometryManager::createAssimpImporter(Assimp::Importer*& importer,
         "ERROR: Geometry name already exists!");
     }
     geom = new Geometry(name, true);  // Geometry is dynamic
+    addGeometry(geom);
     GeometryInstance* instance = createNewInstance(geom);
     return instance;
   }
