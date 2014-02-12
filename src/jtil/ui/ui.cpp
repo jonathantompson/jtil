@@ -701,6 +701,17 @@ namespace ui {
       string_util::Num2Str<int>(pos[1]).c_str());
   }
 
+  int UI::getElementWidth(const char* elem_name) {
+    Element* elem = app_doc_->GetElementById(elem_name);
+    int width = elem->GetProperty<int>("width");
+    return width;
+  }
+
+  void UI::setElementWidth(const char* elem_name, int width) {
+    Element* elem = app_doc_->GetElementById(elem_name);
+    elem->SetProperty("width", string_util::Num2Str<int>(width).c_str());
+  }
+
   void UI::setTextWindowVisibility(const char* wnd_name, const bool visible) {
     uint32_t index = getTextWindowID(wnd_name);
     setVisibility(visible, app_text_doc_[index]);

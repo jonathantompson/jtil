@@ -90,6 +90,8 @@ namespace ui {
     void setTextWindowString(const char* wnd_name, const char* text);
     void setTextWindowPos(const char* wnd_name, const math::Int2& pos);
     void setTextWindowVisibility(const char* wnd_name, const bool visible);
+    int getElementWidth(const char* elem_name);
+    void setElementWidth(const char* elem_name, int width);
 
   private:
     bool ui_running_;
