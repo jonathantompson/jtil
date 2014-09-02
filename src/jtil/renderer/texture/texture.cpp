@@ -394,6 +394,9 @@ namespace renderer {
       ret = (bool)FreeImage_Save(fif, fi_bit_map, filename.c_str(), 
         JPEG_QUALITYSUPERB);
     }
+    if (fi_bit_map) {
+      FreeImage_Unload(fi_bit_map);
+    }
 
     SAFE_DELETE_ARR(im_rev);
     return ret;
