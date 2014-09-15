@@ -86,6 +86,9 @@
 #ifndef MAX_UINT64
   #define MAX_UINT64 0xffffffffffffffff
 #endif
+#ifndef MAX_INT64
+  #define MAX_INT64 0x7fffffffffffffff
+#endif
 
 namespace jtil {
 namespace math {
