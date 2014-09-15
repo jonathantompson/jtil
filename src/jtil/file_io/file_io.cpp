@@ -39,7 +39,7 @@ namespace file_io {
     }
   }
 
-    void ls(const std::string& path, jtil::data_str::VectorManaged<char*>& files) {
+  void ls(const std::string& path, jtil::data_str::VectorManaged<char*>& files) {
 #if defined(WIN32) || defined(_WIN32)
     // Clear the directory of existing saved frames
     WIN32_FIND_DATAW file_data;
