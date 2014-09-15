@@ -13,6 +13,8 @@
 #include "jtil/math/math_types.h"
 #include "jtil/exceptions/wruntime_error.h"
 
+namespace jtil { namespace data_str { template <typename T> class VectorManaged; } }
+
 namespace jtil {
 namespace file_io {
 
@@ -58,6 +60,8 @@ namespace file_io {
 
   bool fileExists(const std::string& filename);
   PathType getPathType(const std::string& path);
+
+  void ls(const std::string& path, jtil::data_str::VectorManaged<char*>& files);
   
 
 };  // namespace file_io
