@@ -4,6 +4,10 @@
 #include "jtil/file_io/file_io.h"
 #include "jtil/data_str/vector_managed.h"
 #include "jtil/math/math_types.h"  // for uint
+#include "jtil/string_util/string_util.h"
+#if defined(WIN32) || defined(_WIN32)
+  #include <Windows.h>
+#endif
 
 namespace jtil {
 namespace file_io {
@@ -36,7 +40,7 @@ namespace file_io {
   }
 
     void ls(const std::string& path, jtil::data_str::VectorManaged<char*>& files) {
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN32)
     // Clear the directory of existing saved frames
     WIN32_FIND_DATAW file_data;
     std::wstring wpath = jtil::string_util::ToWideString(path);
