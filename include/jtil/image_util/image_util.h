@@ -1303,5 +1303,87 @@ namespace image_util {
     }
   }
 
+  template <class T>
+  void processNeighbour(int u, int v, const T* image, const T value, 
+    const uint32_t width, const uint32_t height, int32_t* objects, int* queue,
+    uint32_t& queue_tail) {
+    if (u < static_cast<int>(width) && u >=0 && 
+        v < static_cast<int>(height) && v >= 0) {
+      int cur_index = u + v * width;
+      if ((image[cur_index] >= value) && (objects[cur_index] == -2)) {
+        // Add the pixel to the back of the queue
+        queue[queue_tail] = cur_index;
+        objects[cur_index] = -1;
+        queue_tail++;
+      }
+    }
+  }
+
+  // image is size width * height
+  // value is the value for which image[i] >= value --> part of blob
+  // width, height is size of image
+  // objects is pre-allocated uint32_t array of size width * height
+  // queue is pre-allocated temporary int array of size width * height
+  // Returns the number of blobs found (ie, maximum index in the objects image)
+  template <class T>
+  int32_t blobDetect(const T* image, const T value, const uint32_t width, 
+    const uint32_t height, int32_t* objects, int* queue) {
+    
+    for (uint32_t i = 0; i < width * height; i++) {
+      objects[i] = -2;  // Indicates that pixel hasn't been processed
+    }
+
+    uint32_t queue_head = 0;
+    uint32_t queue_tail = 0; // When queue_head == queue_tail the queue is empty
+    int32_t cur_object = 0;
+    for (int v = 0; v < static_cast<int>(height); v++) {
+      for (int u = 0; u < static_cast<int>(width); u++) {
+        int cur_index = v * static_cast<int>(width) + u;
+        if (image[cur_index] >= value && objects[cur_index] < 0) {
+          // We haven't already visited this pixel so perform a floodfill 
+          // starting from this pixel --> Potentially a new blob
+
+          // Add the current pixel to the end of the queue
+          queue[queue_tail] = cur_index;
+          objects[cur_index] = -1;
+          queue_tail++;
+
+          while (queue_head != queue_tail) {
+            // Take the pixel off the head
+            int cur_pixel = queue[queue_head];
+            objects[cur_pixel] = cur_object;
+
+            int cur_u = cur_pixel % width;
+            int cur_v = cur_pixel / width;
+            queue_head++;
+
+            // Process the 8 surrounding neighbours
+            processNeighbour<T>(cur_u-1, cur_v-1, image, value, width, height, 
+              objects, queue, queue_tail);
+            processNeighbour<T>(cur_u-1, cur_v, image, value, width, height, 
+              objects, queue, queue_tail);
+            processNeighbour<T>(cur_u-1, cur_v+1, image, value, width, height, 
+              objects, queue, queue_tail);
+            processNeighbour<T>(cur_u, cur_v-1, image, value, width, height, 
+              objects, queue, queue_tail);
+            processNeighbour<T>(cur_u, cur_v+1, image, value, width, height, 
+              objects, queue, queue_tail);
+            processNeighbour<T>(cur_u+1, cur_v-1, image, value, width, height, 
+              objects, queue, queue_tail);
+            processNeighbour<T>(cur_u+1, cur_v, image, value, width, height, 
+              objects, queue, queue_tail);
+            processNeighbour<T>(cur_u+1, cur_v+1, image, value, width, height, 
+              objects, queue, queue_tail);
+          }
+
+          cur_object += 1;
+        }
+      }
+    }
+
+    // Return the number of blobs
+    return cur_object;
+  }
+
 };  // namespace image_util
 };  // namepsace jtil

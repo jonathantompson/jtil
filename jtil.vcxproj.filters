@@ -883,12 +883,6 @@
     <ClCompile Include="src\jtil\file_io\file_io.cpp">
       <Filter>Source Files\jtil\file_io</Filter>
     </ClCompile>
-    <ClCompile Include="src\jtil\math\icp_eigen_data.cpp">
-      <Filter>Source Files\jtil\math</Filter>
-    </ClCompile>
-    <ClCompile Include="src\jtil\math\icp.cpp">
-      <Filter>Source Files\jtil\math</Filter>
-    </ClCompile>
     <ClCompile Include="src\jtil\image_util\image_util.cpp">
       <Filter>Source Files\jtil\image_util</Filter>
     </ClCompile>

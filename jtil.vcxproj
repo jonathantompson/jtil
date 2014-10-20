@@ -300,8 +300,6 @@
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsC</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsC</CompileAs>
     </ClCompile>
-    <ClCompile Include="src\jtil\math\icp.cpp" />
-    <ClCompile Include="src\jtil\math\icp_eigen_data.cpp" />
     <ClCompile Include="src\jtil\math\pso_parallel.cpp" />
     <ClCompile Include="src\jtil\math\math_base.cpp" />
     <ClCompile Include="src\jtil\math\pso.cpp" />
