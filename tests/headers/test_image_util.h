@@ -58,7 +58,7 @@ TEST(ImageUtil, Resizing) {
 }
 
 TEST(ImageUtil, BlobDetect) {
-  if (jtil::file_io::fileExists("kitteh_small.png")) {
+  if (jtil::file_io::fileExists("kitteh.png")) {
     jtil::renderer::Texture::initTextureSystem();
 
     uint32_t src_w;
@@ -68,14 +68,19 @@ TEST(ImageUtil, BlobDetect) {
     jtil::renderer::Texture::loadImFromFile("kitteh.png", src, src_w, 
       src_h, n_chan);
 
-    uint8_t* greyscale = new uint8_t[src_w * src_h];
-    for (uint32_t i = 0; i < src_w * src_h; i++) {
-      uint16_t val = 0;
-      val += (uint16_t)src[i*3];  // R
-      val += (uint16_t)src[i*3 + 1];  // G
-      val += (uint16_t)src[i*3 + 2];  // B
-      val /= 3;
-      greyscale[i] = (uint8_t)val;
+    uint8_t* greyscale;
+    if (n_chan > 1) {
+      greyscale = new uint8_t[src_w * src_h];
+      for (uint32_t i = 0; i < src_w * src_h; i++) {
+        uint16_t val = 0;
+        val += (uint16_t)src[i*3];  // R
+        val += (uint16_t)src[i*3 + 1];  // G
+        val += (uint16_t)src[i*3 + 2];  // B
+        val /= 3;
+        greyscale[i] = (uint8_t)val;
+      }
+    } else {
+      greyscale = src;
     }
 
     int32_t* objects = new int32_t[src_w * src_h];
@@ -104,6 +109,9 @@ TEST(ImageUtil, BlobDetect) {
     delete[] src;
     delete[] objects;
     delete[] queue;
+    if (n_chan > 1) {
+      delete[] greyscale;
+    }
 
     jtil::renderer::Texture::shutdownTextureSystem();
   } else {
